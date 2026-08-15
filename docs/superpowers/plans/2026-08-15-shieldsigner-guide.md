@@ -29,15 +29,15 @@
 
 - `package.json`, `package-lock.json`: VitePress, Vue, Anime.js, Vitest, Playwright scripts and locked dependencies.
 - `.gitignore`: `node_modules`, VitePress output, Playwright artifacts, local brainstorming files.
-- `.vitepress/config.ts`: site title, base path, markdown, sidebar, navigation metadata, and clean URLs.
+- `docs/.vitepress/config.ts`: site title, base path, markdown, sidebar, navigation metadata, and clean URLs.
 - `playwright.config.ts`: local preview base URL, Chromium project, and test artifact settings.
-- `.vitepress/theme/index.ts`: custom VitePress theme registration.
-- `.vitepress/theme/Layout.vue`: global docs shell and route slot.
-- `.vitepress/theme/components/GuideNav.vue`: category navigation, chapter rail, mobile tabs, active route state.
-- `.vitepress/theme/components/AnimatedChapter.vue`: Anime.js enter/transition behavior and reduced-motion guard.
-- `.vitepress/theme/components/Callout.vue`: safety, info, and verification callouts with accessible labels.
-- `.vitepress/theme/components/MediaPlaceholder.vue`: fixed-ratio product image placeholder with replacement contract.
-- `.vitepress/theme/custom.css`: exact palette, typography, 3-column/tablet/mobile breakpoints, focus states, and code/overflow styling.
+- `docs/.vitepress/theme/index.ts`: custom VitePress theme registration.
+- `docs/.vitepress/theme/Layout.vue`: global docs shell and route slot.
+- `docs/.vitepress/theme/components/GuideNav.vue`: category navigation, chapter rail, mobile tabs, active route state.
+- `docs/.vitepress/theme/components/AnimatedChapter.vue`: Anime.js enter/transition behavior and reduced-motion guard.
+- `docs/.vitepress/theme/components/Callout.vue`: safety, info, and verification callouts with accessible labels.
+- `docs/.vitepress/theme/components/MediaPlaceholder.vue`: fixed-ratio product image placeholder with replacement contract.
+- `docs/.vitepress/theme/custom.css`: exact palette, typography, 3-column/tablet/mobile breakpoints, focus states, and code/overflow styling.
 - `public/brand/shieldsigner.svg`: outlined ShieldSigner logo with no font dependency.
 - `src/guide/chapters.ts`: typed route metadata consumed by navigation and tests.
 - `src/guide/animation.ts`: Anime.js wrappers with duration constants and reduced-motion behavior.
@@ -62,7 +62,7 @@
 - Create: `package.json`
 - Create: `package-lock.json`
 - Create: `.gitignore`
-- Create: `.vitepress/config.ts`
+- Create: `docs/.vitepress/config.ts`
 - Create: `playwright.config.ts`
 - Create: `docs/index.md`
 - Create: `.github/workflows/deploy-pages.yml`
@@ -125,7 +125,7 @@
 - [ ] **Step 6: Commit**
 
   ```bash
-  git add package.json package-lock.json .gitignore .vitepress/config.ts docs/index.md .github/workflows/deploy-pages.yml README.md tests/e2e/guide.spec.ts
+  git add package.json package-lock.json .gitignore docs/.vitepress/config.ts docs/index.md .github/workflows/deploy-pages.yml README.md tests/e2e/guide.spec.ts
   git commit -m "chore: scaffold ShieldSigner Pages guide"
   ```
 
@@ -133,11 +133,11 @@
 
 **Files:**
 - Create: `public/brand/shieldsigner.svg`
-- Create: `.vitepress/theme/index.ts`
-- Create: `.vitepress/theme/Layout.vue`
-- Create: `.vitepress/theme/custom.css`
-- Create: `.vitepress/theme/components/MediaPlaceholder.vue`
-- Modify: `.vitepress/config.ts`
+- Create: `docs/.vitepress/theme/index.ts`
+- Create: `docs/.vitepress/theme/Layout.vue`
+- Create: `docs/.vitepress/theme/custom.css`
+- Create: `docs/.vitepress/theme/components/MediaPlaceholder.vue`
+- Modify: `docs/.vitepress/config.ts`
 - Test: `tests/e2e/guide.spec.ts`
 
 **Interfaces:**
@@ -165,7 +165,7 @@
 - [ ] **Step 5: Commit**
 
   ```bash
-  git add public/brand/shieldsigner.svg .vitepress/theme .vitepress/config.ts tests/e2e/guide.spec.ts
+  git add public/brand/shieldsigner.svg docs/.vitepress/theme docs/.vitepress/config.ts tests/e2e/guide.spec.ts
   git commit -m "feat: add ShieldSigner responsive docs shell"
   ```
 
@@ -174,10 +174,10 @@
 **Files:**
 - Create: `src/guide/chapters.ts`
 - Create: `src/guide/animation.ts`
-- Create: `.vitepress/theme/components/GuideNav.vue`
-- Create: `.vitepress/theme/components/AnimatedChapter.vue`
-- Modify: `.vitepress/theme/Layout.vue`
-- Modify: `.vitepress/theme/custom.css`
+- Create: `docs/.vitepress/theme/components/GuideNav.vue`
+- Create: `docs/.vitepress/theme/components/AnimatedChapter.vue`
+- Modify: `docs/.vitepress/theme/Layout.vue`
+- Modify: `docs/.vitepress/theme/custom.css`
 - Create: `tests/guide/chapters.spec.ts`
 - Modify: `tests/e2e/guide.spec.ts`
 
@@ -229,19 +229,19 @@
 - [ ] **Step 6: Commit**
 
   ```bash
-  git add src/guide .vitepress/theme tests/guide/chapters.spec.ts tests/e2e/guide.spec.ts
+  git add src/guide docs/.vitepress/theme tests/guide/chapters.spec.ts tests/e2e/guide.spec.ts
   git commit -m "feat: add animated guide navigation"
   ```
 
 ## Task 4: Build Introduction, Assembly, OS Install, and Verification Content
 
 **Files:**
-- Create: `.vitepress/theme/components/Callout.vue`
+- Create: `docs/.vitepress/theme/components/Callout.vue`
 - Create: `docs/build/assembly.md`
 - Create: `docs/os/install.md`
 - Create: `docs/os/verify.md`
 - Modify: `docs/index.md`
-- Modify: `.vitepress/config.ts`
+- Modify: `docs/.vitepress/config.ts`
 - Modify: `tests/e2e/guide.spec.ts`
 
 **Interfaces:**
@@ -273,7 +273,7 @@
 - [ ] **Step 6: Commit**
 
   ```bash
-  git add docs/build docs/os docs/index.md .vitepress/theme/components/Callout.vue .vitepress/config.ts tests/e2e/guide.spec.ts
+  git add docs/build docs/os docs/index.md docs/.vitepress/theme/components/Callout.vue docs/.vitepress/config.ts tests/e2e/guide.spec.ts
   git commit -m "feat: add assembly and OS verification guides"
   ```
 
@@ -287,7 +287,7 @@
 - Create: `docs/seedkeeper/clone.md`
 - Create: `docs/seedkeeper/restore.md`
 - Create: `docs/seedkeeper/recovery.md`
-- Create: `.vitepress/theme/components/BackupMatrix.vue`
+- Create: `docs/.vitepress/theme/components/BackupMatrix.vue`
 - Modify: `src/guide/chapters.ts`
 - Modify: `tests/e2e/guide.spec.ts`
 
@@ -324,7 +324,7 @@
 - [ ] **Step 7: Commit**
 
   ```bash
-  git add docs/seedkeeper src/guide/chapters.ts .vitepress/theme/components/BackupMatrix.vue tests/e2e/guide.spec.ts
+  git add docs/seedkeeper src/guide/chapters.ts docs/.vitepress/theme/components/BackupMatrix.vue tests/e2e/guide.spec.ts
   git commit -m "feat: add SeedKeeper backup and recovery guides"
   ```
 
@@ -340,7 +340,7 @@
 - Create: `docs/reference/glossary.md`
 - Create: `docs/reference/sources.md`
 - Create: `ATTRIBUTION.md`
-- Modify: `.vitepress/config.ts`
+- Modify: `docs/.vitepress/config.ts`
 - Modify: `tests/e2e/guide.spec.ts`
 
 **Interfaces:**
@@ -376,7 +376,7 @@
 - [ ] **Step 7: Commit**
 
   ```bash
-  git add docs/wallet docs/transactions docs/reference ATTRIBUTION.md .vitepress/config.ts tests/e2e/guide.spec.ts
+  git add docs/wallet docs/transactions docs/reference ATTRIBUTION.md docs/.vitepress/config.ts tests/e2e/guide.spec.ts
   git commit -m "feat: add wallet transaction and reference guides"
   ```
 
