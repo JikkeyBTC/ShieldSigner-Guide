@@ -8,7 +8,7 @@ estimatedTime: 5분
 
 # ShieldSigner Guide
 
-ShieldSigner를 구매한 분을 위한 실전 가이드입니다. 조립, OS 설치와 검증 절차를 안내하며 시드나 개인키를 수집하지 않습니다.
+ShieldSigner를 안전하게 시작하는 방법을 안내합니다. 조립부터 OS 검증, SeedKeeper 백업까지 순서대로 따라오세요. 이 사이트는 시드와 개인키를 수집하지 않습니다.
 
 ## 처음이라면
 
@@ -31,6 +31,6 @@ ShieldSigner를 구매한 분을 위한 실전 가이드입니다. 조립, OS �
 - [용어집](./reference/glossary)
 - [출처와 라이선스](./reference/sources)
 
-<Callout type="warning" title="검증 전 안전 수칙">
-검증이 끝나기 전에는 이미지를 플래시하거나 ShieldSigner에 시드를 입력하지 마세요. 불일치가 있으면 즉시 중단하고 판매자에게 문의하세요.
+<Callout type="warning" title="검증 전에는 멈춰주세요">
+OS 검증이 끝나기 전에는 microSD에 기록하지 마세요. 값이 다르면 즉시 멈추고 판매자에게 문의하세요.
 </Callout>

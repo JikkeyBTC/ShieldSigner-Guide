@@ -6,6 +6,11 @@ import { useData } from 'vitepress'
 
 const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
 const { frontmatter } = useData()
+const formatDate = (value: unknown) => {
+  if (!value) return ''
+  const date = new Date(String(value))
+  return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date)
+}
 </script>
 
 <template>
@@ -25,7 +30,7 @@ const { frontmatter } = useData()
       <main class="ss-article" tabindex="-1">
         <AnimatedChapter><div class="ss-article-inner">
           <div v-if="frontmatter.verifiedOn || frontmatter.verifiedVersion || frontmatter.estimatedTime" class="ss-page-meta" aria-label="문서 정보">
-            <span v-if="frontmatter.verifiedVersion">{{ frontmatter.verifiedVersion }}</span><span v-if="frontmatter.verifiedOn">검증일 {{ frontmatter.verifiedOn }}</span><span v-if="frontmatter.estimatedTime">예상 {{ frontmatter.estimatedTime }}</span>
+            <span v-if="frontmatter.verifiedVersion">{{ frontmatter.verifiedVersion }}</span><span v-if="frontmatter.verifiedOn">{{ formatDate(frontmatter.verifiedOn) }} 확인</span><span v-if="frontmatter.estimatedTime">읽는 시간 {{ frontmatter.estimatedTime }}</span>
           </div>
           <Content />
         </div></AnimatedChapter>
