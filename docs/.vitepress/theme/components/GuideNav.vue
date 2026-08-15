@@ -6,10 +6,6 @@ import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/gu
 const { page } = useData()
 const groups = ['시작하기', '준비', 'OS', 'SeedKeeper', '워치온리 지갑', '거래', '참고']
 const current = computed(() => {
-  if (typeof window !== 'undefined') {
-    const sitePath = window.location.pathname.replace(/^\/ShieldSigner-Guide(?=\/|$)/, '') || '/'
-    return getChapterByPath(sitePath)
-  }
   const path = page.value.relativePath.replace(/\.md$/, '')
   return getChapterByPath(path === 'index' ? '/' : `/${path}/`)
 })

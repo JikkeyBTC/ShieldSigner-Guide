@@ -22,7 +22,9 @@ export function animateEnter(targets: AnimationTargets, options: AnimationOption
     visible(targets)
     return
   }
-  animate(targets, { opacity: [0, 1], translateY: [12, 0], delay: stagger(50), duration: 300, ease: 'out(3)' })
+  const elements = Array.isArray(targets) ? targets : [targets]
+  elements.forEach((element) => ((element as HTMLElement).style.opacity = '0'))
+  animate(elements, { opacity: [0, 1], translateY: [12, 0], delay: stagger(50), duration: 300, ease: 'out(3)' })
 }
 
 export function animateSwap(targets: AnimationTargets, options: AnimationOptions = {}): void {
