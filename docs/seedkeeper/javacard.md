@@ -12,11 +12,18 @@ JavaCard는 작은 스마트카드 안에서 보안 애플릿(applet)을 실행�
 
 ## 세 가지를 구분하세요
 
-| 구성요소 | 역할 | 저장·실행 위치 |
-| --- | --- | --- |
-| JavaCard 플랫폼 | 스마트카드에서 애플릿을 실행하는 기반 | 보안 칩 카드 |
-| SeedKeeper 애플릿 | 시드와 시크릿을 보호하는 카드용 금고 프로그램 | JavaCard 안 |
-| ShieldSigner | 오프라인에서 시드를 생성·사용하고 화면에 서명 내용을 보여주는 장치 | Raspberry Pi + microSD |
+<div class="ss-compare-table-wrap">
+<table class="ss-compare-table">
+  <thead>
+    <tr><th scope="col">구성요소</th><th scope="col">역할</th><th scope="col">저장·실행 위치</th></tr>
+  </thead>
+  <tbody>
+    <tr><td data-label="구성요소">JavaCard 플랫폼</td><td data-label="역할">스마트카드에서 애플릿을 실행하는 기반</td><td data-label="저장·실행 위치">보안 칩 카드</td></tr>
+    <tr><td data-label="구성요소">SeedKeeper 애플릿</td><td data-label="역할">시드와 시크릿을 보호하는 카드용 금고 프로그램</td><td data-label="저장·실행 위치">JavaCard 안</td></tr>
+    <tr><td data-label="구성요소">ShieldSigner</td><td data-label="역할">오프라인에서 시드를 생성·사용하고 화면에 서명 내용을 보여주는 장치</td><td data-label="저장·실행 위치">Raspberry Pi + microSD</td></tr>
+  </tbody>
+</table>
+</div>
 
 SeedKeeper 카드는 ShieldSigner의 microSD를 대신하지 않습니다. microSD에는 ShieldSigner OS가 있고, 카드는 별도의 백업 보관 수단입니다. 카드나 microSD 어느 하나만 믿지 말고, 복구 절차를 직접 시험하세요.
 
