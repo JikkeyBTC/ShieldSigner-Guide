@@ -26,3 +26,7 @@ Added a first-class Korean SeedKeeper chapter for ShieldSigner buyers. The chapt
 ## Safety notes
 
 The copy avoids vendor-specific UI labels where they are not guaranteed, recommends encrypted export and secure pairing, warns that plaintext export removes protection, and states that a single card is not a complete backup strategy. It never requests or displays real PINs, seeds, or private keys.
+
+## Review follow-up
+
+Added `BackupMatrix.vue` for paper/metal and one/multiple backup comparisons, explicit previous/next navigation across every SeedKeeper page, official SeedKeeper Applet and seedkeeper.io links, and a clearly labeled plaintext-versus-encrypted import section on the restore page. Rebuilt and reran E2E checks: 6 passed.

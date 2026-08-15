@@ -33,3 +33,7 @@ estimatedTime: 10분
 ## 완료 기준
 
 카드 식별자와 애플릿 버전을 기록했고, 새 PIN을 다른 사람에게 공개하지 않았으며, 테스트 시크릿으로 인증·저장·삭제가 성공해야 합니다. 그 뒤에만 [ShieldSigner 시드 백업](./backup)을 진행합니다.
+
+## 다음 단계
+
+[← SeedKeeper란?](./what-is-seedkeeper) · [다음: 시드를 카드에 백업하기 →](./backup)

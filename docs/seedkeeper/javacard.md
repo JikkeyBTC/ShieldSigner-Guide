@@ -30,3 +30,9 @@ SeedKeeper 카드는 ShieldSigner의 microSD를 대신하지 않습니다. micro
 2. [카드 초기화와 PIN](./initialize)에서 빈 카드를 준비합니다.
 3. [시드를 카드에 백업하기](./backup)에서 첫 백업을 만들고 검증합니다.
 4. [카드 간 복제](./clone)와 [시드 복원하기](./restore)로 대체 카드·예비 장치를 시험합니다.
+
+공식 참고자료: [SeedKeeper Applet GitHub (Toporin)](https://github.com/Toporin/Seedkeeper-Applet) · [SeedKeeper 공식 빠른 시작](https://seedkeeper.io/quick-start/)
+
+## 다음 단계
+
+[다음: SeedKeeper란? →](./what-is-seedkeeper)

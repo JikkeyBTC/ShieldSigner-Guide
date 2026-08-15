@@ -35,3 +35,9 @@ SeedKeeper 카드 A ── 보안 페어링/복제 ── SeedKeeper 카드 B
 - **평문 내보내기:** 시드가 읽을 수 있는 형태로 노출됩니다. 호환성 테스트 외에는 사용하지 말고, 사용했다면 메모리·다운로드·클립보드·스크린샷까지 즉시 폐기합니다.
 
 가능한 경우 암호화 내보내기를 선택하고, 화면에 표시된 지문·시크릿 이름·생성 시각 등 메타데이터가 예상과 맞는지 확인하세요. 평문 내보내기는 카드의 보호를 제거하는 행위이므로 일반 백업으로 취급하지 않습니다.
+
+공식 자료: [SeedKeeper Applet 저장소](https://github.com/Toporin/Seedkeeper-Applet) · [seedkeeper.io 빠른 시작](https://seedkeeper.io/quick-start/)
+
+## 다음 단계
+
+[← JavaCard란?](./javacard) · [다음: 카드 초기화와 PIN →](./initialize)

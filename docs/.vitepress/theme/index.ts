@@ -4,6 +4,7 @@ import Layout from './Layout.vue'
 import './custom.css'
 import MediaPlaceholder from './components/MediaPlaceholder.vue'
 import Callout from './components/Callout.vue'
+import BackupMatrix from './components/BackupMatrix.vue'
 
 export default {
   extends: DefaultTheme,
@@ -11,5 +12,6 @@ export default {
   enhanceApp({ app }) {
     app.component('MediaPlaceholder', MediaPlaceholder)
     app.component('Callout', Callout)
+    app.component('BackupMatrix', BackupMatrix)
   }
 } satisfies Theme

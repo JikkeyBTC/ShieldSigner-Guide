@@ -83,4 +83,18 @@ test('SeedKeeper chapter routes expose the complete backup and recovery flow', a
   await expect(page.getByRole('link', { name: '카드 간 복제' }).first()).toHaveAttribute('href', /\/seedkeeper\/clone\//);
   await expect(page.getByRole('link', { name: '시드 복원하기' }).first()).toHaveAttribute('href', /\/seedkeeper\/restore\//);
   await expect(page.getByRole('link', { name: '분실과 복구 계획' }).first()).toHaveAttribute('href', /\/seedkeeper\/recovery\//);
+  await expect(page.getByRole('link', { name: '다음: 카드 간 복제 →' })).toHaveAttribute('href', './clone');
+  await expect(page.getByRole('link', { name: /SeedKeeper Applet 저장소/ })).toHaveCount(0);
+
+  await page.goto('/ShieldSigner-Guide/seedkeeper/recovery/');
+  await expect(page.locator('.backup-matrix')).toBeVisible();
+  await expect(page.locator('.backup-matrix')).toContainText('금속 1장');
+  await expect(page.getByRole('link', { name: '다음: BlueWallet 워치온리 지갑' })).toHaveAttribute('href', './../wallet/bluewallet');
+
+  await page.goto('/ShieldSigner-Guide/seedkeeper/javacard/');
+  await expect(page.getByRole('link', { name: /SeedKeeper Applet GitHub/ })).toHaveAttribute('href', 'https://github.com/Toporin/Seedkeeper-Applet');
+
+  await page.goto('/ShieldSigner-Guide/seedkeeper/restore/');
+  await expect(page.locator('main')).toContainText('평문 가져오기');
+  await expect(page.locator('main')).toContainText('암호화 가져오기');
 });

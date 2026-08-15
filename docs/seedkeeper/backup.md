@@ -14,6 +14,10 @@ estimatedTime: 15–20분
 백업 전에 ShieldSigner 화면에서 지갑 지문·파생 경로·시드 단어 수를 두 번 대조합니다. 누군가 보낸 시드나 테스트 시드를 실제 자금 지갑에 넣지 마세요.
 </Callout>
 
+## 다음 단계
+
+[← 카드 초기화와 PIN](./initialize) · [다음: 카드 간 복제 →](./clone)
+
 ## 절차
 
 1. [카드 초기화](./initialize)를 완료한 카드와 ShieldSigner를 준비합니다.
