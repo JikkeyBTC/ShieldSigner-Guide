@@ -4,6 +4,11 @@ export default defineConfig({
   lang: 'ko-KR',
   title: 'ShieldSigner Guide',
   description: 'ShieldSigner 구매자를 위한 공개 한국어 가이드',
+  head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap' }]
+  ],
   base: '/ShieldSigner-Guide/',
   cleanUrls: true,
   outDir: '../.vitepress/dist',
