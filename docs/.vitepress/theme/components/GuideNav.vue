@@ -4,15 +4,16 @@ import { useData, withBase } from 'vitepress'
 import { animateEnter } from '../../../../src/guide/animation'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
 
-type NavSection = { id: string; label: string; chapterIds: readonly string[] }
+type NavBranch = { id: string; label: string; chapterIds: readonly string[] }
+type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
 const sections: readonly NavSection[] = [
-  { id: 'getting-started', label: 'Getting started', chapterIds: ['overview'] },
-  { id: 'build', label: 'Build', chapterIds: ['assembly'] },
-  { id: 'os', label: 'ShieldSigner OS', chapterIds: ['os-install', 'os-verify'] },
-  { id: 'seedkeeper', label: 'SeedKeeper', chapterIds: ['javacard', 'what-is-seedkeeper', 'seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'] },
-  { id: 'wallet', label: 'Watch-only wallets', chapterIds: ['bluewallet', 'coconut'] },
-  { id: 'transactions', label: 'Transactions', chapterIds: ['receive', 'sign-psbt'] },
-  { id: 'reference', label: 'Reference', chapterIds: ['security', 'faq', 'glossary', 'sources'] }
+  { id: 'getting-started', label: 'Getting started', branches: [{ id: 'overview', label: 'Overview', chapterIds: ['overview'] }] },
+  { id: 'build', label: 'Build', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'] }] },
+  { id: 'os', label: 'ShieldSigner OS', branches: [{ id: 'install', label: 'Installation', chapterIds: ['os-install'] }, { id: 'verify', label: 'Verification', chapterIds: ['os-verify'] }] },
+  { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'] }, { id: 'backup', label: 'Backup & recovery', chapterIds: ['seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'] }] },
+  { id: 'wallet', label: 'Watch-only wallets', branches: [{ id: 'bluewallet', label: 'BlueWallet', chapterIds: ['bluewallet'] }, { id: 'coconut', label: 'Coconut', chapterIds: ['coconut'] }] },
+  { id: 'transactions', label: 'Transactions', branches: [{ id: 'receive', label: 'Receive', chapterIds: ['receive'] }, { id: 'signing', label: 'Signing', chapterIds: ['sign-psbt'] }] },
+  { id: 'reference', label: 'Reference', branches: [{ id: 'safety', label: 'Safety', chapterIds: ['security', 'faq'] }, { id: 'terms', label: 'Terms', chapterIds: ['glossary', 'sources'] }] }
 ]
 const { page } = useData()
 const current = computed(() => {
@@ -21,8 +22,8 @@ const current = computed(() => {
 })
 const navLinks = ref<Element[]>([])
 const chapterById = (id: string) => chapters.find((chapter) => chapter.id === id)
-const sectionChapters = (section: NavSection) => section.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
-const isOpen = (section: NavSection) => section.chapterIds.includes(current.value?.id ?? '')
+const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
+const isOpen = (section: NavSection) => section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? ''))
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const badge = (chapter: ChapterMeta) => ({ 'os-verify': 'PGP', javacard: 'JS', 'seedkeeper-backup': 'NEW' }[chapter.id])
 onMounted(() => animateEnter(navLinks.value))
@@ -34,9 +35,14 @@ onMounted(() => animateEnter(navLinks.value))
     <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }">
       <div class="ss-nav-section-title">{{ section.label }}</div>
       <div v-if="isOpen(section)" class="ss-nav-children">
-        <a v-for="chapter in sectionChapters(section)" ref="navLinks" :key="chapter.id" class="ss-nav-child ss-reveal" :href="href(chapter)" :aria-current="current?.id === chapter.id ? 'page' : undefined">
-          <span>{{ chapter.label }}</span><small v-if="badge(chapter)" class="ss-nav-badge">{{ badge(chapter) }}</small>
-        </a>
+        <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch">
+          <div class="ss-nav-branch-title">{{ branch.label }}</div>
+          <div class="ss-nav-branch-items">
+            <a v-for="chapter in branchChapters(branch)" ref="navLinks" :key="chapter.id" class="ss-nav-child ss-reveal" :href="href(chapter)" :aria-current="current?.id === chapter.id ? 'page' : undefined">
+              <span>{{ chapter.label }}</span><small v-if="badge(chapter)" class="ss-nav-badge">{{ badge(chapter) }}</small>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </aside>
