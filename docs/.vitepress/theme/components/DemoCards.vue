@@ -24,6 +24,8 @@ const current = computed(() => {
   return getChapterByPath(path === 'index' ? '/' : `/${path}/`)
 })
 const href = (chapterId: string) => withBase(chapters.find((chapter) => chapter.id === chapterId)?.href ?? '/')
+const seedkeeperLogo = withBase('/brand/seedkeeper/seedkeeper_logo_black.png')
+const seedkeeperIcon = withBase('/brand/seedkeeper/seedkeeper_icon.png')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
@@ -36,9 +38,11 @@ const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   const title = cardElement.querySelector('.ss-scramble-title')
   if (title) animate(title, { innerHTML: scrambleText({ chars: '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' }), duration: 480, ease: 'linear' })
   const targets = (selector: string) => Array.from(cardElement.querySelectorAll(selector))
-  if (card.type === 'intro') animate(targets('.ss-demo-stagger i'), { translateY: [8, -6, 0], rotate: [-4, 4, 0], opacity: [.5, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
+  if (card.id === 'assembly') animate(targets('.ss-demo-stagger i'), { translateY: [18, 0], rotate: [-8, 0], opacity: [.35, 1], delay: stagger(120), duration: 560, ease: 'out(3)' })
+  if (card.id === 'os-install') animate(targets('.ss-demo-install-progress'), { scaleX: [0, 1], transformOrigin: 'left center', duration: 620, ease: 'out(2)' })
+  if (card.id === 'overview') animate(targets('.ss-demo-stagger i'), { translateY: [8, -6, 0], rotate: [-4, 4, 0], opacity: [.5, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.type === 'verify') animate([...targets('.ss-demo-dot'), ...targets('.ss-demo-line')], { scale: [.75, 1.15, 1], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
-  if (card.type === 'seed') animate([...targets('.ss-demo-card-chip'), ...targets('.ss-demo-lock')], { rotateY: [0, 360], scale: [.85, 1.08, 1], delay: stagger(90), duration: 560, ease: 'inOutSine' })
+  if (card.type === 'seed') animate([...targets('.ss-demo-seed-logo'), ...targets('.ss-demo-seed-icon'), ...targets('.ss-demo-card-chip'), ...targets('.ss-demo-lock')], { rotateY: [0, 360], scale: [.85, 1.08, 1], delay: stagger(90), duration: 560, ease: 'inOutSine' })
   if (card.type === 'wallet') animate(targets('.ss-demo-qr-node'), { scale: [.75, 1.12, 1], opacity: [.45, 1, 1], delay: stagger(110), duration: 500, ease: 'inOutSine' })
   if (card.type === 'flow') animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.type === 'reference') animate(targets('.ss-demo-ref-line'), { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(100), duration: 520, ease: 'linear' })
@@ -51,9 +55,10 @@ const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
     <a v-for="card in cards" :key="card.id" class="ss-demo-card ss-reveal" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
       <header><span class="ss-scramble-title">{{ card.displayTitle }}</span><small>{{ card.caption }}</small></header>
-      <div v-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
+      <div v-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
+      <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
       <div v-else-if="card.type === 'verify'" class="ss-demo-visual ss-demo-verify"><span class="ss-demo-dot"></span><span class="ss-demo-line"></span><span class="ss-demo-line short"></span><b>SHA-256</b></div>
-      <div v-else-if="card.type === 'seed'" class="ss-demo-visual ss-demo-seed"><span class="ss-demo-card-chip"></span><span class="ss-demo-lock">✓</span><b>ENCRYPTED</b></div>
+      <div v-else-if="card.type === 'seed'" class="ss-demo-visual ss-demo-seed"><img v-if="card.id === 'seedkeeper-backup'" class="ss-demo-seed-logo" :src="seedkeeperLogo" alt="SeedKeeper"><img v-else class="ss-demo-seed-icon" :src="seedkeeperIcon" alt=""><span class="ss-demo-card-chip"></span><span class="ss-demo-lock">✓</span><b>ENCRYPTED</b></div>
       <div v-else-if="card.type === 'flow'" class="ss-demo-visual ss-demo-flow"><span class="ss-demo-flow-node">ADDR</span><i>→</i><span class="ss-demo-flow-node">PSBT</span><i>→</i><span class="ss-demo-flow-node">SIGN</span></div>
       <div v-else-if="card.type === 'reference'" class="ss-demo-visual ss-demo-reference"><span class="ss-demo-ref-line">FAQ / TERMS</span><span class="ss-demo-ref-line">SOURCES / SAFE</span></div>
       <div v-else class="ss-demo-visual ss-demo-wallet"><span class="ss-demo-qr-node">XPUB</span><span class="ss-demo-qr-node">QR</span><span class="ss-demo-qr-node">PSBT</span></div>
