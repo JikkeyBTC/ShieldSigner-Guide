@@ -34,3 +34,5 @@ estimatedTime: 15분
 ## 다음 단계
 
 [← 시드를 카드에 백업하기](./backup) · [다음: 시드 복원하기 →](./restore)
+
+공식 절차 확인: [SeedKeeper Applet](https://github.com/Toporin/Seedkeeper-Applet) · [seedkeeper.io](https://seedkeeper.io/quick-start/)

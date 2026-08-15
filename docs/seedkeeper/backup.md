@@ -18,6 +18,8 @@ estimatedTime: 15–20분
 
 [← 카드 초기화와 PIN](./initialize) · [다음: 카드 간 복제 →](./clone)
 
+공식 절차 확인: [SeedKeeper Applet](https://github.com/Toporin/Seedkeeper-Applet) · [seedkeeper.io](https://seedkeeper.io/quick-start/)
+
 ## 절차
 
 1. [카드 초기화](./initialize)를 완료한 카드와 ShieldSigner를 준비합니다.

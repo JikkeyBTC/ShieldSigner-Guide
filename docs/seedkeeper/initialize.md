@@ -37,3 +37,5 @@ estimatedTime: 10분
 ## 다음 단계
 
 [← SeedKeeper란?](./what-is-seedkeeper) · [다음: 시드를 카드에 백업하기 →](./backup)
+
+공식 절차 확인: [SeedKeeper Applet](https://github.com/Toporin/Seedkeeper-Applet) · [seedkeeper.io](https://seedkeeper.io/quick-start/)

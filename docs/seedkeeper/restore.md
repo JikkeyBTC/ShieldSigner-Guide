@@ -37,6 +37,12 @@ estimatedTime: 15분
 
 읽을 수 있는 시드 단어를 직접 입력하거나 평문 파일로 가져오는 방식입니다. 화면·키보드 기록·클립보드·로그에 남을 수 있어 카드 보호를 벗어납니다. 호환성 확인이 꼭 필요할 때만 오프라인·무인 환경에서 사용하고, 입력 직후 모든 임시 사본을 폐기합니다.
 
+### 내보내기 형식 확인
+
+복원 전에 원본 카드에서 내보내기 형식을 확인합니다. 암호화 내보내기는 대상 카드·장치와 페어링한 뒤 전달하고, 평문 내보내기는 시드가 노출되므로 복원 테스트 외에는 선택하지 않습니다. 화면에 `ENCRYPTED_EXPORT` 또는 `PLAINTEXT_EXPORT`처럼 형식이 표시된다면 기록만 남기고 시드 값 자체는 저장하지 마세요.
+
 ## 다음 단계
 
 [← 카드 간 복제](./clone) · [다음: 분실과 복구 계획 →](./recovery)
+
+공식 절차 확인: [SeedKeeper Applet](https://github.com/Toporin/Seedkeeper-Applet) · [seedkeeper.io](https://seedkeeper.io/quick-start/)

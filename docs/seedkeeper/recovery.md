@@ -44,4 +44,6 @@ SeedKeeper는 복구를 쉽게 만들어 주지만, 분실·파손·PIN 잠금 �
 
 ## 다음 단계
 
-[← 시드 복원하기](./restore) · [처음으로 돌아가기](./javacard) · [다음: BlueWallet 워치온리 지갑](../wallet/bluewallet)
+[← 시드 복원하기](./restore) · [처음으로 돌아가기](./javacard) · [다음: BlueWallet 워치온리 지갑](../../wallet/bluewallet)
+
+공식 절차 확인: [SeedKeeper Applet](https://github.com/Toporin/Seedkeeper-Applet) · [seedkeeper.io](https://seedkeeper.io/quick-start/)

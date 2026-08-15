@@ -35,4 +35,4 @@ SeedKeeper 카드는 ShieldSigner의 microSD를 대신하지 않습니다. micro
 
 ## 다음 단계
 
-[다음: SeedKeeper란? →](./what-is-seedkeeper)
+[← Guide 개요](../) · [다음: SeedKeeper란? →](./what-is-seedkeeper)
