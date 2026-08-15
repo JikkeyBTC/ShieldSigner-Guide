@@ -37,10 +37,18 @@ ShieldSigner는 공식 SeedSigner 펌웨어와 OS를 수정 없이 사용하는 
 ├─ ShieldSigner OS
 │  ├─ OS 다운로드·설치
 │  └─ PGP·SHA-256 검증
-├─ 지갑 만들기·백업
+├─ 지갑 만들기
 │  ├─ 시드 생성
 │  ├─ SeedQR
 │  └─ 복구 연습
+├─ SeedKeeper 백업
+│  ├─ JavaCard란 무엇인가
+│  ├─ SeedKeeper란 무엇인가
+│  ├─ 카드 초기화·PIN 설정
+│  ├─ 시드를 카드에 백업하기
+│  ├─ 카드 간 백업 복제
+│  ├─ 백업을 다시 복구하기
+│  └─ 카드 분실·다중 백업 대응
 ├─ 보기 전용 지갑
 │  ├─ BlueWallet
 │  └─ 코코넛 월렛
@@ -54,7 +62,9 @@ ShieldSigner는 공식 SeedSigner 펌웨어와 OS를 수정 없이 사용하는 
    └─ 출처·오픈소스 고지
 ```
 
-의미 있는 영구 슬러그를 사용한다. 예시는 `/build/assembly`, `/os/install`, `/os/verify`, `/wallet/bluewallet`, `/wallet/coconut`, `/transactions/sign-psbt`, `/recovery/backup`이다. GitBook에서 사용되던 `undefined-*` 경로는 재사용하지 않는다.
+의미 있는 영구 슬러그를 사용한다. 예시는 `/build/assembly`, `/os/install`, `/os/verify`, `/seedkeeper/javacard`, `/seedkeeper/what-is-seedkeeper`, `/seedkeeper/backup`, `/seedkeeper/restore`, `/wallet/bluewallet`, `/wallet/coconut`, `/transactions/sign-psbt`, `/recovery/backup`이다. GitBook에서 사용되던 `undefined-*` 경로는 재사용하지 않는다.
+
+SeedKeeper는 별도 상위 카테고리로 노출한다. ShieldSigner의 핵심 가치가 시드 백업인 만큼, 일반 지갑 생성 문서 안에 묻히게 하지 않고 설치·검증 다음의 주요 경로로 배치한다.
 
 ## 4. 문서 페이지 템플릿
 
@@ -79,6 +89,23 @@ ShieldSigner는 공식 SeedSigner 펌웨어와 OS를 수정 없이 사용하는 
 - `VersionBadge`: OS·지갑 버전과 검증일
 - `MediaPlaceholder`: 제품 사진 교체용 고정 비율 영역
 - `SourceNote`: SeedSigner, BlueWallet, 코코넛 월렛 및 라이선스 출처
+- `SeedKeeperFlow`: 카드 준비, PIN, 시드 전송, 백업 확인, 복구를 연결하는 흐름 컴포넌트
+- `GlossaryTerm`: JavaCard, secure element, applet, authentikey, plaintext export, encrypted export를 짧게 설명하는 용어 카드
+- `BackupMatrix`: 종이·금속·SeedKeeper·복수 카드의 보호 대상과 복구 경로를 비교하는 표
+
+### SeedKeeper 전용 콘텐츠
+
+SeedKeeper 섹션은 다음 순서로 작성한다.
+
+1. **JavaCard란 무엇인가** — 일반 스마트카드, secure element, JavaCard 플랫폼, applet의 관계를 그림으로 설명한다. JavaCard는 카드 안에서 제한된 애플릿을 실행하는 플랫폼이며 SeedKeeper 자체와 동일한 말이 아님을 명시한다.
+2. **SeedKeeper란 무엇인가** — SeedKeeper Applet이 카드의 보안 메모리에 seed, masterseed와 기타 비밀을 저장하는 오픈소스 보안 금고라는 점을 설명한다. SeedKeeper-Tool, 모바일 NFC, 데스크톱 카드 리더가 각각 어떤 역할을 하는지 구분한다.
+3. **카드 초기화와 PIN** — 카드 인식, 카드 라벨, PIN 설정, PIN 재입력, 잠금·실패 조건을 단계별로 안내한다. PIN은 시드 자체가 아니며, PIN을 잊었을 때의 복구 가능성을 별도로 표시한다.
+4. **ShieldSigner 시드를 카드에 백업하기** — ShieldSigner에서 백업할 seed를 선택하고, 카드와 호스트를 준비하고, 카드로 전송하고, 라벨을 지정하고, 카드 목록에서 백업 항목을 다시 확인하는 흐름을 제공한다. 실제 시드를 호스트 화면이나 클립보드에 평문으로 노출하는 경로는 별도 경고를 거친다.
+5. **카드 간 백업 복제** — 원본 카드와 백업 카드를 구분하고, secure pairing 또는 암호화 export가 필요한 경우를 표시한다. 복제 완료 후 두 카드에서 라벨·항목·복구 가능 여부를 확인하는 체크리스트를 둔다.
+6. **카드에서 복구하기** — 카드의 seed를 ShieldSigner 또는 호환 지갑으로 가져오는 경로를 설명하고, plaintext export와 encrypted export를 별도 탭으로 나눈다. 복구 후 파생 경로와 첫 주소를 대조하도록 한다.
+7. **분실·추가 백업·폐기** — 카드 한 장에 의존하지 않는 복구 계획, 추가 카드의 물리 보관, 카드 폐기와 PIN 관리, 복구 리허설 주기를 설명한다.
+
+게시 전 검증 출처는 [Seedkeeper Applet 저장소](https://github.com/Toporin/Seedkeeper-Applet), [SeedKeeper 공식 빠른 시작](https://seedkeeper.io/quick-start/), [Oracle Java Card 개발자 문서](https://docs.oracle.com/en/java/javacard/)로 고정한다. SeedKeeper Applet의 라이선스가 ShieldSigner 또는 SeedSigner 라이선스와 다를 수 있으므로 `ATTRIBUTION.md`에서 별도로 고지한다.
 
 ## 5. 시각 시스템
 
@@ -131,6 +158,12 @@ Anime.js는 npm 패키지의 필요한 모듈만 포함한다. 현재 공식 문
 - PSBT는 QR이라는 이유로 신뢰하지 않고 수신자, 금액, 수수료, 잔돈 주소를 기기 화면에서 확인한다.
 - passphrase를 사용하면 다른 지갑이 생성될 수 있으며 분실 시 복구할 수 없음을 명시한다.
 - 멀티시그 또는 보기 전용 지갑에서 네트워크, 스크립트 유형, 계정, 파생 경로, 마스터 지문과 지갑 정책을 확인한다.
+- SeedKeeper를 “시드를 카드에 넣으면 끝나는 기능”으로 설명하지 않는다. 카드의 PIN, 카드 분실, 카드 복제, 복구 테스트와 카드 접근 경로를 함께 설명한다.
+- JavaCard는 스마트카드 보안 영역에서 애플릿을 실행하는 플랫폼이고, SeedKeeper 애플릿은 그 플랫폼 위에서 시드와 기타 비밀을 관리하는 오픈소스 애플릿이라는 층위를 구분한다.
+- SeedKeeper의 plaintext export와 암호화 export를 분리한다. plaintext export는 시드가 화면·클립보드·호스트 메모리에 노출될 수 있으므로 경고와 중단 조건을 함께 표시한다.
+- 암호화 export는 호환 장치와 secure pairing이 필요할 수 있으므로 “모든 지갑에서 자동 복구된다”고 표현하지 않는다.
+- 카드 간 백업은 한 장의 카드가 원본과 동일한 비밀을 담는다는 의미임을 설명하고, 복제 카드 수를 늘릴 때 물리적 절도·분실 표면도 함께 평가하게 한다.
+- PIN 분실과 반복된 잘못된 PIN 입력의 결과는 카드·애플릿 버전에 따라 확인한 뒤 게시한다. 공식 SeedKeeper Applet 문서의 동작을 그대로 일반화하지 않는다.
 - 페이지마다 ShieldSigner의 하드웨어 키트, 공식 SeedSigner OS, 외부 코디네이터 지갑의 책임 범위를 분리한다.
 - “절대 안전”, “해킹되지 않는다”, “도난당해도 무용지물” 같은 절대 표현을 사용하지 않는다.
 
@@ -157,6 +190,10 @@ Anime.js는 npm 패키지의 필요한 모듈만 포함한다. 현재 공식 문
 - reduced-motion 환경에서 내용이 누락되지 않는다.
 - OS 검증 페이지에 PGP 지문, 서명 파일, SHA-256 확인 절차가 분리되어 있다.
 - BlueWallet·코코넛 월렛 페이지에 첫 주소 대조 단계가 포함되어 있다.
+- JavaCard와 SeedKeeper의 차이를 초보자도 설명할 수 있다.
+- SeedKeeper 카드 초기화, PIN 설정, 시드 백업, 카드 간 복제, 복구 검증의 다섯 흐름이 각각 독립 링크를 갖는다.
+- plaintext export와 encrypted export의 위험과 호환성 차이가 문서와 UI에서 명확히 구분된다.
+- SeedKeeper 관련 문서는 사용한 애플릿·앱·카드 리더 버전과 마지막 검증일을 표시한다.
 - 모든 제품 이미지 플레이스홀더가 나중에 파일 교체로 대체될 수 있다.
 - SVG 로고가 외부 폰트 없이 동일하게 보인다.
 - Anime.js와 SeedSigner 관련 출처·라이선스 고지가 포함되어 있다.
@@ -165,6 +202,7 @@ Anime.js는 npm 패키지의 필요한 모듈만 포함한다. 현재 공식 문
 
 - ShieldSigner는 공식 SeedSigner 펌웨어를 수정 없이 사용하는 DIY 하드웨어 키트다.
 - 조립과 OS 설치·검증은 별도 페이지로 제공한다.
+- SeedKeeper는 조립·OS·지갑 연동과 동급의 별도 핵심 기능 카테고리로 제공한다.
 - BlueWallet과 코코넛 월렛을 보기 전용 지갑 연동 대상으로 제공한다.
 - 사이트는 구매자에게 안내하지만 URL 접근 자체는 제한하지 않는다.
 - 제품 사진은 나중에 추가하며 현재는 플레이스홀더를 사용한다.
