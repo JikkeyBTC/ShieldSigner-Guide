@@ -2,8 +2,12 @@
 import { onMounted } from 'vue'
 import { useData } from 'vitepress'
 
-const { frontmatter } = useData()
+const { frontmatter, page } = useData()
 const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
+const isActive = (path: string) => {
+  const current = page.value.relativePath
+  return path === '/' ? current === 'index.md' : current.replace(/\.md$/, '') === path.replace(/^\//, '')
+}
 
 onMounted(async () => {
   const module = await import('animejs')
@@ -34,12 +38,12 @@ onMounted(async () => {
     <div class="ss-docs-shell">
       <aside class="ss-category-nav" aria-label="Guide categories">
         <div class="ss-rail-label">GUIDE INDEX</div>
-        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/">Overview <span>01</span></a>
-        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/build/assembly">Build the kit <span>02</span></a>
-        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/os/install">Install OS <span>03</span></a>
-        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/os/verify">Verify image <span>04</span></a>
-        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/seedkeeper">SeedKeeper <span>05</span></a>
-        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/wallets">Watch-only wallets <span>06</span></a>
+        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/" :aria-current="isActive('/') ? 'page' : undefined">Overview <span>01</span></a>
+        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/build/assembly" :aria-current="isActive('/build/assembly') ? 'page' : undefined">Build the kit <span>02</span></a>
+        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/os/install" :aria-current="isActive('/os/install') ? 'page' : undefined">Install OS <span>03</span></a>
+        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/os/verify" :aria-current="isActive('/os/verify') ? 'page' : undefined">Verify image <span>04</span></a>
+        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/seedkeeper" :aria-current="isActive('/seedkeeper') ? 'page' : undefined">SeedKeeper <span>05</span></a>
+        <a class="ss-nav-link ss-reveal" href="/ShieldSigner-Guide/wallets" :aria-current="isActive('/wallets') ? 'page' : undefined">Watch-only wallets <span>06</span></a>
       </aside>
 
       <aside class="ss-chapter-rail" aria-label="On this page">
