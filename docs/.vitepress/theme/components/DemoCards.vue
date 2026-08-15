@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { useData, withBase } from 'vitepress'
 import { animate, scrambleText, stagger } from 'animejs'
-import { animateEnter } from '../../../../src/guide/animation'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
 
 const cardType = (chapter: ChapterMeta) => {
@@ -25,33 +24,33 @@ const current = computed(() => {
   return getChapterByPath(path === 'index' ? '/' : `/${path}/`)
 })
 const href = (chapterId: string) => withBase(chapters.find((chapter) => chapter.id === chapterId)?.href ?? '/')
-const cardNodes = ref<Element[]>([])
-const titleNodes = ref<Element[]>([])
-onMounted(() => {
-  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
-  animateEnter(cardNodes.value)
-  animate(titleNodes.value, {
-    innerHTML: scrambleText({ chars: '01アイウエオABCDEFGHIJKLMNOPQRSTUVWXYZ' }),
-    delay: stagger(70),
-    duration: 850,
-    ease: 'linear'
-  })
-  animate('.ss-demo-stagger i', { translateY: [8, -6], rotate: [-4, 4], opacity: [.5, 1], delay: stagger(140), duration: 900, direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-dot', { scale: [.75, 1.35], opacity: [.45, 1], duration: 700, direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-line', { scaleX: [.35, 1], transformOrigin: 'left center', delay: stagger(150), duration: 1000, direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-card-chip', { rotateY: [0, 360], duration: 1800, delay: 300, loop: true, ease: 'linear' })
-  animate('.ss-demo-lock', { scale: [.8, 1.2], opacity: [.5, 1], duration: 700, direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-qr-node', { scale: [.75, 1], opacity: [.45, 1], delay: stagger(180), duration: 650, direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-flow-node', { translateX: [-8, 8], duration: 900, delay: stagger(140), direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-flow i', { opacity: [.25, 1], translateX: [-3, 3], delay: stagger(140), duration: 700, direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-ref-line', { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(120), duration: 900, loop: true, loopDelay: 1000, ease: 'linear' })
-})
+const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  const cardElement = event.currentTarget as HTMLElement
+  if (prefersReducedMotion()) {
+    window.location.assign(href(card.id))
+    return
+  }
+  const title = cardElement.querySelector('.ss-scramble-title')
+  if (title) animate(title, { innerHTML: scrambleText({ chars: '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' }), duration: 480, ease: 'linear' })
+  const targets = (selector: string) => Array.from(cardElement.querySelectorAll(selector))
+  if (card.type === 'intro') animate(targets('.ss-demo-stagger i'), { translateY: [8, -6, 0], rotate: [-4, 4, 0], opacity: [.5, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
+  if (card.type === 'verify') animate([...targets('.ss-demo-dot'), ...targets('.ss-demo-line')], { scale: [.75, 1.15, 1], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
+  if (card.type === 'seed') animate([...targets('.ss-demo-card-chip'), ...targets('.ss-demo-lock')], { rotateY: [0, 360], scale: [.85, 1.08, 1], delay: stagger(90), duration: 560, ease: 'inOutSine' })
+  if (card.type === 'wallet') animate(targets('.ss-demo-qr-node'), { scale: [.75, 1.12, 1], opacity: [.45, 1, 1], delay: stagger(110), duration: 500, ease: 'inOutSine' })
+  if (card.type === 'flow') animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
+  if (card.type === 'reference') animate(targets('.ss-demo-ref-line'), { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(100), duration: 520, ease: 'linear' })
+  animate(cardElement, { scale: [1, .985, 1], duration: 420, ease: 'out(3)' })
+  window.setTimeout(() => window.location.assign(href(card.id)), 500)
+}
 </script>
 
 <template>
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
-    <a v-for="card in cards" ref="cardNodes" :key="card.id" class="ss-demo-card ss-reveal" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined">
-      <header><span ref="titleNodes" class="ss-scramble-title">{{ card.displayTitle }}</span><small>{{ card.caption }}</small></header>
+    <a v-for="card in cards" :key="card.id" class="ss-demo-card ss-reveal" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
+      <header><span class="ss-scramble-title">{{ card.displayTitle }}</span><small>{{ card.caption }}</small></header>
       <div v-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
       <div v-else-if="card.type === 'verify'" class="ss-demo-visual ss-demo-verify"><span class="ss-demo-dot"></span><span class="ss-demo-line"></span><span class="ss-demo-line short"></span><b>SHA-256</b></div>
       <div v-else-if="card.type === 'seed'" class="ss-demo-visual ss-demo-seed"><span class="ss-demo-card-chip"></span><span class="ss-demo-lock">✓</span><b>ENCRYPTED</b></div>
