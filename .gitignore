@@ -2,5 +2,6 @@
 .superpowers/
 node_modules/
 .vitepress/dist/
+docs/.vitepress/dist/
 playwright-report/
 test-results/
