@@ -9,6 +9,15 @@ export default defineConfig({
   outDir: '../.vitepress/dist',
   themeConfig: {
     outline: 'deep',
+    sidebar: {
+      '/build/': [
+        { text: '키트 조립 방법', link: '/build/assembly' }
+      ],
+      '/os/': [
+        { text: 'ShieldSigner OS 설치', link: '/os/install' },
+        { text: 'OS 이미지 검증', link: '/os/verify' }
+      ]
+    },
     socialLinks: [{ icon: 'github', link: 'https://github.com/JikkeyBTC/ShieldSigner-Guide' }]
   },
   vite: { optimizeDeps: { include: ['animejs'] } },

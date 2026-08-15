@@ -7,6 +7,7 @@
 - Verification includes Windows PowerShell, macOS, and Linux SHA-256 commands; PGP fingerprint replacement field; `gpg --verify`; authenticity vs integrity; mismatch stop procedure.
 - Added accessible `Callout` component with text labels and frontmatter metadata chips in the page layout; registered components globally.
 - Added Playwright assertions for all three routes, Korean headings, safety text, and verification commands.
+- Added explicit VitePress sidebar entries for `/build/` and `/os/` routes; `ignoreDeadLinks` remains enabled while later SeedKeeper and wallet routes are pending.
 
 ## Checks
 
