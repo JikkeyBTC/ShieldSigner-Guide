@@ -29,6 +29,15 @@
 .ss-nav-child:hover{color:var(--ss-text);transform:translateX(2px)}
 .ss-nav-child[aria-current=page]{color:var(--ss-text);font-weight:600}
 .ss-nav-badge{border:1px solid #6b6661;padding:1px 4px;color:#b6b1ac;font:10px/1.2 'Roboto Mono',ui-monospace,monospace}
+.ss-summary-rail{position:sticky;top:108px;align-self:start;padding-top:2px}
+.ss-docs-shell{grid-template-columns:220px minmax(0,1fr) 190px;max-width:1460px}
+.ss-summary-kicker{margin-bottom:12px;color:#77716b;font:600 10px/1.2 'Roboto Mono',ui-monospace,monospace;letter-spacing:.12em}
+.ss-summary-card{margin:0 0 10px;padding:13px 14px;background:rgba(42,41,40,.72);border:1px solid rgba(69,65,62,.82);border-radius:8px}
+.ss-summary-label{color:var(--ss-orange);font:600 10px/1.2 'Roboto Mono',ui-monospace,monospace;letter-spacing:.1em}
+.ss-summary-card p{margin:8px 0 0;color:#aaa49e;font-size:12px;line-height:1.55}
+@media (max-width:1199px){.ss-docs-shell{grid-template-columns:190px minmax(0,1fr)}.ss-summary-rail{display:none}}
+@media (max-width:759px){.ss-summary-rail{display:block;position:static;margin:36px 0 0}.ss-summary-card{display:inline-block;width:calc(33.333% - 8px);margin-right:8px;vertical-align:top}.ss-summary-card:last-child{margin-right:0}}
+@media (max-width:520px){.ss-summary-card{display:block;width:100%;margin:0 0 8px}}
 .ss-article-inner{max-width:var(--ss-content);margin:0}
 .ss-chapter-rail{display:none!important}
 .ss-article h1{font-size:clamp(2.3rem,5.6vw,4.15rem);letter-spacing:-.055em}

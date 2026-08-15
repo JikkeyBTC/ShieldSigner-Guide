@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import GuideNav from './components/GuideNav.vue'
 import AnimatedChapter from './components/AnimatedChapter.vue'
+import SummaryCards from './components/SummaryCards.vue'
 import { useData } from 'vitepress'
 
 const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
@@ -29,6 +30,7 @@ const { frontmatter } = useData()
           <Content />
         </div></AnimatedChapter>
       </main>
+      <SummaryCards />
     </div>
   </div>
 </template>
