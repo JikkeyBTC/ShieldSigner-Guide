@@ -40,3 +40,24 @@ test('reduced motion keeps navigation and article content visible', async ({ pag
   await expect(page.locator('.ss-reveal').first()).toBeVisible();
   await expect(page.getByRole('link', { name: '시드를 카드에 백업하기' }).first()).toBeVisible();
 });
+
+test('buyer setup guides expose safety checks and verification commands', async ({ page }) => {
+  await page.goto('/ShieldSigner-Guide/build/assembly/');
+  await expect(page).toHaveURL(/\/build\/assembly\/?$/);
+  await expect(page.locator('main')).toContainText('키트 조립 방법');
+  await expect(page.locator('main')).toContainText('완료 체크리스트');
+  await expect(page.locator('main')).toContainText('시드를 입력하지 마세요');
+
+  await page.goto('/ShieldSigner-Guide/os/install/');
+  await expect(page.locator('main')).toContainText('ShieldSigner OS 설치');
+  await expect(page.locator('main')).toContainText('microSD');
+  await expect(page.locator('main')).toContainText('검증 전에는 플래시 금지');
+
+  await page.goto('/ShieldSigner-Guide/os/verify/');
+  await expect(page.locator('main')).toContainText('OS 이미지 검증');
+  await expect(page.locator('main')).toContainText('Get-FileHash');
+  await expect(page.locator('main')).toContainText('sha256sum');
+  await expect(page.locator('main')).toContainText('gpg --verify');
+  await expect(page.locator('main')).toContainText('REPLACE_WITH_OFFICIAL_MAINTAINER_FINGERPRINT');
+  await expect(page.locator('main')).toContainText('하나라도 실패하면 즉시 중단');
+});

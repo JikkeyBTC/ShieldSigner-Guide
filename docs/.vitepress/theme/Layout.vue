@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import GuideNav from './components/GuideNav.vue'
 import AnimatedChapter from './components/AnimatedChapter.vue'
+import { useData } from 'vitepress'
 
 const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
+const { frontmatter } = useData()
 </script>
 
 <template>
@@ -20,7 +22,12 @@ const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
     <div class="ss-docs-shell">
       <GuideNav />
       <main class="ss-article" tabindex="-1">
-        <AnimatedChapter><div class="ss-article-inner"><Content /></div></AnimatedChapter>
+        <AnimatedChapter><div class="ss-article-inner">
+          <div v-if="frontmatter.verifiedOn || frontmatter.verifiedVersion || frontmatter.estimatedTime" class="ss-page-meta" aria-label="문서 정보">
+            <span v-if="frontmatter.verifiedVersion">{{ frontmatter.verifiedVersion }}</span><span v-if="frontmatter.verifiedOn">검증일 {{ frontmatter.verifiedOn }}</span><span v-if="frontmatter.estimatedTime">예상 {{ frontmatter.estimatedTime }}</span>
+          </div>
+          <Content />
+        </div></AnimatedChapter>
       </main>
     </div>
   </div>
