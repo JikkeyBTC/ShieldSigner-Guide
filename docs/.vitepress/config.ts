@@ -16,6 +16,15 @@ export default defineConfig({
       '/os/': [
         { text: 'ShieldSigner OS 설치', link: '/os/install' },
         { text: 'OS 이미지 검증', link: '/os/verify' }
+      ],
+      '/seedkeeper/': [
+        { text: 'JavaCard란?', link: '/seedkeeper/javacard' },
+        { text: 'SeedKeeper란?', link: '/seedkeeper/what-is-seedkeeper' },
+        { text: '카드 초기화와 PIN', link: '/seedkeeper/initialize' },
+        { text: '시드를 카드에 백업하기', link: '/seedkeeper/backup' },
+        { text: '카드 간 복제', link: '/seedkeeper/clone' },
+        { text: '시드 복원하기', link: '/seedkeeper/restore' },
+        { text: '분실과 복구 계획', link: '/seedkeeper/recovery' }
       ]
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/JikkeyBTC/ShieldSigner-Guide' }]

@@ -61,3 +61,26 @@ test('buyer setup guides expose safety checks and verification commands', async 
   await expect(page.locator('main')).toContainText('REPLACE_WITH_OFFICIAL_MAINTAINER_FINGERPRINT');
   await expect(page.locator('main')).toContainText('하나라도 실패하면 즉시 중단');
 });
+
+test('SeedKeeper chapter routes expose the complete backup and recovery flow', async ({ page }) => {
+  const routes = [
+    ['/seedkeeper/javacard/', 'JavaCard란?'],
+    ['/seedkeeper/what-is-seedkeeper/', 'SeedKeeper란?'],
+    ['/seedkeeper/initialize/', '카드 초기화와 PIN'],
+    ['/seedkeeper/backup/', '시드를 카드에 백업하기'],
+    ['/seedkeeper/clone/', '카드 간 복제'],
+    ['/seedkeeper/restore/', '시드 복원하기'],
+    ['/seedkeeper/recovery/', '분실과 복구 계획']
+  ] as const;
+
+  for (const [route, heading] of routes) {
+    await page.goto(`/ShieldSigner-Guide${route}`);
+    await expect(page.locator('main h1')).toContainText(heading);
+    await expect(page.locator('main')).toContainText('PIN');
+  }
+
+  await page.goto('/ShieldSigner-Guide/seedkeeper/backup/');
+  await expect(page.getByRole('link', { name: '카드 간 복제' }).first()).toHaveAttribute('href', /\/seedkeeper\/clone\//);
+  await expect(page.getByRole('link', { name: '시드 복원하기' }).first()).toHaveAttribute('href', /\/seedkeeper\/restore\//);
+  await expect(page.getByRole('link', { name: '분실과 복구 계획' }).first()).toHaveAttribute('href', /\/seedkeeper\/recovery\//);
+});
