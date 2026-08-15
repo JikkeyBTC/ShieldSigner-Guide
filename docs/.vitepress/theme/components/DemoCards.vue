@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData, withBase } from 'vitepress'
+import { useData, useRouter, withBase } from 'vitepress'
 import { animate, scrambleText, stagger } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
 
@@ -19,6 +19,7 @@ const cards = chapters.map((chapter) => ({
   displayTitle: ({ assembly: '쉽게 조립하는 방법', 'os-verify': '변조 확인 검증', 'seedkeeper-backup': 'SeedKeeper 소개', bluewallet: '워치온리 지갑' } as Record<string, string>)[chapter.id] ?? chapter.label
 }))
 const { page } = useData()
+const router = useRouter()
 const current = computed(() => {
   const path = page.value.relativePath.replace(/\.md$/, '')
   return getChapterByPath(path === 'index' ? '/' : `/${path}/`)
@@ -27,12 +28,16 @@ const href = (chapterId: string) => withBase(chapters.find((chapter) => chapter.
 const seedkeeperLogo = withBase('/brand/seedkeeper/seedkeeper_logo_black.png')
 const seedkeeperIcon = withBase('/brand/seedkeeper/seedkeeper_icon.png')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+const navigateBesideCards = (path: string) => {
+  const scrollY = window.scrollY
+  router.go(path).then(() => requestAnimationFrame(() => window.scrollTo(0, scrollY)))
+}
 const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
   event.preventDefault()
   const cardElement = event.currentTarget as HTMLElement
   if (prefersReducedMotion()) {
-    window.location.assign(href(card.id))
+    navigateBesideCards(href(card.id))
     return
   }
   const title = cardElement.querySelector('.ss-scramble-title')
@@ -46,14 +51,13 @@ const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   if (card.type === 'wallet') animate(targets('.ss-demo-qr-node'), { scale: [.75, 1.12, 1], opacity: [.45, 1, 1], delay: stagger(110), duration: 500, ease: 'inOutSine' })
   if (card.type === 'flow') animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.type === 'reference') animate(targets('.ss-demo-ref-line'), { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(100), duration: 520, ease: 'linear' })
-  animate(cardElement, { scale: [1, .985, 1], duration: 420, ease: 'out(3)' })
-  window.setTimeout(() => window.location.assign(href(card.id)), 500)
+  window.setTimeout(() => navigateBesideCards(href(card.id)), 500)
 }
 </script>
 
 <template>
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
-    <a v-for="card in cards" :key="card.id" class="ss-demo-card ss-reveal" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
+    <a v-for="card in cards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
       <header><span class="ss-scramble-title">{{ card.displayTitle }}</span><small>{{ card.caption }}</small></header>
       <div v-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
       <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
