@@ -18,6 +18,8 @@ const cards = chapters.map((chapter) => ({
   caption: chapter.group.toUpperCase(),
   displayTitle: ({ assembly: '쉽게 조립하는 방법', 'os-verify': '변조 확인 검증', 'seedkeeper-backup': 'SeedKeeper 소개', bluewallet: '워치온리 지갑' } as Record<string, string>)[chapter.id] ?? chapter.label
 }))
+const chapterAccents = ['#fd6d02', '#ff9f43', '#ffd166', '#7bdff2', '#4cc9f0', '#4895ef', '#4361ee', '#7b61ff', '#9b5de5', '#f15bb5', '#ff6b9d', '#2ec4b6', '#00b4d8', '#52b788', '#80ed99', '#c9e265', '#f4a261', '#e76f51', '#f94144']
+const accentFor = (card: typeof cards[number]) => chapterAccents[card.order - 1] ?? '#fd6d02'
 const searchQuery = ref('')
 const visibleCards = computed(() => {
   const query = searchQuery.value.trim().toLocaleLowerCase()
@@ -79,7 +81,7 @@ const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
       </label>
       <span class="ss-card-search-count" aria-live="polite">{{ visibleCards.length }}/{{ cards.length }}</span>
     </div>
-    <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
+    <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :style="{ '--card-accent': accentFor(card) }" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
       <header><span class="ss-scramble-title">{{ card.displayTitle }}</span><small>{{ card.caption }}</small></header>
       <div v-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
       <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
