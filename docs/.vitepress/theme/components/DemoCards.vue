@@ -51,7 +51,7 @@ const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   if (card.type === 'wallet') animate(targets('.ss-demo-qr-node'), { scale: [.75, 1.12, 1], opacity: [.45, 1, 1], delay: stagger(110), duration: 500, ease: 'inOutSine' })
   if (card.type === 'flow') animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.type === 'reference') animate(targets('.ss-demo-ref-line'), { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(100), duration: 520, ease: 'linear' })
-  window.setTimeout(() => navigateBesideCards(href(card.id)), 500)
+  navigateBesideCards(href(card.id))
 }
 </script>
 

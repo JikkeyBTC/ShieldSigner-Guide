@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useData, withBase } from 'vitepress'
 import { animateEnter } from '../../../../src/guide/animation'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
@@ -27,6 +27,11 @@ const isOpen = (section: NavSection) => section.branches.some((branch) => branch
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const badge = (chapter: ChapterMeta) => ({ 'os-verify': 'PGP', javacard: 'JS', 'seedkeeper-backup': 'NEW' }[chapter.id])
 onMounted(() => animateEnter(navLinks.value))
+watch(() => current.value?.id, async () => {
+  await nextTick()
+  const active = document.querySelector<HTMLElement>('.ss-anime-nav a[aria-current="page"]')
+  active?.focus({ preventScroll: true })
+})
 </script>
 
 <template>
