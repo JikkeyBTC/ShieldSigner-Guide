@@ -7,3 +7,16 @@
 /* Navigation additions are intentionally layered over the compact base stylesheet. */
 .ss-nav-group-label{margin:18px 0 4px;color:#77716b;font:700 10px/1.2 ui-monospace,SFMono-Regular,monospace;letter-spacing:.11em;text-transform:uppercase}.ss-nav-link{padding:7px 0;font-size:13px}.ss-nav-link small{font:11px ui-monospace,monospace;color:#6d6965}.ss-chapter-link{display:flex;justify-content:space-between;gap:8px;padding:8px 0;color:var(--ss-muted);font-size:12px;text-decoration:none;border-bottom:1px solid rgba(69,65,62,.65)}.ss-chapter-link:hover,.ss-chapter-link[aria-current=page]{color:var(--ss-orange)}.ss-reveal{opacity:1}
 .ss-page-meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;color:var(--ss-muted);font:11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.04em}.ss-page-meta span{padding:6px 9px;border:1px solid var(--ss-line);border-radius:999px;background:var(--ss-panel)}
+
+/* Anime.js documentation-inspired refinement: single left rail + generous article column. */
+:root{--ss-content:820px}
+.ss-kicker,.ss-rail-label,.ss-nav-group-label,.ss-page-meta,.ss-media-placeholder figcaption{font-family:'Roboto Mono',ui-monospace,SFMono-Regular,monospace}
+.ss-docs-shell{grid-template-columns:220px minmax(0,var(--ss-content));gap:64px;max-width:1240px;padding-top:48px}
+.ss-category-nav{position:sticky;top:108px;height:max-content}
+.ss-article-inner{max-width:var(--ss-content);margin:0}
+.ss-chapter-rail{display:none!important}
+.ss-article h1{font-size:clamp(2.3rem,5.6vw,4.15rem);letter-spacing:-.055em}
+.ss-article h2{font-size:clamp(1.5rem,2.6vw,2.05rem);letter-spacing:-.035em}
+.ss-article p,.ss-article li{font-size:15px;line-height:1.78}
+@media (max-width:1199px){.ss-docs-shell{grid-template-columns:190px minmax(0,1fr);gap:32px;max-width:1080px}}
+@media (max-width:759px){.ss-docs-shell{display:block;padding-top:30px}.ss-article-inner{max-width:none}}
