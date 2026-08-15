@@ -30,7 +30,15 @@ const seedkeeperIcon = withBase('/brand/seedkeeper/seedkeeper_icon.png')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 const navigateBesideCards = (path: string) => {
   const scrollY = window.scrollY
-  router.go(path).then(() => requestAnimationFrame(() => window.scrollTo(0, scrollY)))
+  router.go(path).then(() => {
+    let attempts = 0
+    const restore = () => {
+      window.scrollTo(0, scrollY)
+      attempts += 1
+      if (attempts < 8) requestAnimationFrame(restore)
+    }
+    requestAnimationFrame(restore)
+  })
 }
 const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
