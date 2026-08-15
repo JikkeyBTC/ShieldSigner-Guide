@@ -26,6 +26,18 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   expect(overflow).toBeFalsy();
 });
 
+test('card search stays pinned while the card rail scrolls', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/ShieldSigner-Guide/');
+  const input = page.getByRole('searchbox', { name: 'Search guide cards' });
+  await input.fill('SeedKeeper');
+  await expect(page.locator('.ss-demo-card')).toHaveCount(7);
+  const before = await page.locator('.ss-card-search').boundingBox();
+  await page.locator('.ss-demo-rail').evaluate((rail) => { rail.scrollTop = 600; });
+  const after = await page.locator('.ss-card-search').boundingBox();
+  expect(after?.y).toBe(before?.y);
+});
+
 test('chapter navigation reaches SeedKeeper backup and marks it active', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/');
   await page.getByRole('link', { name: '시드를 카드에 백업하기' }).first().click();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
 import { animate, scrambleText, stagger } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
@@ -18,6 +18,12 @@ const cards = chapters.map((chapter) => ({
   caption: chapter.group.toUpperCase(),
   displayTitle: ({ assembly: '쉽게 조립하는 방법', 'os-verify': '변조 확인 검증', 'seedkeeper-backup': 'SeedKeeper 소개', bluewallet: '워치온리 지갑' } as Record<string, string>)[chapter.id] ?? chapter.label
 }))
+const searchQuery = ref('')
+const visibleCards = computed(() => {
+  const query = searchQuery.value.trim().toLocaleLowerCase()
+  if (!query) return cards
+  return cards.filter((card) => [card.label, card.displayTitle, card.group, card.caption].join(' ').toLocaleLowerCase().includes(query))
+})
 const { page } = useData()
 const router = useRouter()
 const current = computed(() => {
@@ -65,7 +71,15 @@ const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
 
 <template>
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
-    <a v-for="card in cards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
+    <div class="ss-card-search" role="search">
+      <label class="ss-card-search-box">
+        <span class="ss-card-search-icon" aria-hidden="true">⌕</span>
+        <input v-model="searchQuery" type="search" autocomplete="off" placeholder="Search" aria-label="Search guide cards" @keydown.esc="searchQuery = ''">
+        <kbd>/</kbd>
+      </label>
+      <span class="ss-card-search-count" aria-live="polite">{{ visibleCards.length }}/{{ cards.length }}</span>
+    </div>
+    <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :href="href(card.id)" :aria-current="current?.id === card.id ? 'page' : undefined" @click="runCardAnimation($event, card)">
       <header><span class="ss-scramble-title">{{ card.displayTitle }}</span><small>{{ card.caption }}</small></header>
       <div v-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
       <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
@@ -75,5 +89,6 @@ const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
       <div v-else-if="card.type === 'reference'" class="ss-demo-visual ss-demo-reference"><span class="ss-demo-ref-line">FAQ / TERMS</span><span class="ss-demo-ref-line">SOURCES / SAFE</span></div>
       <div v-else class="ss-demo-visual ss-demo-wallet"><span class="ss-demo-qr-node">XPUB</span><span class="ss-demo-qr-node">QR</span><span class="ss-demo-qr-node">PSBT</span></div>
     </a>
+    <p v-if="visibleCards.length === 0" class="ss-card-search-empty">No matching chapters.</p>
   </aside>
 </template>
