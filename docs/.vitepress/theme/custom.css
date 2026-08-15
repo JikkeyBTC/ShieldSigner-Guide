@@ -66,5 +66,6 @@
 .ss-article h2{font-size:clamp(1.5rem,2.6vw,2.05rem);letter-spacing:-.035em}
 .ss-article p,.ss-article li{font-size:15px;line-height:1.78}
 @media (max-width:1199px){.ss-docs-shell{grid-template-columns:190px minmax(0,1fr);gap:32px;max-width:1080px}.ss-demo-rail{display:none}.ss-article{grid-column:2}}
-@media (min-width:1280px){.ss-anime-nav{left:calc((100vw - 1240px)/2 + 58px)}}
+@media (min-width:1280px) and (max-width:1499px){.ss-anime-nav{left:clamp(18px,4vw,58px)}}
+@media (min-width:1500px){.ss-anime-nav{left:calc((100vw - 1500px)/2 + 58px)}}
 @media (max-width:759px){.ss-docs-shell{display:block;padding-top:30px}.ss-article{grid-column:auto}.ss-article-inner{max-width:none}}
