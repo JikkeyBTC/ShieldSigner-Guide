@@ -36,12 +36,15 @@ onMounted(() => {
     duration: 850,
     ease: 'linear'
   })
-  animate('.ss-demo-stagger i', { translateY: [10, 0], opacity: [0, 1], delay: stagger(100), duration: 500, ease: 'out(3)' })
-  animate('.ss-demo-dot', { scale: [.8, 1.25], opacity: [.55, 1], duration: 700, direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-card-chip', { rotateY: [0, 360], duration: 1400, delay: 300, ease: 'inOut(2)' })
-  animate('.ss-demo-qr-node', { scale: [0, 1], opacity: [0, 1], delay: stagger(120), duration: 420, ease: 'out(3)' })
+  animate('.ss-demo-stagger i', { translateY: [8, -6], rotate: [-4, 4], opacity: [.5, 1], delay: stagger(140), duration: 900, direction: 'alternate', loop: true, ease: 'inOutSine' })
+  animate('.ss-demo-dot', { scale: [.75, 1.35], opacity: [.45, 1], duration: 700, direction: 'alternate', loop: true, ease: 'inOutSine' })
+  animate('.ss-demo-line', { scaleX: [.35, 1], transformOrigin: 'left center', delay: stagger(150), duration: 1000, direction: 'alternate', loop: true, ease: 'inOutSine' })
+  animate('.ss-demo-card-chip', { rotateY: [0, 360], duration: 1800, delay: 300, loop: true, ease: 'linear' })
+  animate('.ss-demo-lock', { scale: [.8, 1.2], opacity: [.5, 1], duration: 700, direction: 'alternate', loop: true, ease: 'inOutSine' })
+  animate('.ss-demo-qr-node', { scale: [.75, 1], opacity: [.45, 1], delay: stagger(180), duration: 650, direction: 'alternate', loop: true, ease: 'inOutSine' })
   animate('.ss-demo-flow-node', { translateX: [-8, 8], duration: 900, delay: stagger(140), direction: 'alternate', loop: true, ease: 'inOutSine' })
-  animate('.ss-demo-ref-line', { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(120), duration: 650, ease: 'linear' })
+  animate('.ss-demo-flow i', { opacity: [.25, 1], translateX: [-3, 3], delay: stagger(140), duration: 700, direction: 'alternate', loop: true, ease: 'inOutSine' })
+  animate('.ss-demo-ref-line', { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(120), duration: 900, loop: true, loopDelay: 1000, ease: 'linear' })
 })
 </script>
 
