@@ -25,6 +25,20 @@ export default defineConfig({
         { text: '카드 간 복제', link: '/seedkeeper/clone' },
         { text: '시드 복원하기', link: '/seedkeeper/restore' },
         { text: '분실과 복구 계획', link: '/seedkeeper/recovery' }
+      ],
+      '/wallet/': [
+        { text: 'BlueWallet 워치온리', link: '/wallet/bluewallet' },
+        { text: 'Coconut Wallet 워치온리', link: '/wallet/coconut' }
+      ],
+      '/transactions/': [
+        { text: '입금 주소 확인', link: '/transactions/receive' },
+        { text: 'PSBT 검토·서명', link: '/transactions/sign-psbt' }
+      ],
+      '/reference/': [
+        { text: '보안 모델', link: '/reference/security' },
+        { text: '자주 묻는 질문', link: '/reference/faq' },
+        { text: '용어집', link: '/reference/glossary' },
+        { text: '출처와 라이선스', link: '/reference/sources' }
       ]
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/JikkeyBTC/ShieldSigner-Guide' }]

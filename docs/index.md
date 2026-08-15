@@ -22,6 +22,14 @@ ShieldSigner를 구매한 분을 위한 실전 가이드입니다. 조립, OS �
 - [카드 간 복제](./seedkeeper/clone)
 - [시드 복원하기](./seedkeeper/restore)
 - [분실과 복구 계획](./seedkeeper/recovery)
+- [BlueWallet 워치온리 지갑](./wallet/bluewallet)
+- [Coconut Wallet 워치온리 지갑](./wallet/coconut)
+- [입금 주소 확인](./transactions/receive)
+- [PSBT 검토·서명](./transactions/sign-psbt)
+- [보안 모델](./reference/security)
+- [자주 묻는 질문](./reference/faq)
+- [용어집](./reference/glossary)
+- [출처와 라이선스](./reference/sources)
 
 <Callout type="warning" title="검증 전 안전 수칙">
 검증이 끝나기 전에는 이미지를 플래시하거나 ShieldSigner에 시드를 입력하지 마세요. 불일치가 있으면 즉시 중단하고 판매자에게 문의하세요.

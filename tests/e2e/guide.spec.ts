@@ -89,7 +89,7 @@ test('SeedKeeper chapter routes expose the complete backup and recovery flow', a
   await page.goto('/ShieldSigner-Guide/seedkeeper/recovery/');
   await expect(page.locator('.backup-matrix')).toBeVisible();
   await expect(page.locator('.backup-matrix')).toContainText('금속 1장');
-  await expect(page.getByRole('link', { name: '다음: BlueWallet 워치온리 지갑' })).toHaveAttribute('href', './../wallet/bluewallet');
+  await expect(page.getByRole('link', { name: '다음: BlueWallet 워치온리 지갑' })).toHaveAttribute('href', /wallet\/bluewallet/);
 
   await page.goto('/ShieldSigner-Guide/seedkeeper/javacard/');
   await expect(page.getByRole('link', { name: /SeedKeeper Applet GitHub/ })).toHaveAttribute('href', 'https://github.com/Toporin/Seedkeeper-Applet');
@@ -97,4 +97,24 @@ test('SeedKeeper chapter routes expose the complete backup and recovery flow', a
   await page.goto('/ShieldSigner-Guide/seedkeeper/restore/');
   await expect(page.locator('main')).toContainText('평문 가져오기');
   await expect(page.locator('main')).toContainText('암호화 가져오기');
+});
+
+test('watch-only, transaction, and reference chapters expose safety content', async ({ page }) => {
+  await page.goto('/ShieldSigner-Guide/wallet/bluewallet/');
+  await expect(page.locator('main h1')).toContainText('BlueWallet 워치온리');
+  await expect(page.locator('main')).toContainText('시드·PIN·개인키는 휴대폰으로 옮기지 않습니다');
+  await page.goto('/ShieldSigner-Guide/wallet/coconut/');
+  await expect(page.locator('main')).toContainText('Watch-only');
+
+  await page.goto('/ShieldSigner-Guide/transactions/sign-psbt/');
+  await expect(page.locator('main h1')).toContainText('PSBT 검토·서명');
+  await expect(page.locator('main')).toContainText('목적지·금액·수수료');
+
+  await page.goto('/ShieldSigner-Guide/reference/security/');
+  await expect(page.locator('main h1')).toContainText('보안 모델');
+  await expect(page.locator('main')).toContainText('불일치·훼손 대응');
+  await page.goto('/ShieldSigner-Guide/reference/glossary/');
+  await expect(page.locator('main')).toContainText('JavaCard');
+  await page.goto('/ShieldSigner-Guide/reference/sources/');
+  await expect(page.getByRole('link', { name: 'SeedKeeper Applet 공식 저장소' })).toHaveAttribute('href', /github.com\/Toporin\/Seedkeeper-Applet/);
 });
