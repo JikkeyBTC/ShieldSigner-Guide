@@ -19,6 +19,16 @@
 .ss-nav-link small{font:11px 'Roboto Mono',ui-monospace,monospace;color:#6d6965}
 .ss-nav-link[aria-current=page]{color:var(--ss-orange);border-left:2px solid var(--ss-orange);padding-left:10px}
 .ss-nav-link:hover{color:var(--ss-text);transform:translateX(3px)}
+.ss-anime-nav{padding-right:18px;border-right:0}
+.ss-nav-section{margin:0}
+.ss-nav-section-title{padding:6px 0;color:#9c9894;font-size:15px;font-weight:600;line-height:1.35;letter-spacing:-.01em}
+.ss-nav-section.is-open>.ss-nav-section-title{color:var(--ss-orange)}
+.ss-nav-children{margin:0 0 4px 0;padding:2px 0 3px 12px;border-left:1px solid #57524e}
+.ss-nav-section.is-open>.ss-nav-children{border-left-color:var(--ss-orange)}
+.ss-nav-child{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0 4px 10px;color:#9c9894;text-decoration:none;font-size:14px;line-height:1.35;transition:color .18s,transform .18s}
+.ss-nav-child:hover{color:var(--ss-text);transform:translateX(2px)}
+.ss-nav-child[aria-current=page]{color:var(--ss-text);font-weight:600}
+.ss-nav-badge{border:1px solid #6b6661;padding:1px 4px;color:#b6b1ac;font:10px/1.2 'Roboto Mono',ui-monospace,monospace}
 .ss-article-inner{max-width:var(--ss-content);margin:0}
 .ss-chapter-rail{display:none!important}
 .ss-article h1{font-size:clamp(2.3rem,5.6vw,4.15rem);letter-spacing:-.055em}
