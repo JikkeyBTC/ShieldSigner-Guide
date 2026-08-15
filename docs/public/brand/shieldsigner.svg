@@ -1,7 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1214 389" role="img" aria-labelledby="title desc">
   <title id="title">ShieldSigner</title>
   <desc id="desc">ShieldSigner orange and white wordmark with a secure chip.</desc>
-  <rect width="1214" height="389" rx="34" fill="#fd6d02"/><path d="M0 34Q0 8 34 8h596v373H34Q0 381 0 347Z" fill="#fdfdfd"/>
-  <g fill="#ffd35c" stroke="#252423" stroke-width="6"><rect x="74" y="83" width="125" height="87" rx="16"/><path d="M74 111h125M74 141h125M116 83v87M157 83v87" fill="none"/><rect x="116" y="83" width="41" height="87" rx="22"/></g>
-  <g fill="#fd6d02" stroke="#fd6d02" stroke-width="8" stroke-linejoin="round"><path d="M74 304v-72h30q25 0 25 20t-25 20H91v32Zm17-48h12q9 0 9-5t-9-5H91Z"/><path d="M146 304v-72h18v55h34v17Z"/><path d="M219 232h18v72h-18Z"/><path d="M253 304v-72h18l31 42v-42h18v72h-18l-31-43v43Z"/><path d="M342 304v-72h18l24 28 24-28h18v72h-18v-45l-24 28-24-28v45Z"/><path d="M449 304v-72h56v17h-38v11h32v16h-32v11h38v17Z"/><path d="M674 304v-72h18l31 42v-42h18v72h-18l-31-43v43Z"/><path d="M758 304v-72h56v17h-38v11h32v16h-32v11h38v17Z"/><path d="M828 304v-72h18v55h34v17Z"/><path d="M896 304v-72h18l31 42v-42h18v72h-18l-31-43v43Z"/><path d="M985 304v-72h56v17h-38v11h32v16h-32v11h38v17Z"/><path d="M1064 232h18v72h-18Z"/><path d="M1095 304v-72h18l31 42v-42h18v72h-18l-31-43v43Z"/></g>
+  <rect width="1214" height="389" rx="34" fill="#fd6d02"/>
+  <path d="M8 34C8 19.6 19.6 8 34 8h596v373H34C19.6 381 8 369.4 8 355z" fill="#fdfdfd"/>
+  <g fill="#ffd35c" stroke="#252423" stroke-width="4">
+    <rect x="74" y="83" width="125" height="87" rx="16"/>
+    <path d="M74 111h125M74 141h125M116 83v87M157 83v87" fill="none"/>
+    <rect x="116" y="83" width="41" height="87" rx="22"/>
+  </g>
+  <g font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="91" font-weight="900" letter-spacing="1">
+    <text x="72" y="306" fill="#fd6d02">SHIELD</text>
+    <text x="676" y="306" fill="#fdfdfd">SIGNER</text>
+  </g>
 </svg>
