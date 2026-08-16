@@ -26,6 +26,7 @@ const chapterById = (id: string) => chapters.find((chapter) => chapter.id === id
 const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
 const isOpen = (section: NavSection) => section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? ''))
 const isBranchOpen = (branch: NavBranch) => branch.chapterIds.includes(current.value?.id ?? '')
+const hasChildren = (branch: NavBranch) => branch.chapterIds.length > 1
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const sectionHref = (section: NavSection) => href(branchChapters(section.branches[0])[0])
 const branchHref = (branch: NavBranch) => href(branchChapters(branch)[0])
@@ -45,9 +46,9 @@ watch(() => current.value?.id, async () => {
     <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
       <a ref="navLinks" class="ss-nav-section-title" :href="sectionHref(section)" :aria-current="isOpen(section) ? 'location' : undefined">{{ section.label }}</a>
       <div v-if="isOpen(section)" class="ss-nav-children">
-        <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch">
+        <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch" :class="{ 'has-children': hasChildren(branch) }">
           <a ref="navLinks" class="ss-nav-branch-title" :class="{ 'is-active': isBranchOpen(branch) }" :href="branchHref(branch)">{{ branch.label }}</a>
-          <div class="ss-nav-branch-items">
+          <div v-if="hasChildren(branch)" class="ss-nav-branch-items">
             <a v-for="chapter in branchChapters(branch)" ref="navLinks" :key="chapter.id" class="ss-nav-child ss-reveal" :href="href(chapter)" :aria-current="current?.id === chapter.id ? 'page' : undefined">
               <span>{{ chapter.label }}</span><small v-if="badge(chapter)" class="ss-nav-badge">{{ badge(chapter) }}</small>
             </a>
