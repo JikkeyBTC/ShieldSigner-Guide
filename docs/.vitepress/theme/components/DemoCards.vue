@@ -135,6 +135,7 @@ const isCurrent = (card: GuideCard) => activeCard.value?.id === card.id
 const seedkeeperLogo = withBase('/brand/seedkeeper/seedkeeper_logo_black.png')
 const seedkeeperIcon = withBase('/brand/seedkeeper/seedkeeper_icon.png')
 const shieldsignerLogo = withBase('/brand/shieldsigner.svg')
+const shieldsignerBootCapture = withBase('/brand/simulator/shieldsigner-boot.png')
 const bitcoinAsset = withBase('/brand/bitcoin.svg')
 const userAsset = withBase('/brand/user-circle.svg')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
@@ -321,7 +322,11 @@ const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
   }
   if (card.type === 'category' && card.id !== 'section-os') animate(targets('.ss-demo-category-shape'), { translateY: [10, -5, 0], rotate: [-4, 4, 0], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.id === 'section-os') animate(targets('.ss-demo-os-logo'), { scale: [.94, 1.02, 1], opacity: [.72, 1, 1], duration: 520, ease: 'out(3)' })
-  if (card.id === 'branch-hardware' || card.id === 'section-build' || card.id === 'assembly') animate(targets('.ss-demo-stagger i'), { translateY: [18, 0], rotate: [-8, 0], opacity: [.35, 1], delay: stagger(120), duration: 560, ease: 'out(3)' })
+  if (card.id === 'branch-hardware') {
+    animate(targets('.ss-demo-hardware-card'), { translateX: [18, 0], opacity: [.35, 1], duration: 720, ease: 'out(3)' })
+    animate(targets('.ss-demo-hardware-screen'), { scale: [1.06, 1], opacity: [.55, 1], duration: 620, ease: 'out(3)' })
+  }
+  if (card.id === 'section-build' || card.id === 'assembly') animate(targets('.ss-demo-stagger i'), { translateY: [18, 0], rotate: [-8, 0], opacity: [.35, 1], delay: stagger(120), duration: 560, ease: 'out(3)' })
   if (card.id === 'os-install') animate(targets('.ss-demo-install-progress'), { scaleX: [0, 1], transformOrigin: 'left center', duration: 620, ease: 'out(2)' })
   if (card.type === 'verify') animate([...targets('.ss-demo-dot'), ...targets('.ss-demo-line')], { scale: [.75, 1.15, 1], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.type === 'seed') animate([...targets('.ss-demo-seed-logo'), ...targets('.ss-demo-seed-icon'), ...targets('.ss-demo-card-chip'), ...targets('.ss-demo-lock')], { rotateY: [0, 360], scale: [.85, 1.08, 1], delay: stagger(90), duration: 560, ease: 'inOutSine' })
@@ -362,6 +367,7 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
       <header><span class="ss-card-title-lockup"><CardGlyph :name="card.visual" /><span class="ss-scramble-title">{{ card.displayTitle }}</span></span></header>
       <div v-if="card.id === 'branch-send'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--send" aria-label="User sends Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
       <div v-else-if="card.id === 'branch-receive'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--receive" aria-label="User receives Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
+      <div v-else-if="card.id === 'branch-hardware'" class="ss-demo-visual ss-demo-hardware" aria-label="ShieldSigner boot screen and Card A insertion"><span class="ss-demo-hardware-screen-frame"><img class="ss-demo-hardware-screen" :src="shieldsignerBootCapture" alt="ShieldSigner boot screen"></span><span class="ss-demo-hardware-slot" aria-hidden="true"></span><span class="ss-demo-hardware-card" aria-hidden="true"><i></i><b>A</b></span></div>
       <div v-else-if="card.id === 'section-os'" class="ss-demo-visual ss-demo-category ss-demo-os"><img class="ss-demo-os-logo" :src="shieldsignerLogo" alt="ShieldSigner"></div>
       <div v-else-if="card.type === 'category'" class="ss-demo-visual ss-demo-category">
         <template v-if="card.id === 'section-getting-started'">

@@ -587,6 +587,16 @@ test('Getting started card exposes the two-line trust verification message', asy
   await expect.poll(() => card.locator('.ss-demo-lines-copy').getAttribute('style')).toMatch(/(?:transform|opacity)/);
 });
 
+test('Hardware card uses the ShieldSigner boot capture and card insertion target', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const card = page.locator('.ss-demo-card').filter({ hasText: 'Hardware' }).first();
+  await expect(card.locator('.ss-demo-hardware-screen')).toHaveAttribute('src', /shieldsigner-boot\.png/);
+  await expect(card.locator('.ss-demo-hardware-card')).toHaveCount(1);
+  await card.click();
+  await expect.poll(() => card.locator('.ss-demo-hardware-card').getAttribute('style')).toMatch(/transform/);
+});
+
 test('second-level navigation groups open their own landing content', async ({ page }) => {
   await page.goto(ko('/seedkeeper/javacard'));
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();
