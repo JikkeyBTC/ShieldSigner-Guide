@@ -323,6 +323,26 @@ const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
     }
     window.setTimeout(() => splitter.revert(), 760)
   }
+  const linesCopy = cardElement.querySelector<HTMLElement>('.ss-demo-lines-copy')
+  if (linesCopy && card.id === 'section-getting-started') {
+    const splitter = splitText(linesCopy, { lines: true, words: false, chars: false, accessible: false })
+    animate(linesCopy, { opacity: [.5, 1], translateX: [-5, 0], duration: 420, ease: 'out(3)' })
+    const animateLines = () => {
+      if (!splitter.lines.length) {
+        if (!splitter.ready) requestAnimationFrame(animateLines)
+        return
+      }
+      animate(splitter.lines, {
+        translateY: ['.8em', '0em'],
+        opacity: [0, 1],
+        delay: stagger(120),
+        duration: 520,
+        ease: 'out(3)',
+      })
+    }
+    animateLines()
+    window.setTimeout(() => splitter.revert(), 1200)
+  }
   const iconTargets = targets('.ss-demo-icon')
   if (iconTargets.length) {
     const iconMotion: Record<string, Record<string, unknown>> = {
@@ -402,7 +422,14 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
       <div v-if="card.id === 'branch-send'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--send" aria-label="User sends Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span></div>
       <div v-else-if="card.id === 'branch-receive'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--receive" aria-label="User receives Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span></div>
       <div v-else-if="card.id === 'section-os'" class="ss-demo-visual ss-demo-category ss-demo-os"><img class="ss-demo-os-logo" :src="shieldsignerLogo" alt="ShieldSigner"><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span></div>
-      <div v-else-if="card.type === 'category'" class="ss-demo-visual ss-demo-category"><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span></div>
+      <div v-else-if="card.type === 'category'" class="ss-demo-visual ss-demo-category">
+        <template v-if="card.id === 'section-getting-started'">
+          <span class="ss-demo-lines-copy" aria-hidden="true">Don't Trust,<br>Verify.</span>
+        </template>
+        <template v-else>
+          <i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span>
+        </template>
+      </div>
       <div v-else-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span></div>
       <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span></div>
       <div v-else-if="card.type === 'verify'" class="ss-demo-visual ss-demo-verify"><span class="ss-demo-dot"></span><span class="ss-demo-line"></span><span class="ss-demo-line short"></span><b>SHA-256</b><span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span></div>

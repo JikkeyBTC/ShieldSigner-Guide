@@ -149,6 +149,8 @@
 .ss-demo-card[aria-current=page] .ss-demo-icon{opacity:1}
 .ss-demo-card-copy{position:absolute;left:12px;right:12px;bottom:8px;z-index:2;display:block;margin:0;min-height:13px;overflow:hidden;padding:3px 5px;border-radius:3px;background:color-mix(in srgb,#252423 58%,transparent);color:color-mix(in srgb,var(--card-accent),#f0ece8 34%);font:600 10px/1.25 'Roboto Mono',ui-monospace,monospace;letter-spacing:.08em;white-space:nowrap;text-overflow:ellipsis;transform-origin:left center;will-change:transform,opacity}
 .ss-demo-card-copy [data-char]{display:inline-block;white-space:pre;will-change:transform,opacity}
+.ss-demo-lines-copy{position:absolute;inset:0;z-index:2;display:block;padding:17px 12px;color:var(--card-accent);font:700 clamp(17px,2.2vw,23px)/1.05 var(--ss-font-ui);letter-spacing:-.04em;text-align:center;will-change:transform,opacity}
+.ss-demo-lines-copy [data-line]{display:block;white-space:nowrap;will-change:transform,opacity}
 .ss-demo-card:not([aria-current=page]) .ss-demo-card-copy{opacity:.62}
 .ss-demo-card[aria-current=page] .ss-demo-card-copy{opacity:1}
 @media (min-width:760px){.ss-doc-nav-bar{display:none}.ss-doc-nav-inner{display:none}.ss-anime-nav{top:108px}.ss-demo-rail{top:108px}}

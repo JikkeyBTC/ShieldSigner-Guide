@@ -578,6 +578,17 @@ test('card copy lives inside the visual panel instead of the card header', async
   await expect(card.locator('header .ss-demo-card-copy')).toHaveCount(0);
 });
 
+test('Getting started card exposes the two-line trust verification message', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
+  await expect(card.locator('.ss-demo-lines-copy')).toContainText("Don't Trust,");
+  await expect(card.locator('.ss-demo-lines-copy')).toContainText('Verify.');
+  await card.click();
+  await expect.poll(() => card.locator('.ss-demo-lines-copy [data-line]').count(), { timeout: 2000 }).toBe(2);
+  await expect.poll(() => card.locator('.ss-demo-lines-copy').getAttribute('style')).toMatch(/(?:transform|opacity)/);
+});
+
 test('second-level navigation groups open their own landing content', async ({ page }) => {
   await page.goto(ko('/seedkeeper/javacard'));
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();
