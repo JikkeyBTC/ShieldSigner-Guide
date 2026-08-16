@@ -5,6 +5,7 @@ import { animate, scrambleText, stagger } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
 import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLandings } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
+import { guideCardOrder } from '../../../../src/guide/card-order'
 
 type GuideCard = {
   readonly id: string
@@ -60,16 +61,7 @@ const chapterCards: GuideCard[] = chapters.filter((chapter) => chapter.id !== 'o
 const sectionCardById = new Map(sectionCards.map((card) => [card.id.replace('section-', ''), card]))
 const branchCardById = new Map(branchLandingCards.map((card) => [card.id.replace('branch-', ''), card]))
 const chapterCardById = new Map(chapterCards.map((card) => [card.chapterId, card]))
-const cardOrder: readonly (readonly ['section' | 'branch' | 'chapter', string])[] = [
-  ['section', 'getting-started'], ['branch', 'hardware'], ['chapter', 'assembly'],
-  ['section', 'os'], ['branch', 'installation'], ['chapter', 'os-install'], ['branch', 'verification'], ['chapter', 'os-verify'],
-  ['section', 'seedkeeper'], ['branch', 'concepts'], ['chapter', 'javacard'], ['chapter', 'what-is-seedkeeper'], ['branch', 'backup-recovery'],
-  ['chapter', 'seedkeeper-initialize'], ['chapter', 'seedkeeper-backup'], ['chapter', 'seedkeeper-clone'], ['chapter', 'seedkeeper-restore'], ['chapter', 'seedkeeper-recovery'],
-  ['section', 'wallet'], ['branch', 'bluewallet'], ['branch', 'coconut'], ['chapter', 'coconut'],
-  ['section', 'transactions'], ['branch', 'receive'], ['chapter', 'receive'], ['branch', 'signing'], ['chapter', 'sign-psbt'],
-  ['section', 'reference'], ['branch', 'safety'], ['chapter', 'security'], ['chapter', 'faq'], ['branch', 'terms'], ['chapter', 'glossary'], ['chapter', 'sources']
-]
-const cards: GuideCard[] = cardOrder.map(([kind, id]) => kind === 'section' ? sectionCardById.get(id) : kind === 'branch' ? branchCardById.get(id) : chapterCardById.get(id)).filter(Boolean) as GuideCard[]
+const cards: GuideCard[] = guideCardOrder.map(({ kind, id }) => kind === 'section' ? sectionCardById.get(id) : kind === 'branch' ? branchCardById.get(id) : chapterCardById.get(id)).filter(Boolean) as GuideCard[]
 const accentFor = (card: GuideCard) => getChapterAccent(card)
 const searchQuery = ref('')
 const visibleCards = computed(() => {

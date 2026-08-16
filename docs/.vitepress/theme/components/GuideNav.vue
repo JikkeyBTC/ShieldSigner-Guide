@@ -66,26 +66,28 @@ watch(() => current.value?.id, async () => {
 </script>
 
 <template>
-  <div class="ss-mobile-toolbar" aria-label="Mobile documentation controls">
-    <button id="docs-nav-menu" class="docs-nav-menu" type="button" aria-label="Open documentation navigation" aria-controls="ss-mobile-guide-nav" :aria-expanded="mobileOpen" @click="mobileOpen = !mobileOpen">
-      <span class="ss-mobile-menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
-    </button>
-    <button id="search-nav" class="search-nav" type="button" aria-label="Search documentation" :aria-expanded="mobileSearchOpen" aria-controls="ss-mobile-search" @click="mobileSearchOpen = !mobileSearchOpen">
-      <span aria-hidden="true">⌕</span><span>Search</span>
-    </button>
-  </div>
-  <div v-if="mobileSearchOpen" id="ss-mobile-search" class="ss-mobile-search-panel" role="search">
-    <label class="ss-mobile-search-box">
-      <span class="ss-mobile-search-icon" aria-hidden="true">⌕</span>
-      <input v-model="mobileSearchQuery" type="search" placeholder="Search documentation" aria-label="Search documentation" @keydown.esc="mobileSearchOpen = false">
-    </label>
-    <div class="ss-mobile-search-results" aria-live="polite">
-      <a v-for="item in filteredMobileSearchItems" :key="`${item.type}-${item.href}`" :href="withBase(item.href)" @click="mobileSearchOpen = false">
-        <span>{{ item.label }}</span><small>{{ item.type }}</small>
-      </a>
-      <p v-if="filteredMobileSearchItems.length === 0">No matching pages.</p>
+  <Teleport to=".ss-doc-nav-mobile-controls">
+    <div class="ss-mobile-toolbar" aria-label="Mobile documentation controls">
+      <button id="docs-nav-menu" class="docs-nav-menu" type="button" aria-label="Open documentation navigation" aria-controls="ss-mobile-guide-nav" :aria-expanded="mobileOpen" @click="mobileOpen = !mobileOpen">
+        <span class="ss-mobile-menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <button id="search-nav" class="search-nav" type="button" aria-label="Search documentation" :aria-expanded="mobileSearchOpen" aria-controls="ss-mobile-search" @click="mobileSearchOpen = !mobileSearchOpen">
+        <span aria-hidden="true">⌕</span><span>Search</span>
+      </button>
     </div>
-  </div>
+    <div v-if="mobileSearchOpen" id="ss-mobile-search" class="ss-mobile-search-panel" role="search">
+      <label class="ss-mobile-search-box">
+        <span class="ss-mobile-search-icon" aria-hidden="true">⌕</span>
+        <input v-model="mobileSearchQuery" type="search" placeholder="Search documentation" aria-label="Search documentation" @keydown.esc="mobileSearchOpen = false">
+      </label>
+      <div class="ss-mobile-search-results" aria-live="polite">
+        <a v-for="item in filteredMobileSearchItems" :key="`${item.type}-${item.href}`" :href="withBase(item.href)" @click="mobileSearchOpen = false">
+          <span>{{ item.label }}</span><small>{{ item.type }}</small>
+        </a>
+        <p v-if="filteredMobileSearchItems.length === 0">No matching pages.</p>
+      </div>
+    </div>
+  </Teleport>
   <div v-if="mobileOpen" class="ss-mobile-menu-scrim" aria-hidden="true" @click="mobileOpen = false"></div>
   <aside id="ss-mobile-guide-nav" class="ss-category-nav ss-anime-nav" :class="{ 'is-mobile-open': mobileOpen }" aria-label="Guide table of contents">
     <div class="ss-rail-label">GUIDE</div>

@@ -31,6 +31,14 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(page.locator('.ss-category-nav')).toBeVisible();
   await expect(page.locator('.ss-demo-rail')).toBeVisible();
+  await expect(page.locator('.ss-doc-nav-bar')).toBeVisible();
+  const navGeometry = await page.evaluate(() => ({
+    navBottom: document.querySelector('.ss-doc-nav-bar')?.getBoundingClientRect().bottom ?? 0,
+    titleTop: document.querySelector('.ss-article h1')?.getBoundingClientRect().top ?? 0
+  }));
+  expect(navGeometry.titleTop).toBeGreaterThan(navGeometry.navBottom);
+  await expect(page.getByRole('button', { name: 'Previous card' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Next card' })).toBeEnabled();
 
   await page.setViewportSize({ width: 390, height: 844 });
   const mobileMenu = page.locator('#docs-nav-menu');
@@ -50,6 +58,14 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   await expect(page.locator('.ss-mobile-search-panel')).toBeHidden();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(overflow).toBeFalsy();
+});
+
+test('document nav follows the visual card order', async ({ page }) => {
+  await page.goto('/ShieldSigner-Guide/seedkeeper/backup/');
+  await page.getByRole('button', { name: 'Next card' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/seedkeeper\/clone\/?$/);
+  await page.getByRole('button', { name: 'Previous card' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/seedkeeper\/backup\/?$/);
 });
 
 test('card search stays pinned while the card rail scrolls', async ({ page }) => {

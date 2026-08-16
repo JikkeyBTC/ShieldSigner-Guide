@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 import GuideNav from './components/GuideNav.vue'
+import DocNavBar from './components/DocNavBar.vue'
 import AnimatedChapter from './components/AnimatedChapter.vue'
 import DemoCards from './components/DemoCards.vue'
 import { getChapterByPath } from '../../../src/guide/chapters'
@@ -29,6 +30,8 @@ const chapterAccent = computed(() => getChapterAccent(currentChapter.value))
         <a href="https://github.com/JikkeyBTC/ShieldSigner-Guide" target="_blank" rel="noreferrer">GitHub ↗</a>
       </nav>
     </header>
+
+    <DocNavBar />
 
     <div class="ss-docs-shell" :style="{ '--chapter-accent': chapterAccent }">
       <GuideNav />
