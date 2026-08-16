@@ -197,3 +197,36 @@ html,body{overflow-x:clip}
 .ss-doc-nav-link-next .ss-doc-nav-link-title{margin-right:auto;text-align:left}
 .ss-doc-nav-link.is-disabled{color:#625d58;cursor:default}
 @media (max-width:759px){.ss-doc-nav-bottom{grid-template-columns:1fr;gap:18px;margin-top:52px}.ss-doc-nav-step{padding-top:14px}.ss-doc-nav-link{min-height:48px;padding-inline:12px}}
+
+/* Column-local navigation: the TOC and card rail each get their own Anime-style bar. */
+.ss-guide-nav-bar,.ss-card-rail-nav{display:none}
+.ss-card-search-box{position:relative}
+.ss-card-search-status{flex:0 0 auto;color:#8f8983;font:10px 'Roboto Mono',ui-monospace,monospace;letter-spacing:.04em;white-space:nowrap}
+.ss-card-search-button,.ss-card-search-clear{display:inline-grid;place-items:center;width:22px;height:24px;padding:0;border:0;background:transparent;color:#8f8983;font:600 15px/1 var(--ss-font-ui);cursor:pointer}
+.ss-card-search-button:hover:not(:disabled),.ss-card-search-button:focus-visible,.ss-card-search-clear:hover,.ss-card-search-clear:focus-visible{color:#fff;outline:none}
+.ss-card-search-button:disabled{color:#514d49;cursor:not-allowed}
+.ss-card-search-clear{font-size:18px;font-weight:400}
+.ss-demo-card.is-search-match{box-shadow:0 0 0 1px var(--card-accent,var(--ss-orange)),0 10px 22px rgba(0,0,0,.18)}
+@media (min-width:1200px){
+  .ss-guide-column,.ss-card-column{position:sticky;top:108px;align-self:start;height:calc(100vh - 132px);min-height:0}
+  .ss-guide-column{overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+  .ss-guide-column::-webkit-scrollbar{display:none}
+  .ss-card-column{display:flex;flex-direction:column;min-width:0}
+  .ss-guide-nav-bar,.ss-card-rail-nav{display:flex;align-items:center;flex:0 0 42px;min-height:42px;margin-bottom:12px;border-bottom:1px solid var(--ss-line);color:#8f8983}
+  .ss-guide-nav-bar{justify-content:space-between;gap:10px;padding:0 0 10px}
+  .ss-guide-nav-eyebrow{color:var(--nav-accent,var(--ss-orange));font:700 10px/1.2 'Roboto Mono',ui-monospace,monospace;letter-spacing:.16em}
+  .ss-guide-nav-current{min-width:0;overflow:hidden;color:#c8c1bb;text-decoration:none;font:600 13px/1.2 var(--ss-font-ui);text-overflow:ellipsis;white-space:nowrap}
+  .ss-guide-nav-current:hover,.ss-guide-nav-current:focus-visible{color:#fff;outline:none}
+  .ss-card-rail-nav{width:100%;border-bottom:0;margin-bottom:12px}
+  .ss-card-rail-nav .ss-card-search-box{width:100%;height:42px}
+  .ss-category-nav{position:static!important;top:auto!important;left:auto!important;width:auto!important;height:auto!important;max-height:none!important}
+  .ss-demo-rail{position:static!important;top:auto!important;left:auto!important;width:100%!important;max-height:none!important;height:auto;flex:1 1 auto;min-height:0;overflow-y:auto}
+}
+@media (max-width:1199px){
+  .ss-card-column{display:none}
+  .ss-guide-nav-bar{display:none}
+}
+@media (max-width:759px){
+  .ss-guide-column{display:block;position:static;height:auto;overflow:visible}
+  .ss-category-nav{position:static}
+}

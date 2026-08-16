@@ -55,8 +55,8 @@ test('assembly labels use the shared Korean-friendly guide font stack', async ({
 test('responsive docs shell exposes brand and mobile navigation', async ({ page }) => {
   await page.goto(ko());
   await expect(page.locator('.ss-topbar')).toBeVisible();
-  await expect(page.locator('.ss-topbar-search')).toBeVisible();
-  await expect(page.locator('.ss-topbar-search input')).toHaveAttribute('aria-label', 'Search guide cards');
+  await expect(page.locator('.ss-card-rail-nav')).toBeVisible();
+  await expect(page.locator('.ss-card-rail-nav input')).toHaveAttribute('aria-label', 'Search guide cards');
   await expect(page.locator('.ss-brand img')).toHaveAttribute('alt', 'ShieldSigner');
   await expect(page.locator('.ss-brand img')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/shieldsigner.svg');
 
@@ -123,15 +123,30 @@ test('article titles use the compact documentation scale', async ({ page }) => {
   expect(titleSize).toBeGreaterThanOrEqual(40);
 });
 
-test('topbar search aligns with the card rail at the same width', async ({ page }) => {
+test('card search aligns with the card rail at the same width', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
-  const searchBox = await page.locator('.ss-topbar-search').boundingBox();
+  const searchBox = await page.locator('.ss-card-search-box').boundingBox();
   const railBox = await page.locator('.ss-demo-rail').boundingBox();
   expect(searchBox).not.toBeNull();
   expect(railBox).not.toBeNull();
   expect(searchBox!.width).toBe(354);
   expect(Math.abs(searchBox!.x - railBox!.x)).toBeLessThanOrEqual(1);
+  expect(Math.abs(searchBox!.y + searchBox!.height - railBox!.y)).toBeLessThanOrEqual(14);
+});
+
+test('column navigation bars expose Anime-style card search controls', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko());
+  await expect(page.locator('.ss-guide-nav-bar')).toContainText('GUIDE');
+  await expect(page.locator('.ss-card-rail-nav')).toBeVisible();
+  const input = page.getByRole('searchbox', { name: 'Search guide cards' });
+  await input.fill('SeedKeeper');
+  await expect(page.locator('.ss-card-search-status')).toHaveText(/1 \/ 10/);
+  await page.getByRole('button', { name: 'Next search result' }).click();
+  await expect(page.locator('.ss-card-search-status')).toHaveText(/2 \/ 10/);
+  await input.press('Escape');
+  await expect(input).toHaveValue('');
 });
 
 test('document nav follows the visual card order', async ({ page }) => {
@@ -171,16 +186,15 @@ test('article titles are preceded by a linked documentation breadcrumb', async (
   expect(positions!.breadcrumbBottom).toBeLessThan(positions!.titleTop);
 });
 
-test('topbar search filters cards while staying pinned above the card rail', async ({ page }) => {
+test('card search filters cards while staying pinned above the card rail', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
   const input = page.getByRole('searchbox', { name: 'Search guide cards' });
   await input.fill('SeedKeeper');
   await expect(page.locator('.ss-demo-card')).toHaveCount(10);
-  await expect(page.locator('.ss-card-search')).toHaveCount(0);
-  const before = await page.locator('.ss-topbar-search').boundingBox();
+  const before = await page.locator('.ss-card-rail-nav').boundingBox();
   await page.locator('.ss-demo-rail').evaluate((rail) => { rail.scrollTop = 600; });
-  const after = await page.locator('.ss-topbar-search').boundingBox();
+  const after = await page.locator('.ss-card-rail-nav').boundingBox();
   expect(after?.y).toBe(before?.y);
 });
 

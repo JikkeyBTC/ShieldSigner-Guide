@@ -33,6 +33,12 @@ Match the supplied Anime.js documentation composition by giving the table of con
 - Previous/next buttons expose disabled state and route-relative labels.
 - Focus styles use the current category accent; keyboard navigation does not alter card scroll unexpectedly.
 
+## Search interaction
+
+- The rail search field is rendered inside the card-column bar, so its left edge and width are inherited directly from the card rail rather than independently positioned.
+- Typing filters the shared card sequence immediately. The result status shows the active match and total matches; up/down buttons, Enter, and ArrowUp/ArrowDown cycle through matches and reveal the selected card inside the rail.
+- `/` focuses the search field when the user is not already typing, while `Esc` clears the query and removes the temporary match highlight.
+
 ## Validation
 
 - Build VitePress output.
