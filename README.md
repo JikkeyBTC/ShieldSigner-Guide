@@ -1,6 +1,14 @@
 # ShieldSigner Guide
 
-구매자를 위한 ShieldSigner 한국어 가이드입니다. 키트 조립, ShieldSigner OS 설치·검증, SeedKeeper 백업과 워치온리 지갑 사용법을 단계별로 안내합니다.
+구매자를 위한 ShieldSigner 한국어·영어 가이드입니다. 키트 조립, ShieldSigner OS 설치·검증, SeedKeeper 백업과 워치온리 지갑 사용법을 단계별로 안내합니다.
+
+언어별 문서는 별도 경로로 운영합니다.
+
+- 한국어: `https://jikkeybtc.github.io/ShieldSigner-Guide/ko/`
+- English: `https://jikkeybtc.github.io/ShieldSigner-Guide/en/`
+- 루트(`/`)는 기존 사용자 경험을 위해 한국어 문서로 자동 연결됩니다.
+
+상단 GitHub 옆 언어 버튼은 현재 페이지의 동일한 route를 반대 언어로 전환합니다.
 
 이 사이트는 GitHub Pages에서 제공하는 정적 문서입니다. 비밀값·시드·개인키·사용자 데이터를 수집하거나 저장하지 않으며 로그인도 필요하지 않습니다. 제품 사진은 `docs/public/brand/` 또는 각 페이지의 플레이스홀더 자산으로 교체할 수 있습니다.
 

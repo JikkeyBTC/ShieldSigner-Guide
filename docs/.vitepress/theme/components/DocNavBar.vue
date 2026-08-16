@@ -5,19 +5,21 @@ import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLa
 import { chapters, getChapterByPath } from '../../../../src/guide/chapters'
 import { guideCardOrder } from '../../../../src/guide/card-order'
 import { getChapterAccent } from '../../../../src/guide/colors'
+import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
 
 type NavCard = {
   readonly id: string
   readonly label: string
   readonly href: string
+  readonly sourceHref: string
   readonly kind: 'section' | 'branch' | 'chapter'
 }
 
 const { page } = useData()
 const router = useRouter()
+const locale = computed(() => getLocaleFromPath(`/${page.value.relativePath}`))
 const current = computed(() => {
-  const path = page.value.relativePath.replace(/\.md$/, '')
-  const route = path === 'index' ? '/' : path.endsWith('/index') ? `/${path.slice(0, -6)}/` : `/${path}/`
+  const route = routeFromRelativePath(page.value.relativePath)
   return getSectionLandingByPath(route) ?? getBranchLandingByPath(route) ?? getChapterByPath(route)
 })
 const cards = computed<NavCard[]>(() => {
@@ -26,12 +28,14 @@ const cards = computed<NavCard[]>(() => {
   const chapterById = new Map(chapters.filter((item) => item.id !== 'overview').map((item) => [item.id, item]))
   return guideCardOrder.map(({ kind, id }) => {
     const item = kind === 'section' ? sectionById.get(id) : kind === 'branch' ? branchById.get(id) : chapterById.get(id)
-    return item ? { id, label: item.label, href: item.href, kind } : undefined
+    if (!item) return undefined
+    const label = kind === 'chapter' ? getLocalizedChapterLabel(id, item.label, locale.value) : getLocalizedLabel(id, item.label, locale.value)
+    return { id, label, href: localizeHref(item.href, locale.value), sourceHref: item.href, kind }
   }).filter(Boolean) as NavCard[]
 })
 const activeIndex = computed(() => {
   const href = current.value?.href
-  const index = cards.value.findIndex((card) => card.href === href)
+  const index = cards.value.findIndex((card) => card.sourceHref === href)
   return index >= 0 ? index : 0
 })
 const previous = computed(() => cards.value[activeIndex.value - 1])
@@ -47,11 +51,11 @@ const goTo = (card?: NavCard) => {
 <template>
   <nav class="ss-doc-nav-bar" aria-label="Document navigation" :style="{ '--nav-accent': accent }">
     <div class="ss-doc-nav-inner">
-      <div class="ss-doc-nav-mobile-controls">
+      <div id="ss-doc-nav-mobile-controls" class="ss-doc-nav-mobile-controls">
       </div>
       <div class="ss-doc-nav-context">
         <span class="ss-doc-nav-eyebrow">GUIDE</span>
-        <span class="ss-doc-nav-current">{{ current?.label ?? 'ShieldSigner Guide' }}</span>
+        <span class="ss-doc-nav-current">{{ current ? getLocalizedLabel(current.id, current.label, locale) : 'ShieldSigner Guide' }}</span>
       </div>
       <div class="ss-doc-nav-actions">
         <span class="ss-doc-nav-count">{{ String(activeIndex + 1).padStart(2, '0') }} / {{ String(cards.length).padStart(2, '0') }}</span>

@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   lang: 'ko-KR',
   title: 'ShieldSigner Guide',
-  description: 'ShieldSigner 구매자를 위한 공개 한국어 가이드',
+  description: 'ShieldSigner buyer guide in Korean and English',
   head: [
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
@@ -15,47 +15,67 @@ export default defineConfig({
   themeConfig: {
     outline: 'deep',
     sidebar: {
-      '/os/': [
-        { text: 'ShieldSigner OS', link: '/os/' },
-        { text: 'ShieldSigner OS 설치', link: '/os/install' },
-        { text: 'Verification', link: '/os/verification' },
-        { text: 'OS 이미지 검증', link: '/os/verify' }
+      '/ko/': [
+        { text: 'Getting started', link: '/ko/' },
+        { text: 'Hardware', link: '/ko/build/' },
+        { text: '키트 조립 방법', link: '/ko/build/assembly' },
+        { text: 'ShieldSigner OS', link: '/ko/os/' },
+        { text: 'ShieldSigner OS 설치', link: '/ko/os/install' },
+        { text: 'Verification', link: '/ko/os/verification' },
+        { text: 'SeedKeeper', link: '/ko/seedkeeper/' },
+        { text: 'Concepts', link: '/ko/seedkeeper/concepts' },
+        { text: 'JavaCard란?', link: '/ko/seedkeeper/javacard' },
+        { text: 'SeedKeeper란?', link: '/ko/seedkeeper/what-is-seedkeeper' },
+        { text: '카드 초기화와 PIN', link: '/ko/seedkeeper/initialize' },
+        { text: '시드를 카드에 백업하기', link: '/ko/seedkeeper/backup' },
+        { text: '카드 간 복제', link: '/ko/seedkeeper/clone' },
+        { text: '시드 복원하기', link: '/ko/seedkeeper/restore' },
+        { text: '분실과 복구 계획', link: '/ko/seedkeeper/recovery' },
+        { text: 'Watch-only wallets', link: '/ko/wallet/' },
+        { text: 'BlueWallet', link: '/ko/wallet/bluewallet' },
+        { text: 'Coconut Wallet', link: '/ko/wallet/coconut' },
+        { text: 'Transactions', link: '/ko/transactions/' },
+        { text: 'Receive', link: '/ko/transactions/receive-guide' },
+        { text: 'Send', link: '/ko/transactions/send-guide' },
+        { text: 'Signing', link: '/ko/transactions/sign-psbt' },
+        { text: 'Reference', link: '/ko/reference/' },
+        { text: 'Safety', link: '/ko/reference/safety' },
+        { text: 'Terms', link: '/ko/reference/terms' },
+        { text: '보안 모델', link: '/ko/reference/security' },
+        { text: '자주 묻는 질문', link: '/ko/reference/faq' },
+        { text: '용어집', link: '/ko/reference/glossary' },
+        { text: '출처와 라이선스', link: '/ko/reference/sources' }
       ],
-      '/build/': [
-        { text: 'Hardware', link: '/build/' },
-        { text: '키트 조립 방법', link: '/build/assembly' }
-      ],
-      '/seedkeeper/': [
-        { text: 'SeedKeeper', link: '/seedkeeper/' },
-        { text: 'Concepts', link: '/seedkeeper/concepts' },
-        { text: 'JavaCard란?', link: '/seedkeeper/javacard' },
-        { text: 'SeedKeeper란?', link: '/seedkeeper/what-is-seedkeeper' },
-        { text: '카드 초기화와 PIN', link: '/seedkeeper/initialize' },
-        { text: '시드를 카드에 백업하기', link: '/seedkeeper/backup' },
-        { text: '카드 간 복제', link: '/seedkeeper/clone' },
-        { text: '시드 복원하기', link: '/seedkeeper/restore' },
-        { text: '분실과 복구 계획', link: '/seedkeeper/recovery' }
-      ],
-      '/wallet/': [
-        { text: 'Watch-only wallets', link: '/wallet/' },
-        { text: 'BlueWallet 워치온리', link: '/wallet/bluewallet' },
-        { text: 'Coconut Wallet 워치온리', link: '/wallet/coconut' }
-      ],
-      '/transactions/': [
-        { text: 'Transactions', link: '/transactions/' },
-        { text: 'Receive', link: '/transactions/receive-guide' },
-        { text: 'Send', link: '/transactions/send-guide' },
-        { text: '입금 주소 확인', link: '/transactions/receive' },
-        { text: 'PSBT 검토·서명', link: '/transactions/sign-psbt' }
-      ],
-      '/reference/': [
-        { text: 'Reference', link: '/reference/' },
-        { text: 'Safety', link: '/reference/safety' },
-        { text: 'Terms', link: '/reference/terms' },
-        { text: '보안 모델', link: '/reference/security' },
-        { text: '자주 묻는 질문', link: '/reference/faq' },
-        { text: '용어집', link: '/reference/glossary' },
-        { text: '출처와 라이선스', link: '/reference/sources' }
+      '/en/': [
+        { text: 'Getting started', link: '/en/' },
+        { text: 'Hardware', link: '/en/build/' },
+        { text: 'Kit assembly', link: '/en/build/assembly' },
+        { text: 'ShieldSigner OS', link: '/en/os/' },
+        { text: 'Installation', link: '/en/os/install' },
+        { text: 'Verification', link: '/en/os/verification' },
+        { text: 'SeedKeeper', link: '/en/seedkeeper/' },
+        { text: 'Concepts', link: '/en/seedkeeper/concepts' },
+        { text: 'What is JavaCard?', link: '/en/seedkeeper/javacard' },
+        { text: 'What is SeedKeeper?', link: '/en/seedkeeper/what-is-seedkeeper' },
+        { text: 'Initialize card and PIN', link: '/en/seedkeeper/initialize' },
+        { text: 'Back up a seed', link: '/en/seedkeeper/backup' },
+        { text: 'Clone between cards', link: '/en/seedkeeper/clone' },
+        { text: 'Restore a seed', link: '/en/seedkeeper/restore' },
+        { text: 'Loss and recovery', link: '/en/seedkeeper/recovery' },
+        { text: 'Watch-only wallets', link: '/en/wallet/' },
+        { text: 'BlueWallet', link: '/en/wallet/bluewallet' },
+        { text: 'Coconut Wallet', link: '/en/wallet/coconut' },
+        { text: 'Transactions', link: '/en/transactions/' },
+        { text: 'Receive', link: '/en/transactions/receive-guide' },
+        { text: 'Send', link: '/en/transactions/send-guide' },
+        { text: 'Signing', link: '/en/transactions/sign-psbt' },
+        { text: 'Reference', link: '/en/reference/' },
+        { text: 'Safety', link: '/en/reference/safety' },
+        { text: 'Terms', link: '/en/reference/terms' },
+        { text: 'Security model', link: '/en/reference/security' },
+        { text: 'FAQ', link: '/en/reference/faq' },
+        { text: 'Glossary', link: '/en/reference/glossary' },
+        { text: 'Sources and licenses', link: '/en/reference/sources' }
       ]
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/JikkeyBTC/ShieldSigner-Guide' }]
