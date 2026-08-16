@@ -26,4 +26,4 @@ Coconut Wallet에서 거래를 만들고 PSBT를 QR 또는 파일로 내보냅�
 
 <Callout type="tip" title="워치온리의 역할">모바일 앱은 잔액·주소·거래 초안을 보여주고, ShieldSigner는 개인키를 격리한 채 서명만 담당합니다.</Callout>
 
-<GuideNav prev="/wallet/bluewallet" next="/transactions/receive" prevLabel="이전: BlueWallet 워치온리 지갑" nextLabel="다음: 입금 주소 확인" />
+<GuideNav prev="/wallet/bluewallet" next="/transactions/receive-guide" prevLabel="이전: BlueWallet 워치온리 지갑" nextLabel="다음: Receive" />

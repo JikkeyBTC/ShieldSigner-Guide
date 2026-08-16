@@ -21,12 +21,11 @@ export const chapters = [
   { id: 'seedkeeper-recovery', label: '분실과 복구 계획', href: '/seedkeeper/recovery/', group: 'SeedKeeper', order: 11 },
   { id: 'bluewallet', label: 'BlueWallet', href: '/wallet/bluewallet/', group: '워치온리 지갑', order: 12 },
   { id: 'coconut', label: '코코넛 월렛', href: '/wallet/coconut/', group: '워치온리 지갑', order: 13 },
-  { id: 'receive', label: '수신 주소 확인', href: '/transactions/receive/', group: '거래', order: 14 },
-  { id: 'sign-psbt', label: 'PSBT 검토와 서명', href: '/transactions/sign-psbt/', group: '거래', order: 15 },
-  { id: 'security', label: '보안 체크리스트', href: '/reference/security/', group: '참고', order: 16 },
-  { id: 'faq', label: '자주 묻는 질문', href: '/reference/faq/', group: '참고', order: 17 },
-  { id: 'glossary', label: '용어집', href: '/reference/glossary/', group: '참고', order: 18 },
-  { id: 'sources', label: '출처와 라이선스', href: '/reference/sources/', group: '참고', order: 19 }
+  { id: 'sign-psbt', label: 'PSBT 검토와 서명', href: '/transactions/sign-psbt/', group: '거래', order: 14 },
+  { id: 'security', label: '보안 체크리스트', href: '/reference/security/', group: '참고', order: 15 },
+  { id: 'faq', label: '자주 묻는 질문', href: '/reference/faq/', group: '참고', order: 16 },
+  { id: 'glossary', label: '용어집', href: '/reference/glossary/', group: '참고', order: 17 },
+  { id: 'sources', label: '출처와 라이선스', href: '/reference/sources/', group: '참고', order: 18 }
 ] as const satisfies readonly ChapterMeta[]
 
 const normalizePath = (pathname: string) => {

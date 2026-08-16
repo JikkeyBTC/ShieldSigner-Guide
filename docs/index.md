@@ -24,7 +24,7 @@ ShieldSigner를 안전하게 시작하는 방법을 안내합니다. 조립부�
 - [분실과 복구 계획](./seedkeeper/recovery)
 - [BlueWallet 워치온리 지갑](./wallet/bluewallet)
 - [Coconut Wallet 워치온리 지갑](./wallet/coconut)
-- [입금 주소 확인](./transactions/receive)
+- [Receive](./transactions/receive-guide)
 - [PSBT 검토·서명](./transactions/sign-psbt)
 - [보안 모델](./reference/security)
 - [자주 묻는 질문](./reference/faq)

@@ -24,4 +24,4 @@ PSBT는 아직 브로드캐스트되지 않은 거래 초안입니다. 워치온
 
 <Callout type="danger" title="서명은 되돌릴 수 없습니다">주소를 문자 몇 글자만 보고 승인하지 마세요. ShieldSigner에 표시된 전체 주소와 금액을 실제 주문 내용과 대조한 뒤 승인하세요.</Callout>
 
-<GuideNav prev="/transactions/receive" next="/reference/security" prevLabel="이전: 입금 주소 확인" nextLabel="다음: 보안 모델" />
+<GuideNav prev="/transactions/receive-guide" next="/reference/security" prevLabel="이전: Receive" nextLabel="다음: 보안 모델" />

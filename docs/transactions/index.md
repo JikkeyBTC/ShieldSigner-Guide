@@ -36,4 +36,4 @@ PSBT의 목적지·금액·수수료를 확인한 뒤 오프라인 장치에서 
 주소·금액·수수료가 예상과 다르면 서명하지 말고 원인을 확인하세요.
 </Callout>
 
-<GuideNav prev="/wallet/coconut" next="/transactions/receive" prevLabel="이전: Coconut Wallet" nextLabel="다음: 수신 주소 확인" />
+<GuideNav prev="/wallet/coconut" next="/transactions/receive-guide" prevLabel="이전: Coconut Wallet" nextLabel="다음: Receive" />
