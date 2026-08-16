@@ -89,7 +89,7 @@ const current = computed(() => {
 const href = (card: GuideCard) => withBase(card.href)
 const activeCard = computed(() => {
   const matches = cards.filter((card) => card.href === current.value?.href)
-  return matches.find((card) => card.id.startsWith('branch-')) ?? matches.find((card) => card.id.startsWith('section-')) ?? matches[0]
+  return matches.find((card) => card.chapterId) ?? matches.find((card) => card.id.startsWith('branch-')) ?? matches.find((card) => card.id.startsWith('section-')) ?? matches[0]
 })
 const isCurrent = (card: GuideCard) => activeCard.value?.id === card.id
 const seedkeeperLogo = withBase('/brand/seedkeeper/seedkeeper_logo_black.png')
