@@ -45,6 +45,23 @@ test('chapter navigation reaches SeedKeeper backup and marks it active', async (
   await expect(page.locator('.ss-nav-child[aria-current="page"]')).toContainText('시드를 카드에 백업하기');
 });
 
+test('clicking a guide section aligns its linked card in the card rail', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/ShieldSigner-Guide/');
+  await page.locator('.ss-nav-section-title').filter({ hasText: 'Build' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/build\/assembly\/?$/);
+  await page.waitForTimeout(700);
+  const state = await page.evaluate(() => {
+    const rail = document.querySelector<HTMLElement>('.ss-demo-rail');
+    const card = document.querySelector<HTMLElement>('.ss-demo-card[aria-current="page"]');
+    const search = document.querySelector<HTMLElement>('.ss-card-search');
+    return { railScroll: rail?.scrollTop ?? 0, cardTop: card?.getBoundingClientRect().top ?? 0, searchBottom: search?.getBoundingClientRect().bottom ?? 0 };
+  });
+  expect(state.railScroll).toBeGreaterThan(0);
+  expect(state.cardTop).toBeGreaterThanOrEqual(state.searchBottom - 2);
+  expect(state.cardTop).toBeLessThan(state.searchBottom + 24);
+});
+
 test('reduced motion keeps navigation and article content visible', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/ShieldSigner-Guide/');

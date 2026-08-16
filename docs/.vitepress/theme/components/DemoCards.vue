@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
 import { animate, scrambleText, stagger } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
@@ -48,6 +48,17 @@ const navigateBesideCards = (path: string) => {
     requestAnimationFrame(restore)
   })
 }
+watch(() => current.value?.id, async (id) => {
+  if (!id) return
+  searchQuery.value = ''
+  await nextTick()
+  const rail = document.querySelector<HTMLElement>('.ss-demo-rail')
+  const card = rail?.querySelector<HTMLElement>(`.ss-demo-card[aria-current="page"]`)
+  const search = rail?.querySelector<HTMLElement>('.ss-card-search')
+  if (!rail || !card) return
+  const target = Math.max(0, card.offsetTop - (search?.offsetHeight ?? 0) - 10)
+  rail.scrollTo({ top: target, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+})
 const runCardAnimation = (event: MouseEvent, card: typeof cards[number]) => {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
   event.preventDefault()
