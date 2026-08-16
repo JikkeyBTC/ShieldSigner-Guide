@@ -41,7 +41,6 @@ const sectionAccent = (section: NavSection) => {
   const landing = sectionLandingById(section.id)
   return getChapterAccent(landing ?? branchChapters(section.branches[0])[0])
 }
-const badge = (chapter: ChapterMeta) => ({ 'os-verify': 'PGP', javacard: 'JS', 'seedkeeper-backup': 'NEW' }[chapter.id])
 onMounted(() => animateEnter(navLinks.value))
 watch(() => current.value?.id, async () => {
   await nextTick()
@@ -60,7 +59,7 @@ watch(() => current.value?.id, async () => {
           <a ref="navLinks" class="ss-nav-branch-title" :class="{ 'is-active': isBranchOpen(branch) }" :href="branchHref(branch)">{{ branch.label }}</a>
           <div v-if="hasChildren(branch)" class="ss-nav-branch-items">
             <a v-for="chapter in branchChapters(branch)" ref="navLinks" :key="chapter.id" class="ss-nav-child ss-reveal" :href="href(chapter)" :aria-current="current?.id === chapter.id ? 'page' : undefined">
-              <span>{{ chapter.label }}</span><small v-if="badge(chapter)" class="ss-nav-badge">{{ badge(chapter) }}</small>
+              <span>{{ chapter.label }}</span>
             </a>
           </div>
         </div>
