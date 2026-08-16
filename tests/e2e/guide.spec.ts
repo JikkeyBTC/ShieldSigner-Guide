@@ -544,7 +544,7 @@ test('Send and Receive loops only run for the active transfer card', async ({ pa
   await expect(receiveCard).not.toHaveClass(/is-transfer-looping/);
 });
 
-test('every guide card exposes its mapped icon and click animation target', async ({ page }) => {
+test('guide cards keep their visual mapping without header icons', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
   const cards = page.locator('.ss-demo-card');
@@ -553,12 +553,9 @@ test('every guide card exposes its mapped icon and click animation target', asyn
   for (let index = 0; index < count; index += 1) {
     const card = cards.nth(index);
     await expect(card).toHaveAttribute('data-card-visual', /.+/);
-    await expect(card.locator('.ss-demo-icon')).toHaveCount(1);
+    await expect(card.locator('header .ss-demo-icon')).toHaveCount(0);
+    await expect(card.locator('.ss-scramble-title')).toBeVisible();
   }
-
-  const referenceCard = cards.filter({ hasText: 'Safety' });
-  await referenceCard.click();
-  await expect.poll(() => referenceCard.locator('.ss-demo-icon').getAttribute('style')).toMatch(/(?:transform|opacity)/);
 });
 
 test('cards omit the old bottom-left summary copy', async ({ page }) => {

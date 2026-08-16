@@ -7,7 +7,6 @@ import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLa
 import { getChapterAccent } from '../../../../src/guide/colors'
 import { guideCardOrder } from '../../../../src/guide/card-order'
 import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
-import CardGlyph from './CardGlyph.vue'
 
 type GuideCard = {
   readonly id: string
@@ -285,41 +284,6 @@ const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
     animateLines()
     window.setTimeout(() => splitter.revert(), 1200)
   }
-  const iconTargets = targets('.ss-demo-icon')
-  if (iconTargets.length) {
-    const iconMotion: Record<string, Record<string, unknown>> = {
-      'shield-check': { scale: [.82, 1.08, 1], rotate: [-5, 0], duration: 520, ease: 'out(3)' },
-      'shield-logo': { scale: [.9, 1.06, 1], opacity: [.5, 1, 1], duration: 520, ease: 'out(3)' },
-      'seed-vault': { rotateY: [0, 360], scale: [.85, 1, 1], duration: 620, ease: 'inOutSine' },
-      'eye-wallet': { scale: [.8, 1.1, 1], translateX: [-4, 4, 0], duration: 520, ease: 'inOutSine' },
-      'bitcoin-flow': { translateX: [-8, 8, 0], duration: 520, ease: 'inOutSine' },
-      send: { translateX: [-8, 8, 0], duration: 520, ease: 'inOutSine' },
-      receive: { translateX: [8, -8, 0], duration: 520, ease: 'inOutSine' },
-      'book-links': { rotate: [-4, 4, 0], translateY: [6, -3, 0], duration: 560, ease: 'out(3)' },
-      'circuit-board': { scale: [.86, 1.08, 1], rotate: [-3, 3, 0], duration: 560, ease: 'inOutSine' },
-      'sd-flash': { translateX: [-12, 0], scaleX: [.8, 1], duration: 620, ease: 'out(2)' },
-      'hash-check': { scale: [.75, 1.14, 1], opacity: [.45, 1, 1], duration: 500, ease: 'inOutSine' },
-      chip: { rotate: [-8, 8, 0], scale: [.88, 1.08, 1], duration: 560, ease: 'inOutSine' },
-      'backup-cycle': { rotate: [0, 180, 360], duration: 680, ease: 'inOutSine' },
-      bluewallet: { scale: [.76, 1.12, 1], translateY: [8, -3, 0], duration: 520, ease: 'out(3)' },
-      coconut: { rotate: [-12, 12, 0], scale: [.9, 1.06, 1], duration: 560, ease: 'inOutSine' },
-      screwdriver: { rotate: [-18, 18, 0], translateX: [-5, 5, 0], duration: 560, ease: 'out(3)' },
-      'smart-card': { translateY: [10, -2, 0], rotate: [-3, 0], duration: 560, ease: 'out(3)' },
-      vault: { scale: [.86, 1.08, 1], rotateY: [0, 180, 360], duration: 620, ease: 'inOutSine' },
-      'pin-lock': { scale: [.8, 1.12, 1], duration: 500, ease: 'out(3)' },
-      'seed-upload': { translateY: [12, -4, 0], opacity: [.45, 1, 1], duration: 620, ease: 'out(3)' },
-      'card-copy': { translateX: [-10, 10, 0], duration: 620, ease: 'inOutSine' },
-      restore: { translateY: [-10, 6, 0], rotate: [-8, 0], duration: 560, ease: 'out(3)' },
-      'recovery-route': { translateX: [-8, 8, 0], opacity: [.45, 1, 1], duration: 560, ease: 'inOutSine' },
-      signature: { translateX: [-8, 8, 0], rotate: [-4, 2, 0], duration: 560, ease: 'out(3)' },
-      'shield-warning': { translateY: [5, -5, 0], rotate: [-3, 3, 0], duration: 520, ease: 'inOutSine' },
-      faq: { scale: [.8, 1.1, 1], translateY: [6, -2, 0], duration: 520, ease: 'out(3)' },
-      terms: { translateY: [8, -2, 0], opacity: [.45, 1, 1], duration: 520, ease: 'out(3)' },
-      glossary: { rotate: [-4, 4, 0], scale: [.9, 1.08, 1], duration: 520, ease: 'inOutSine' },
-      'source-link': { translateX: [-8, 8, 0], opacity: [.45, 1, 1], duration: 560, ease: 'inOutSine' },
-    }
-    animate(iconTargets, iconMotion[card.visual] ?? { scale: [.86, 1.08, 1], duration: 500, ease: 'out(3)' })
-  }
   if (card.type === 'category' && card.id !== 'section-os') animate(targets('.ss-demo-category-shape'), { translateY: [10, -5, 0], rotate: [-4, 4, 0], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.id === 'section-os') animate(targets('.ss-demo-os-logo'), { scale: [.94, 1.02, 1], opacity: [.72, 1, 1], duration: 520, ease: 'out(3)' })
   if (card.id === 'branch-hardware') {
@@ -364,7 +328,7 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
 <template>
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
     <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :data-card-visual="card.visual" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
-      <header><span class="ss-card-title-lockup"><CardGlyph :name="card.visual" /><span class="ss-scramble-title">{{ card.displayTitle }}</span></span></header>
+      <header><span class="ss-scramble-title">{{ card.displayTitle }}</span></header>
       <div v-if="card.id === 'branch-send'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--send" aria-label="User sends Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
       <div v-else-if="card.id === 'branch-receive'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--receive" aria-label="User receives Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
       <div v-else-if="card.id === 'branch-hardware'" class="ss-demo-visual ss-demo-hardware" aria-label="ShieldSigner boot screen and Card A insertion"><span class="ss-demo-hardware-screen-frame"><img class="ss-demo-hardware-screen" :src="shieldsignerBootCapture" alt="ShieldSigner boot screen"></span><span class="ss-demo-hardware-slot" aria-hidden="true"></span><span class="ss-demo-hardware-card" aria-hidden="true"><i></i><b>A</b></span></div>
