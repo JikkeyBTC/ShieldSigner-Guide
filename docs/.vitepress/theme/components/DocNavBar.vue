@@ -17,6 +17,7 @@ type NavCard = {
 
 const { page } = useData()
 const router = useRouter()
+const props = withDefaults(defineProps<{ variant?: 'top' | 'bottom' }>(), { variant: 'top' })
 const locale = computed(() => getLocaleFromPath(`/${page.value.relativePath}`))
 const current = computed(() => {
   const route = routeFromRelativePath(page.value.relativePath)
@@ -49,7 +50,41 @@ const goTo = (card?: NavCard) => {
 </script>
 
 <template>
-  <nav class="ss-doc-nav-bar" aria-label="Document navigation" :style="{ '--nav-accent': accent }">
+  <nav v-if="props.variant === 'bottom'" class="ss-doc-nav-bottom" aria-label="Previous and next pages" :style="{ '--nav-accent': accent }">
+    <div class="ss-doc-nav-step">
+      <span class="ss-doc-nav-step-label">Previous</span>
+      <a
+        v-if="previous"
+        class="ss-doc-nav-link ss-doc-nav-link-prev"
+        :href="withBase(previous.href)"
+        :aria-label="`Previous: ${previous.label}`"
+        @click.prevent="goTo(previous)"
+      >
+        <span class="ss-doc-nav-link-arrow" aria-hidden="true">←</span>
+        <span class="ss-doc-nav-link-title">{{ previous.label }}</span>
+      </a>
+      <span v-else class="ss-doc-nav-link is-disabled" aria-disabled="true">
+        <span class="ss-doc-nav-link-title">First page</span>
+      </span>
+    </div>
+    <div class="ss-doc-nav-step">
+      <span class="ss-doc-nav-step-label">Next</span>
+      <a
+        v-if="next"
+        class="ss-doc-nav-link ss-doc-nav-link-next"
+        :href="withBase(next.href)"
+        :aria-label="`Next: ${next.label}`"
+        @click.prevent="goTo(next)"
+      >
+        <span class="ss-doc-nav-link-title">{{ next.label }}</span>
+        <span class="ss-doc-nav-link-arrow" aria-hidden="true">→</span>
+      </a>
+      <span v-else class="ss-doc-nav-link is-disabled" aria-disabled="true">
+        <span class="ss-doc-nav-link-title">Last page</span>
+      </span>
+    </div>
+  </nav>
+  <nav v-else class="ss-doc-nav-bar" aria-label="Document navigation" :style="{ '--nav-accent': accent }">
     <div class="ss-doc-nav-inner">
       <div id="ss-doc-nav-mobile-controls" class="ss-doc-nav-mobile-controls">
       </div>

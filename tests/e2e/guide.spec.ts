@@ -143,6 +143,17 @@ test('document nav follows the visual card order', async ({ page }) => {
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup\/?$/);
 });
 
+test('article next steps use paired previous and next cards', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko('/seedkeeper/backup/'));
+  const nav = page.locator('.ss-doc-nav-bottom');
+  await expect(nav).toBeVisible();
+  await expect(nav.locator('.ss-doc-nav-step-label')).toHaveText(['Previous', 'Next']);
+  await expect(nav.getByRole('link', { name: /카드 초기화와 PIN/ })).toHaveAttribute('href', /\/seedkeeper\/initialize/);
+  await expect(nav.getByRole('link', { name: /카드 간 복제/ })).toHaveAttribute('href', /\/seedkeeper\/clone/);
+  await expect(nav.locator('.ss-doc-nav-link')).toHaveCount(2);
+});
+
 test('topbar search filters cards while staying pinned above the card rail', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());

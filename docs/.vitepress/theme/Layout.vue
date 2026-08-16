@@ -63,7 +63,12 @@ watch(locale, syncDocumentLanguage)
       <GuideNav />
       <DemoCards />
       <main class="ss-article" tabindex="-1">
-        <AnimatedChapter><div class="ss-article-inner"><Content /></div></AnimatedChapter>
+        <AnimatedChapter>
+          <div class="ss-article-inner">
+            <Content />
+            <DocNavBar variant="bottom" />
+          </div>
+        </AnimatedChapter>
       </main>
     </div>
   </div>
