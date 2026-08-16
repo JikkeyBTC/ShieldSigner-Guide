@@ -561,20 +561,18 @@ test('every guide card exposes its mapped icon and click animation target', asyn
   await expect.poll(() => referenceCard.locator('.ss-demo-icon').getAttribute('style')).toMatch(/(?:transform|opacity)/);
 });
 
-test('cards expose concise copy text and animate it on activation', async ({ page }) => {
+test('cards omit the old bottom-left summary copy', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Verification' }).first();
-  await expect(card.locator('.ss-demo-card-copy')).toContainText('HASH');
-  await card.click();
-  await expect.poll(() => card.locator('.ss-demo-card-copy').getAttribute('style')).toMatch(/(?:transform|opacity)/);
+  await expect(card.locator('.ss-demo-card-copy')).toHaveCount(0);
 });
 
-test('card copy lives inside the visual panel instead of the card header', async ({ page }) => {
+test('cards keep summary copy out of both the visual panel and card header', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Verification' }).first();
-  await expect(card.locator('.ss-demo-visual .ss-demo-card-copy')).toContainText('HASH');
+  await expect(card.locator('.ss-demo-visual .ss-demo-card-copy')).toHaveCount(0);
   await expect(card.locator('header .ss-demo-card-copy')).toHaveCount(0);
 });
 
