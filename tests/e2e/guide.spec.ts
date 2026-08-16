@@ -56,7 +56,7 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   await page.goto(ko());
   await expect(page.locator('.ss-topbar')).toBeVisible();
   await expect(page.locator('.ss-topbar-search-nav')).toBeVisible();
-  await expect(page.locator('.ss-topbar-search-nav input')).toHaveAttribute('aria-label', 'Search guide cards');
+  await expect(page.getByRole('button', { name: 'Search documentation' }).first()).toBeVisible();
   await expect(page.locator('.ss-brand img')).toHaveAttribute('alt', 'ShieldSigner');
   await expect(page.locator('.ss-brand img')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/shieldsigner.svg');
 
@@ -163,18 +163,21 @@ test('card search aligns with the card rail at the same width', async ({ page })
   expect(railBox!.y - (searchBox!.y + searchBox!.height)).toBe(24);
 });
 
-test('global top navigation exposes Anime-style card search controls', async ({ page }) => {
+test('global top navigation opens Anime-style documentation search', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
   await expect(page.locator('.ss-guide-nav-bar')).toHaveCount(0);
   await expect(page.locator('.ss-topbar-search-nav')).toBeVisible();
-  const input = page.getByRole('searchbox', { name: 'Search guide cards' });
+  await page.getByRole('button', { name: 'Search documentation' }).first().click();
+  await expect(page.locator('.ss-search-overlay')).toBeVisible();
+  const input = page.getByRole('searchbox', { name: 'Search documentation' });
   await input.fill('SeedKeeper');
-  await expect(page.locator('.ss-card-search-status')).toHaveText(/1 \/ 10/);
-  await page.getByRole('button', { name: 'Next search result' }).click();
-  await expect(page.locator('.ss-card-search-status')).toHaveText(/2 \/ 10/);
-  await input.press('Escape');
-  await expect(input).toHaveValue('');
+  expect(await page.locator('.ss-search-result').count()).toBeGreaterThan(0);
+  await expect(page.locator('.ss-demo-card.is-search-match')).toHaveCount(0);
+  await input.press('ArrowDown');
+  await input.press('Enter');
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/javacard\/?$/);
+  await expect(page.locator('.ss-search-overlay')).toBeHidden();
 });
 
 test('document nav follows the visual card order', async ({ page }) => {
@@ -214,16 +217,17 @@ test('article titles are preceded by a linked documentation breadcrumb', async (
   expect(positions!.breadcrumbBottom).toBeLessThan(positions!.titleTop);
 });
 
-test('card search filters cards while staying pinned above the card rail', async ({ page }) => {
+test('documentation search leaves the visual card rail unchanged', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
-  const input = page.getByRole('searchbox', { name: 'Search guide cards' });
+  const cardCount = await page.locator('.ss-demo-card').count();
+  await page.getByRole('button', { name: 'Search documentation' }).first().click();
+  const input = page.getByRole('searchbox', { name: 'Search documentation' });
   await input.fill('SeedKeeper');
-  await expect(page.locator('.ss-demo-card')).toHaveCount(10);
-  const before = await page.locator('.ss-topbar-search-nav').boundingBox();
-  await page.locator('.ss-demo-rail').evaluate((rail) => { rail.scrollTop = 600; });
-  const after = await page.locator('.ss-topbar-search-nav').boundingBox();
-  expect(after?.y).toBe(before?.y);
+  await expect(page.locator('.ss-demo-card')).toHaveCount(cardCount);
+  await expect(page.locator('.ss-demo-card.is-search-match')).toHaveCount(0);
+  await input.press('Escape');
+  await expect(page.locator('.ss-search-overlay')).toBeHidden();
 });
 
 test('TOC navigation aligns the selected card to the top of the rail', async ({ page }) => {

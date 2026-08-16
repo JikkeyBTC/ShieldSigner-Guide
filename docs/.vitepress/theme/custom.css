@@ -260,3 +260,28 @@ html,body{overflow-x:clip}
 .ss-language-pair .ss-locale-current.is-active{color:#f4f0ec!important}
 .ss-language-pair .ss-language-switch:hover,.ss-language-pair .ss-language-switch:focus-visible{color:var(--chapter-accent,var(--ss-orange))!important}
 .ss-locale-divider{color:#5f5a55;font:inherit;line-height:1}
+
+/* Anime.js-style documentation search: a centered modal with a blurred page,
+   rather than card filtering or focus rings in the visual rail. */
+body.ss-search-open{overflow:hidden}
+.ss-search-trigger{display:flex;align-items:center;gap:9px;min-width:0;flex:1;height:100%;padding:0;border:0;background:transparent;color:#aaa49e;font:13px/1 var(--ss-font-ui);text-align:left;cursor:text}
+.ss-search-trigger:focus-visible{outline:2px solid var(--chapter-accent,var(--ss-orange));outline-offset:3px;border-radius:4px}
+.ss-search-trigger-label{color:#8a847e}
+.ss-search-trigger-arrows{flex:0 0 auto;color:#77716b;font:12px/1 var(--ss-font-ui);letter-spacing:.04em}
+.ss-card-search-box>kbd{flex:0 0 auto}
+.ss-search-overlay{position:fixed;inset:0;z-index:100;display:flex;justify-content:center;align-items:flex-start;padding:clamp(140px,35vh,330px) 16px 40px;background:rgba(17,16,16,.76);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.ss-search-dialog{width:min(482px,100%);min-width:0}
+.ss-search-overlay-box{display:flex;align-items:center;gap:12px;width:100%;height:74px;padding:0 20px;background:#2d2b2a;border:1px solid #484441;border-radius:12px;box-shadow:0 18px 46px rgba(0,0,0,.38)}
+.ss-search-overlay-box:focus-within{border-color:#68615b;box-shadow:0 0 0 2px rgba(255,255,255,.06),0 18px 46px rgba(0,0,0,.38)}
+.ss-search-overlay-box .ss-topbar-search-icon{width:17px;height:17px;flex-basis:17px;color:#aaa49e}
+.ss-search-overlay-box input{min-width:0;flex:1;height:100%;padding:0;border:0;outline:0;background:transparent;color:#f0ece8;font:400 18px/1.2 var(--ss-font-ui);letter-spacing:-.02em}
+.ss-search-overlay-box input::placeholder{color:#8d8781}
+.ss-search-close{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border:0;background:transparent;color:#8d8781;font:300 25px/1 var(--ss-font-ui);cursor:pointer}
+.ss-search-close:hover,.ss-search-close:focus-visible{color:#fff;outline:none}
+.ss-search-results{display:grid;gap:4px;margin-top:8px;padding:8px;background:rgba(45,43,42,.96);border:1px solid #484441;border-radius:10px;box-shadow:0 18px 46px rgba(0,0,0,.38)}
+.ss-search-result{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:6px;background:transparent;color:#c8c2bc;font:500 14px/1.2 var(--ss-font-ui);text-align:left;cursor:pointer}
+.ss-search-result:hover,.ss-search-result:focus-visible,.ss-search-result.is-active{background:#3a3734;color:#fff;outline:none}
+.ss-search-result-group{flex:0 0 auto;color:#8d8781;font:10px/1.2 'Roboto Mono',ui-monospace,monospace;letter-spacing:.04em}
+.ss-search-empty{margin:8px 12px;color:#8d8781;font:12px/1.5 var(--ss-font-ui)}
+.ss-demo-card.is-search-match{box-shadow:none}
+@media (max-width:759px){.ss-search-overlay{padding-top:122px;align-items:flex-start}.ss-search-overlay-box{height:62px;padding-inline:16px}.ss-search-overlay-box input{font-size:16px}.ss-search-result{min-height:46px}}

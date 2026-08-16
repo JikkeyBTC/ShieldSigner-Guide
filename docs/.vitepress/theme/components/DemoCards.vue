@@ -7,7 +7,6 @@ import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLa
 import { getChapterAccent } from '../../../../src/guide/colors'
 import { guideCardOrder } from '../../../../src/guide/card-order'
 import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
-import { guideSearchQuery } from '../../../../src/guide/search'
 
 type GuideCard = {
   readonly id: string
@@ -76,11 +75,9 @@ const cards = computed<GuideCard[]>(() => {
   return guideCardOrder.map(({ kind, id }) => kind === 'section' ? sectionCardById.get(id) : kind === 'branch' ? branchCardById.get(id) : chapterCardById.get(id)).filter(Boolean) as GuideCard[]
 })
 const accentFor = (card: GuideCard) => getChapterAccent(card)
-const visibleCards = computed(() => {
-  const query = guideSearchQuery.value.trim().toLocaleLowerCase()
-  if (!query) return cards.value
-  return cards.value.filter((card) => [card.label, card.displayTitle, card.group, card.caption].join(' ').toLocaleLowerCase().includes(query))
-})
+// Search is a documentation overlay in the global topbar. Keep the card rail
+// stable so searching never filters or visually focuses unrelated cards.
+const visibleCards = computed(() => cards.value)
 
 const router = useRouter()
 const current = computed(() => {
@@ -163,7 +160,6 @@ const navigateBesideCards = (path: string) => {
 
 watch(() => current.value?.id, async (id) => {
   if (!id) return
-  guideSearchQuery.value = ''
   await nextTick()
   if (alignNextRailCard) {
     alignNextRailCard = false
