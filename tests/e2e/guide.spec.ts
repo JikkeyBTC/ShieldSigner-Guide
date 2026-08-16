@@ -280,6 +280,17 @@ test('TOC navigation aligns the selected card to the top of the rail', async ({ 
   expect(alignment!.cardTop).toBeLessThan(alignment!.railTop + 36);
 });
 
+test('TOC navigation runs the selected card animation', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko('/seedkeeper/javacard/'));
+  const selectedCard = page.locator('.ss-demo-card').filter({ hasText: 'Backup & recovery' });
+  const animatedShape = selectedCard.locator('.ss-demo-category-shape').first();
+
+  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Backup & recovery' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
+  await expect.poll(() => animatedShape.getAttribute('style')).toMatch(/(?:transform|opacity)/);
+});
+
 test('active branch highlight bar reaches the end of its nested items', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko('/seedkeeper/backup/'));

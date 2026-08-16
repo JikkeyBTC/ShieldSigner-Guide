@@ -135,6 +135,8 @@ const handleTocNavigation = (event: Event) => {
   const rail = document.querySelector<HTMLElement>('.ss-demo-rail')
   if (!rail) return
   const card = Array.from(rail.querySelectorAll<HTMLElement>('.ss-demo-card')).find((item) => item.getAttribute('href') === targetHref)
+  const guideCard = cards.value.find((item) => href(item) === targetHref)
+  if (card && guideCard) playCardAnimation(card, guideCard)
   if (card?.getAttribute('aria-current') === 'page') {
     scrollCardToTop(rail, card)
     return
@@ -178,17 +180,8 @@ watch(() => current.value?.id, async (id) => {
   revealCardIfNeeded(rail, card)
 })
 
-const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
-  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-  event.preventDefault()
-  const cardElement = event.currentTarget as HTMLElement
-  const rail = cardElement.closest<HTMLElement>('.ss-demo-rail')
-  if (rail) revealCardIfNeeded(rail, cardElement)
-  skipNextRailSync = card.href !== current.value?.href
-  if (prefersReducedMotion()) {
-    navigateBesideCards(href(card))
-    return
-  }
+const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
+  if (prefersReducedMotion()) return
   const title = cardElement.querySelector('.ss-scramble-title')
   if (title) animate(title, { innerHTML: scrambleText({ chars: '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' }), duration: 480, ease: 'linear' })
   const targets = (selector: string) => Array.from(cardElement.querySelectorAll(selector))
@@ -211,6 +204,20 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
     animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   }
   if (card.type === 'reference') animate(targets('.ss-demo-ref-line'), { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(100), duration: 520, ease: 'linear' })
+}
+
+const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  const cardElement = event.currentTarget as HTMLElement
+  const rail = cardElement.closest<HTMLElement>('.ss-demo-rail')
+  if (rail) revealCardIfNeeded(rail, cardElement)
+  skipNextRailSync = card.href !== current.value?.href
+  playCardAnimation(cardElement, card)
+  if (prefersReducedMotion()) {
+    navigateBesideCards(href(card))
+    return
+  }
   navigateBesideCards(href(card))
 }
 </script>
