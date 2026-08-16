@@ -18,7 +18,7 @@ estimatedTime: 4분
 
 워치온리 지갑에서 만든 수신 주소를 ShieldSigner 화면과 대조합니다.
 
-[수신 주소 확인](./receive)
+[Receive 안내](./receive-guide)
 
 </div>
 

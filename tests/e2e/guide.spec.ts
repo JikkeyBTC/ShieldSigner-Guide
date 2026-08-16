@@ -174,6 +174,24 @@ test('watch-only card list keeps one BlueWallet entry', async ({ page }) => {
   await expect(page.locator('.ss-demo-card').filter({ hasText: '워치온리 지갑' })).toHaveCount(0);
 });
 
+test('Receive landing and receive-address detail are separate routes', async ({ page }) => {
+  await page.goto('/ShieldSigner-Guide/');
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Receive' })).toHaveAttribute(
+    'href',
+    /\/transactions\/receive-guide\/$/
+  );
+  await expect(page.locator('.ss-demo-card').filter({ hasText: '수신 주소 확인' })).toHaveAttribute(
+    'href',
+    /\/transactions\/receive\/$/
+  );
+  await page.locator('.ss-demo-card').filter({ hasText: 'Receive' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/transactions\/receive-guide\/?$/);
+  await expect(page.locator('main h1')).toContainText('Receive');
+  await page.getByRole('link', { name: '수신 주소 확인 상세 페이지 열기' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/transactions\/receive\/?$/);
+  await expect(page.locator('main h1')).toContainText('입금 주소 확인');
+});
+
 test('second-level navigation groups open their own landing content', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/seedkeeper/javacard');
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();
