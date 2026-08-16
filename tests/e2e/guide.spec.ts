@@ -128,12 +128,15 @@ test('card search aligns with the card rail at the same width', async ({ page })
   await page.goto(ko());
   const searchBox = await page.locator('.ss-card-search-box').boundingBox();
   const railBox = await page.locator('.ss-demo-rail').boundingBox();
+  const topbarBox = await page.locator('.ss-topbar').boundingBox();
   expect(searchBox).not.toBeNull();
   expect(railBox).not.toBeNull();
+  expect(topbarBox).not.toBeNull();
   expect(searchBox!.width).toBe(354);
   expect(Math.abs(searchBox!.x - railBox!.x)).toBeLessThanOrEqual(1);
   expect(searchBox!.y).toBeLessThan(railBox!.y);
-  expect(railBox!.y - (searchBox!.y + searchBox!.height)).toBeLessThanOrEqual(20);
+  expect(railBox!.y - (topbarBox!.y + topbarBox!.height)).toBe(12);
+  expect(railBox!.y - (searchBox!.y + searchBox!.height)).toBe(24);
 });
 
 test('global top navigation exposes Anime-style card search controls', async ({ page }) => {
