@@ -25,8 +25,8 @@ const navLinks = ref<Element[]>([])
 const chapterById = (id: string) => chapters.find((chapter) => chapter.id === id)
 const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
 const isOpen = (section: NavSection) => section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? ''))
-const isBranchOpen = (branch: NavBranch) => branch.chapterIds.includes(current.value?.id ?? '')
 const hasChildren = (branch: NavBranch) => branch.chapterIds.length > 1
+const isBranchOpen = (branch: NavBranch) => !hasChildren(branch) && branch.chapterIds.includes(current.value?.id ?? '')
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const sectionHref = (section: NavSection) => href(branchChapters(section.branches[0])[0])
 const branchHref = (branch: NavBranch) => href(branchChapters(branch)[0])
