@@ -250,3 +250,13 @@ html,body{overflow-x:clip}
   .ss-topbar-search-nav .ss-card-search-box{width:354px;height:42px}
 }
 @media (max-width:759px){.ss-topbar-search-nav{display:none!important}}
+
+/* Keep locale and repository actions on one Anime.js-style baseline. */
+.ss-top-actions{align-items:center;gap:16px;font:500 13px/1 var(--ss-font-ui)}
+.ss-top-actions>a{display:inline-flex;align-items:center;height:28px;color:#b9b4ae;font:inherit;line-height:1;text-decoration:none;white-space:nowrap}
+.ss-top-actions>a:hover,.ss-top-actions>a:focus-visible{color:#f4f0ec}
+.ss-language-pair{display:inline-flex;align-items:center;gap:7px;height:28px;white-space:nowrap}
+.ss-language-pair .ss-locale-current,.ss-language-pair .ss-language-switch{display:inline-flex;align-items:center;height:28px;color:#b9b4ae!important;font:inherit!important;letter-spacing:0!important;line-height:1!important;text-decoration:none}
+.ss-language-pair .ss-locale-current.is-active{color:#f4f0ec!important}
+.ss-language-pair .ss-language-switch:hover,.ss-language-pair .ss-language-switch:focus-visible{color:var(--chapter-accent,var(--ss-orange))!important}
+.ss-locale-divider{color:#5f5a55;font:inherit;line-height:1}

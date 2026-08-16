@@ -48,7 +48,18 @@ watch(locale, syncDocumentLanguage)
         </a>
         <CardRailNav />
         <nav class="ss-top-actions" aria-label="External resources">
-          <a class="ss-language-switch" :href="languageHref" :aria-label="alternateLocale === 'en' ? 'Switch to English' : '한국어로 전환'">{{ alternateLocale.toUpperCase() }}</a>
+          <span class="ss-language-pair" aria-label="Language">
+            <template v-if="locale === 'ko'">
+              <span class="ss-locale-current is-active">KO</span>
+              <span class="ss-locale-divider" aria-hidden="true">/</span>
+              <a class="ss-language-switch" :href="languageHref" aria-label="Switch to English">EN</a>
+            </template>
+            <template v-else>
+              <a class="ss-language-switch" :href="languageHref" aria-label="한국어로 전환">KO</a>
+              <span class="ss-locale-divider" aria-hidden="true">/</span>
+              <span class="ss-locale-current is-active">EN</span>
+            </template>
+          </span>
           <a href="https://github.com/JikkeyBTC/ShieldSigner-Guide" target="_blank" rel="noreferrer">GitHub ↗</a>
         </nav>
       </div>

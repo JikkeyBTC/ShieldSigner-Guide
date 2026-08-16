@@ -103,6 +103,30 @@ test('topbar content stays inside a centered desktop container', async ({ page }
   expect(Math.abs(box!.x - ((1920 - box!.width) / 2))).toBeLessThanOrEqual(1);
 });
 
+test('locale and GitHub actions share the Anime-style top nav baseline', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko());
+  const state = await page.evaluate(() => {
+    const locale = document.querySelector<HTMLElement>('.ss-language-pair');
+    const github = document.querySelector<HTMLElement>('.ss-top-actions > a:last-child');
+    if (!locale || !github) return null;
+    const localeBox = locale.getBoundingClientRect();
+    const githubBox = github.getBoundingClientRect();
+    const localeStyle = getComputedStyle(locale.querySelector('.ss-locale-current') ?? locale);
+    const githubStyle = getComputedStyle(github);
+    return {
+      yDelta: Math.abs(localeBox.top - githubBox.top),
+      localeFont: localeStyle.fontFamily,
+      githubFont: githubStyle.fontFamily,
+      labels: document.querySelector('.ss-top-actions')?.textContent?.replace(/\s+/g, ' ').trim()
+    };
+  });
+  expect(state).not.toBeNull();
+  expect(state!.yDelta).toBeLessThanOrEqual(1);
+  expect(state!.localeFont).toBe(state!.githubFont);
+  expect(state!.labels).toContain('GitHub');
+});
+
 test('desktop shell uses the wide card rail and article measure', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
