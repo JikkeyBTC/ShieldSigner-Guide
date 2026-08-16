@@ -13,6 +13,7 @@ export interface SectionLanding {
 }
 
 export const sectionLandings = [
+  { id: 'getting-started', label: 'Getting started', href: '/', group: '시작하기' },
   { id: 'build', label: 'Build', href: '/build/', group: '준비' },
   { id: 'os', label: 'ShieldSigner OS', href: '/os/', group: 'OS' },
   { id: 'seedkeeper', label: 'SeedKeeper', href: '/seedkeeper/', group: 'SeedKeeper' },
@@ -20,6 +21,21 @@ export const sectionLandings = [
   { id: 'transactions', label: 'Transactions', href: '/transactions/', group: '거래' },
   { id: 'reference', label: 'Reference', href: '/reference/', group: '참고' }
 ] as const satisfies readonly SectionLanding[]
+
+/** Card destinations for every second-level navigation group. */
+export const branchCards = [
+  { id: 'hardware', label: 'Hardware', href: '/build/assembly/', group: '준비' },
+  { id: 'installation', label: 'Installation', href: '/os/install/', group: 'OS' },
+  { id: 'verification', label: 'Verification', href: '/os/verify/', group: 'OS' },
+  { id: 'concepts', label: 'Concepts', href: '/seedkeeper/concepts/', group: 'SeedKeeper' },
+  { id: 'backup-recovery', label: 'Backup & recovery', href: '/seedkeeper/backup-recovery/', group: 'SeedKeeper' },
+  { id: 'bluewallet', label: 'BlueWallet', href: '/wallet/bluewallet/', group: '워치온리 지갑' },
+  { id: 'coconut', label: 'Coconut', href: '/wallet/coconut/', group: '워치온리 지갑' },
+  { id: 'receive', label: 'Receive', href: '/transactions/receive/', group: '거래' },
+  { id: 'signing', label: 'Signing', href: '/transactions/sign-psbt/', group: '거래' },
+  { id: 'safety', label: 'Safety', href: '/reference/safety/', group: '참고' },
+  { id: 'terms', label: 'Terms', href: '/reference/terms/', group: '참고' }
+] as const
 
 /** Landing pages for second-level navigation groups that contain multiple chapters. */
 export const branchLandings = [

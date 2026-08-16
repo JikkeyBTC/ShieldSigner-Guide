@@ -4,7 +4,7 @@ test('landing page exposes the first-run route map', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/');
   await expect(page).toHaveTitle(/ShieldSigner/);
   await expect(page.locator('main')).toContainText('조립 방법');
-  await expect(page.locator('.ss-demo-card').filter({ hasText: '쉽게 조립하는 방법' })).toHaveAttribute(
+  await expect(page.locator('.ss-demo-card').filter({ hasText: '키트 조립 방법' })).toHaveAttribute(
     'href',
     /\/build\/assembly/
   );
@@ -31,7 +31,7 @@ test('card search stays pinned while the card rail scrolls', async ({ page }) =>
   await page.goto('/ShieldSigner-Guide/');
   const input = page.getByRole('searchbox', { name: 'Search guide cards' });
   await input.fill('SeedKeeper');
-  await expect(page.locator('.ss-demo-card')).toHaveCount(7);
+  await expect(page.locator('.ss-demo-card')).toHaveCount(10);
   const before = await page.locator('.ss-card-search').boundingBox();
   await page.locator('.ss-demo-rail').evaluate((rail) => { rail.scrollTop = 600; });
   const after = await page.locator('.ss-card-search').boundingBox();
@@ -142,13 +142,13 @@ test('watch-only, transaction, and reference chapters expose safety content', as
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/seedkeeper/javacard');
-  await page.getByRole('link', { name: 'Concepts' }).click();
+  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/seedkeeper\/concepts\/?$/);
   await expect(page.locator('main h1')).toContainText('Concepts');
   await expect(page.locator('main')).toContainText('이 카테고리에서 다루는 내용');
   await expect(page.getByRole('link', { name: 'JavaCard 안내 열기' })).toHaveAttribute('href', './javacard');
 
-  await page.getByRole('link', { name: 'Backup & recovery' }).click();
+  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Backup & recovery' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/seedkeeper\/backup-recovery\/?$/);
   await expect(page.locator('main h1')).toContainText('Backup & recovery');
   await expect(page.locator('main')).toContainText('작업 흐름');

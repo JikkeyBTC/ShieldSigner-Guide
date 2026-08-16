@@ -13,7 +13,7 @@ const { frontmatter, page } = useData()
 const currentChapter = computed(() => {
   const path = page.value.relativePath.replace(/\.md$/, '')
   const route = path === 'index' ? '/' : path.endsWith('/index') ? `/${path.slice(0, -6)}/` : `/${path}/`
-  return getChapterByPath(route) ?? getBranchLandingByPath(route) ?? getSectionLandingByPath(route)
+  return getSectionLandingByPath(route) ?? getBranchLandingByPath(route) ?? getChapterByPath(route)
 })
 const chapterAccent = computed(() => getChapterAccent(currentChapter.value))
 const formatDate = (value: unknown) => {

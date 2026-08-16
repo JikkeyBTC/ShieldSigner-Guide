@@ -9,7 +9,7 @@ import { getChapterAccent } from '../../../../src/guide/colors'
 type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string }
 type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
 const sections: readonly NavSection[] = [
-  { id: 'getting-started', label: 'Getting started', branches: [{ id: 'overview', label: 'Overview', chapterIds: ['overview'] }] },
+  { id: 'getting-started', label: 'Getting started', branches: [] },
   { id: 'build', label: 'Build', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'] }] },
   { id: 'os', label: 'ShieldSigner OS', branches: [{ id: 'install', label: 'Installation', chapterIds: ['os-install'] }, { id: 'verify', label: 'Verification', chapterIds: ['os-verify'] }] },
   { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'], landingId: 'seedkeeper-concepts' }, { id: 'backup', label: 'Backup & recovery', chapterIds: ['seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'], landingId: 'seedkeeper-backup' }] },
@@ -21,7 +21,7 @@ const { page } = useData()
 const current = computed(() => {
   const path = page.value.relativePath.replace(/\.md$/, '')
   const route = path === 'index' ? '/' : path.endsWith('/index') ? `/${path.slice(0, -6)}/` : `/${path}/`
-  return getChapterByPath(route) ?? getBranchLandingByPath(route) ?? getSectionLandingByPath(route)
+  return getSectionLandingByPath(route) ?? getBranchLandingByPath(route) ?? getChapterByPath(route)
 })
 const navLinks = ref<Element[]>([])
 const chapterById = (id: string) => chapters.find((chapter) => chapter.id === id)
@@ -38,7 +38,10 @@ const sectionHref = (section: NavSection) => {
   return landing ? withBase(landing.href) : branchHref(section.branches[0])
 }
 const branchHref = (branch: NavBranch) => landingById(branch.landingId) ? landingHref(landingById(branch.landingId)!) : href(branchChapters(branch)[0])
-const sectionAccent = (section: NavSection) => getChapterAccent(branchChapters(section.branches[0])[0])
+const sectionAccent = (section: NavSection) => {
+  const landing = sectionLandingById(section.id)
+  return getChapterAccent(landing ?? branchChapters(section.branches[0])[0])
+}
 const badge = (chapter: ChapterMeta) => ({ 'os-verify': 'PGP', javacard: 'JS', 'seedkeeper-backup': 'NEW' }[chapter.id])
 onMounted(() => animateEnter(navLinks.value))
 watch(() => current.value?.id, async () => {
