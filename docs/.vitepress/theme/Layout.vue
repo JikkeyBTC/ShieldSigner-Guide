@@ -1,26 +1,21 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useData } from 'vitepress'
 import GuideNav from './components/GuideNav.vue'
 import AnimatedChapter from './components/AnimatedChapter.vue'
 import DemoCards from './components/DemoCards.vue'
-import { useData } from 'vitepress'
 import { getChapterByPath } from '../../../src/guide/chapters'
 import { getBranchLandingByPath, getSectionLandingByPath } from '../../../src/guide/branches'
 import { getChapterAccent } from '../../../src/guide/colors'
 
 const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
-const { frontmatter, page } = useData()
+const { page } = useData()
 const currentChapter = computed(() => {
   const path = page.value.relativePath.replace(/\.md$/, '')
   const route = path === 'index' ? '/' : path.endsWith('/index') ? `/${path.slice(0, -6)}/` : `/${path}/`
   return getSectionLandingByPath(route) ?? getBranchLandingByPath(route) ?? getChapterByPath(route)
 })
 const chapterAccent = computed(() => getChapterAccent(currentChapter.value))
-const formatDate = (value: unknown) => {
-  if (!value) return ''
-  const date = new Date(String(value))
-  return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date)
-}
 </script>
 
 <template>
@@ -39,12 +34,7 @@ const formatDate = (value: unknown) => {
       <GuideNav />
       <DemoCards />
       <main class="ss-article" tabindex="-1">
-        <AnimatedChapter><div class="ss-article-inner">
-          <div v-if="frontmatter.verifiedOn || frontmatter.verifiedVersion || frontmatter.estimatedTime" class="ss-page-meta" aria-label="문서 정보">
-            <span v-if="frontmatter.verifiedVersion">{{ frontmatter.verifiedVersion }}</span><span v-if="frontmatter.verifiedOn">{{ formatDate(frontmatter.verifiedOn) }} 확인</span><span v-if="frontmatter.estimatedTime">읽는 시간 {{ frontmatter.estimatedTime }}</span>
-          </div>
-          <Content />
-        </div></AnimatedChapter>
+        <AnimatedChapter><div class="ss-article-inner"><Content /></div></AnimatedChapter>
       </main>
     </div>
   </div>
