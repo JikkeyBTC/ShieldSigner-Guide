@@ -3,6 +3,7 @@ import { computed, onMounted, watch } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
 import GuideNav from './components/GuideNav.vue'
 import DocNavBar from './components/DocNavBar.vue'
+import DocBreadcrumb from './components/DocBreadcrumb.vue'
 import AnimatedChapter from './components/AnimatedChapter.vue'
 import DemoCards from './components/DemoCards.vue'
 import { getChapterByPath } from '../../../src/guide/chapters'
@@ -65,6 +66,7 @@ watch(locale, syncDocumentLanguage)
       <main class="ss-article" tabindex="-1">
         <AnimatedChapter>
           <div class="ss-article-inner">
+            <DocBreadcrumb />
             <Content />
             <DocNavBar variant="bottom" />
           </div>

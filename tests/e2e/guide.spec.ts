@@ -154,6 +154,23 @@ test('article next steps use paired previous and next cards', async ({ page }) =
   await expect(nav.locator('.ss-doc-nav-link')).toHaveCount(2);
 });
 
+test('article titles are preceded by a linked documentation breadcrumb', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko('/build/assembly/'));
+  const breadcrumb = page.locator('.ss-doc-breadcrumb');
+  await expect(breadcrumb).toBeVisible();
+  await expect(breadcrumb.locator('a')).toHaveText(['Getting started', 'Hardware']);
+  await expect(breadcrumb.locator('a').nth(0)).toHaveAttribute('href', '/ShieldSigner-Guide/ko/');
+  await expect(breadcrumb.locator('a').nth(1)).toHaveAttribute('href', '/ShieldSigner-Guide/ko/build/');
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText('키트 조립 방법');
+  const positions = await breadcrumb.evaluate((element) => {
+    const title = element.parentElement?.querySelector('h1');
+    return title ? { breadcrumbBottom: element.getBoundingClientRect().bottom, titleTop: title.getBoundingClientRect().top } : null;
+  });
+  expect(positions).not.toBeNull();
+  expect(positions!.breadcrumbBottom).toBeLessThan(positions!.titleTop);
+});
+
 test('topbar search filters cards while staying pinned above the card rail', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
