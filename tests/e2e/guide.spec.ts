@@ -209,6 +209,9 @@ test('Receive is a single landing route', async ({ page }) => {
   const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
   await expect(receiveCard).toHaveCount(1);
   await expect(page.locator('.ss-demo-card').filter({ hasText: '수신 주소 확인' })).toHaveCount(0);
+  const signingCard = page.locator('.ss-demo-card').filter({ hasText: 'Signing' });
+  await expect(signingCard).toHaveCount(1);
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'PSBT 검토·서명' })).toHaveCount(0);
   await expect(receiveCard).toHaveAttribute(
     'href',
     /\/transactions\/receive-guide\/$/
