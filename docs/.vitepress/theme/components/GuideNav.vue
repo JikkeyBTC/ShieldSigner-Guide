@@ -13,7 +13,7 @@ const sections: readonly NavSection[] = [
   { id: 'os', label: 'ShieldSigner OS', branches: [{ id: 'install', label: 'Installation', chapterIds: ['os-install'] }, { id: 'verify', label: 'Verification', chapterIds: [], landingId: 'os-verification' }] },
   { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'], landingId: 'seedkeeper-concepts' }, { id: 'backup', label: 'Backup & recovery', chapterIds: ['seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'], landingId: 'seedkeeper-backup-landing' }] },
   { id: 'wallet', label: 'Watch-only wallets', branches: [{ id: 'bluewallet', label: 'BlueWallet', chapterIds: ['bluewallet'] }, { id: 'coconut', label: 'Coconut', chapterIds: ['coconut'] }] },
-  { id: 'transactions', label: 'Transactions', branches: [{ id: 'receive', label: 'Receive', chapterIds: [], landingId: 'receive-guide' }, { id: 'signing', label: 'Signing', chapterIds: ['sign-psbt'] }] },
+  { id: 'transactions', label: 'Transactions', branches: [{ id: 'receive', label: 'Receive', chapterIds: [], landingId: 'receive-guide' }, { id: 'send', label: 'Send', chapterIds: [], landingId: 'send-guide' }, { id: 'signing', label: 'Signing', chapterIds: ['sign-psbt'] }] },
   { id: 'reference', label: 'Reference', branches: [{ id: 'safety', label: 'Safety', chapterIds: ['security', 'faq'], landingId: 'reference-safety' }, { id: 'terms', label: 'Terms', chapterIds: ['glossary', 'sources'], landingId: 'reference-terms' }] }
 ]
 const { page } = useData()

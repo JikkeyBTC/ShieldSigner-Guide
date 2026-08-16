@@ -31,6 +31,7 @@ export const branchCards = [
   { id: 'bluewallet', label: 'BlueWallet', href: '/wallet/bluewallet/', group: '워치온리 지갑' },
   { id: 'coconut', label: 'Coconut', href: '/wallet/coconut/', group: '워치온리 지갑' },
   { id: 'receive', label: 'Receive', href: '/transactions/receive-guide/', group: '거래' },
+  { id: 'send', label: 'Send', href: '/transactions/send-guide/', group: '거래' },
   { id: 'signing', label: 'Signing', href: '/transactions/sign-psbt/', group: '거래' },
   { id: 'safety', label: 'Safety', href: '/reference/safety/', group: '참고' },
   { id: 'terms', label: 'Terms', href: '/reference/terms/', group: '참고' }
@@ -41,6 +42,7 @@ export const branchLandings = [
   { id: 'hardware', label: 'Hardware', href: '/build/', group: '시작하기' },
   { id: 'os-verification', label: 'Verification', href: '/os/verification/', group: 'OS' },
   { id: 'receive-guide', label: 'Receive', href: '/transactions/receive-guide/', group: '거래' },
+  { id: 'send-guide', label: 'Send', href: '/transactions/send-guide/', group: '거래' },
   { id: 'seedkeeper-concepts', label: 'Concepts', href: '/seedkeeper/concepts/', group: 'SeedKeeper' },
   { id: 'seedkeeper-backup-landing', label: 'Backup & recovery', href: '/seedkeeper/backup-recovery/', group: 'SeedKeeper' },
   { id: 'reference-safety', label: 'Safety', href: '/reference/safety/', group: '참고' },

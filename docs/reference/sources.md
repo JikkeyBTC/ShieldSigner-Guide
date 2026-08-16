@@ -12,6 +12,8 @@ description: 공식 프로젝트 문서와 이 가이드의 비제휴 고지
 - [SeedKeeper 빠른 시작](https://seedkeeper.io/quick-start/)
 - [Oracle JavaCard 문서](https://docs.oracle.com/en/java/javacard/)
 - [Anime.js 공식 문서](https://animejs.com/documentation/) 및 [MIT 라이선스](https://github.com/juliangarnier/anime/blob/master/LICENSE.md)
+- [Bitcoin SVG](https://commons.wikimedia.org/wiki/File:Bitcoin.svg) — Wikimedia Commons
+- [Heroicons user-circle](https://github.com/tailwindlabs/heroicons) — MIT 라이선스
 
 ShieldSigner Guide는 위 프로젝트와 공식적으로 제휴·보증 관계가 아닙니다. 제품별 메뉴, 릴리스 파일명, 지문은 변경될 수 있으므로 구매 시 제공된 공지와 공식 릴리스를 함께 확인하세요. 이 사이트의 설명과 구성은 구매자 교육을 위한 참고 자료입니다.
 

@@ -85,6 +85,8 @@ const activeCard = computed(() => {
 const isCurrent = (card: GuideCard) => activeCard.value?.id === card.id
 const seedkeeperLogo = withBase('/brand/seedkeeper/seedkeeper_logo_black.png')
 const seedkeeperIcon = withBase('/brand/seedkeeper/seedkeeper_icon.png')
+const bitcoinAsset = withBase('/brand/bitcoin.svg')
+const userAsset = withBase('/brand/user-circle.svg')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
 const navigateBesideCards = (path: string) => {
@@ -129,7 +131,15 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
   if (card.type === 'verify') animate([...targets('.ss-demo-dot'), ...targets('.ss-demo-line')], { scale: [.75, 1.15, 1], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.type === 'seed') animate([...targets('.ss-demo-seed-logo'), ...targets('.ss-demo-seed-icon'), ...targets('.ss-demo-card-chip'), ...targets('.ss-demo-lock')], { rotateY: [0, 360], scale: [.85, 1.08, 1], delay: stagger(90), duration: 560, ease: 'inOutSine' })
   if (card.type === 'wallet') animate(targets('.ss-demo-qr-node'), { scale: [.75, 1.12, 1], opacity: [.45, 1, 1], delay: stagger(110), duration: 500, ease: 'inOutSine' })
-  if (card.type === 'flow') animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
+  if (card.id === 'branch-send') {
+    const bitcoin = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
+    if (bitcoin) animate(bitcoin, { translateX: { to: '18px', duration: 560, ease: 'out(3)' } })
+  } else if (card.id === 'branch-receive') {
+    const bitcoin = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
+    if (bitcoin) animate(bitcoin, { translateX: { from: '34px', to: '0px', duration: 560, ease: 'out(3)' } })
+  } else if (card.type === 'flow') {
+    animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
+  }
   if (card.type === 'reference') animate(targets('.ss-demo-ref-line'), { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(100), duration: 520, ease: 'linear' })
   navigateBesideCards(href(card))
 }
@@ -147,7 +157,9 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
     </div>
     <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
       <header><span class="ss-scramble-title">{{ card.displayTitle }}</span></header>
-      <div v-if="card.type === 'category'" class="ss-demo-visual ss-demo-category"><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><strong>{{ card.caption === 'SECTION' ? '01' : '02' }}</strong></div>
+      <div v-if="card.id === 'branch-send'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--send" aria-label="User sends Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
+      <div v-else-if="card.id === 'branch-receive'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--receive" aria-label="User receives Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
+      <div v-else-if="card.type === 'category'" class="ss-demo-visual ss-demo-category"><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><strong>{{ card.caption === 'SECTION' ? '01' : '02' }}</strong></div>
       <div v-else-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
       <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
       <div v-else-if="card.type === 'verify'" class="ss-demo-visual ss-demo-verify"><span class="ss-demo-dot"></span><span class="ss-demo-line"></span><span class="ss-demo-line short"></span><b>SHA-256</b></div>

@@ -206,7 +206,14 @@ test('Receive is a single landing route', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/');
   const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
   await expect(receiveCard).toHaveCount(1);
+  await expect(receiveCard.locator('.ss-demo-transfer')).toHaveCount(1);
+  await expect(receiveCard.locator('.ss-demo-transfer-bitcoin')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/bitcoin.svg');
   await expect(page.locator('.ss-demo-card').filter({ hasText: '수신 주소 확인' })).toHaveCount(0);
+  const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
+  await expect(sendCard).toHaveCount(1);
+  await expect(sendCard).toHaveAttribute('href', /\/transactions\/send-guide\/$/);
+  await expect(sendCard.locator('.ss-demo-transfer-user')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/user-circle.svg');
+  await expect(sendCard.locator('.ss-demo-transfer-bitcoin')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/bitcoin.svg');
   const signingCard = page.locator('.ss-demo-card').filter({ hasText: 'Signing' });
   await expect(signingCard).toHaveCount(1);
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'PSBT 검토·서명' })).toHaveCount(0);
@@ -218,6 +225,11 @@ test('Receive is a single landing route', async ({ page }) => {
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/transactions\/receive-guide\/?$/);
   await expect(page.locator('main h1')).toContainText('Receive');
   await expect(page.locator('main')).not.toContainText('수신 주소 확인 상세 페이지 열기');
+  await page.goto('/ShieldSigner-Guide/');
+  await sendCard.click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/transactions\/send-guide\/?$/);
+  await expect(page.locator('main h1')).toContainText('Send');
+  await expect(page.locator('main')).toContainText('수신자 주소');
 });
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {

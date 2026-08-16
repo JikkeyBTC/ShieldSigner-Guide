@@ -16,3 +16,5 @@ Receive 단계에서는 워치온리 지갑에서 만든 주소를 ShieldSigner 
 <Callout type="warning" title="주소가 다르면 전송하지 마세요">
 주소·네트워크·계정 유형 중 하나라도 다르면 입금을 중단하고 원인을 확인합니다. 검색 결과나 메신저로 받은 주소를 그대로 사용하지 마세요.
 </Callout>
+
+<GuideNav prev="/wallet/coconut" next="/transactions/send-guide" prevLabel="이전: Coconut Wallet" nextLabel="다음: Send" />

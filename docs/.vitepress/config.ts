@@ -44,6 +44,7 @@ export default defineConfig({
       '/transactions/': [
         { text: 'Transactions', link: '/transactions/' },
         { text: 'Receive', link: '/transactions/receive-guide' },
+        { text: 'Send', link: '/transactions/send-guide' },
         { text: '입금 주소 확인', link: '/transactions/receive' },
         { text: 'PSBT 검토·서명', link: '/transactions/sign-psbt' }
       ],

@@ -24,6 +24,16 @@ estimatedTime: 4분
 
 <div class="ss-summary-card">
 
+### Send
+
+수신자·금액·수수료를 확인한 뒤 PSBT를 ShieldSigner로 보내 서명합니다.
+
+[Send 안내](./send-guide)
+
+</div>
+
+<div class="ss-summary-card">
+
 ### Signing
 
 PSBT의 목적지·금액·수수료를 확인한 뒤 오프라인 장치에서 서명합니다.
