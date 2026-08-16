@@ -86,6 +86,27 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   expect(overflow).toBeFalsy();
 });
 
+test('mobile guide drawer stays open across section, branch, and page navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(ko());
+  const menu = page.locator('#docs-nav-menu');
+  const drawer = page.locator('.ss-category-nav.is-mobile-open');
+  await menu.click();
+  await expect(drawer).toBeVisible();
+
+  await drawer.getByRole('link', { name: 'SeedKeeper', exact: true }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/?$/);
+  await expect(drawer).toBeVisible();
+
+  await drawer.getByRole('link', { name: 'Concepts', exact: true }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/concepts\/?$/);
+  await expect(drawer).toBeVisible();
+
+  await drawer.getByRole('link', { name: 'JavaCard란?', exact: true }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/javacard\/?$/);
+  await expect(drawer).toBeVisible();
+});
+
 test('topbar remains pinned while the document scrolls', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko('/build/assembly/'));

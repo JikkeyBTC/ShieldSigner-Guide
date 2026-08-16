@@ -65,7 +65,6 @@ const notifyTocNavigation = (event: MouseEvent) => {
 }
 onMounted(() => animateEnter(navLinks.value))
 watch(() => current.value?.id, async () => {
-  mobileOpen.value = false
   mobileSearchOpen.value = false
   mobileSearchQuery.value = ''
   await nextTick()
