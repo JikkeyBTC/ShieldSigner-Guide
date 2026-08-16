@@ -3,6 +3,10 @@ import { test, expect } from '@playwright/test';
 test('landing page exposes the first-run route map', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/');
   await expect(page).toHaveTitle(/ShieldSigner/);
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Hardware' })).toHaveAttribute(
+    'href',
+    /\/build\/$/
+  );
   await expect(page.locator('main')).toContainText('조립 방법');
   await expect(page.locator('.ss-demo-card').filter({ hasText: '키트 조립 방법' })).toHaveAttribute(
     'href',
@@ -52,6 +56,9 @@ test('clicking a guide section opens its independent landing page', async ({ pag
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/?$/);
   await expect(page.locator('.ss-nav-branch-title').filter({ hasText: 'Hardware' })).toBeVisible();
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Hardware' }).click();
+  await expect(page).toHaveURL(/\/build\/?$/);
+  await expect(page.locator('main h1')).toContainText('Hardware');
+  await page.getByRole('link', { name: '키트 조립 방법 시작하기' }).click();
   await expect(page).toHaveURL(/\/build\/assembly\/?$/);
   await expect(page.locator('main h1')).toContainText('키트 조립 방법');
 });

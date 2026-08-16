@@ -20,6 +20,10 @@ export default defineConfig({
         { text: 'ShieldSigner OS 설치', link: '/os/install' },
         { text: 'OS 이미지 검증', link: '/os/verify' }
       ],
+      '/build/': [
+        { text: 'Hardware', link: '/build/' },
+        { text: '키트 조립 방법', link: '/build/assembly' }
+      ],
       '/seedkeeper/': [
         { text: 'SeedKeeper', link: '/seedkeeper/' },
         { text: 'Concepts', link: '/seedkeeper/concepts' },
