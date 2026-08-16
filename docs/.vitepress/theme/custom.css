@@ -230,3 +230,23 @@ html,body{overflow-x:clip}
   .ss-guide-column{display:block;position:static;height:auto;overflow:visible}
   .ss-category-nav{position:static}
 }
+
+/* Anime.js composition: Search is part of the global top navigation, aligned
+   to the card rail below it. The rail and TOC remain independent scroll surfaces. */
+.ss-topbar-search-nav{display:none}
+.ss-topbar-search-nav .ss-card-search-box{display:flex;align-items:center;gap:9px;width:100%;height:42px;padding:0 12px;background:#302e2c;border:1px solid #45413e;border-radius:9px;box-shadow:0 8px 18px rgba(0,0,0,.18);color:#aaa49e}
+.ss-topbar-search-nav .ss-card-search-box:focus-within{border-color:var(--chapter-accent,var(--ss-orange));box-shadow:0 0 0 2px color-mix(in srgb,var(--chapter-accent,var(--ss-orange)) 18%,transparent)}
+.ss-topbar-search-nav .ss-card-search-box input{min-width:0;flex:1}
+@media (min-width:1200px){
+  .ss-topbar-search-nav{position:fixed;top:16px;left:calc(max(0px,(100vw - var(--ss-layout-max))/2) + var(--ss-shell-pad) + 248px);z-index:30;display:block;width:354px;height:42px}
+  .ss-topbar-search-nav .ss-card-search-box{width:354px;height:42px}
+  .ss-docs-shell{padding-top:28px}
+  .ss-anime-nav{position:fixed!important;top:74px!important;left:max(var(--ss-shell-pad),calc((100vw - var(--ss-layout-max))/2 + var(--ss-shell-pad)))!important;width:220px!important;max-height:calc(100vh - 92px)!important;scrollbar-width:none!important;-ms-overflow-style:none!important}
+  .ss-anime-nav::-webkit-scrollbar{display:none!important}
+  .ss-demo-rail{position:fixed!important;top:74px!important;left:calc(max(0px,(100vw - var(--ss-layout-max))/2) + var(--ss-shell-pad) + 248px)!important;width:354px!important;max-height:calc(100vh - 92px)!important;height:auto!important;overflow-y:auto!important;scrollbar-width:none!important;-ms-overflow-style:none!important}
+}
+@media (max-width:1199px) and (min-width:760px){
+  .ss-topbar-search-nav{position:absolute;top:50%;left:50%;display:block;width:354px;height:42px;transform:translate(-50%,-50%)}
+  .ss-topbar-search-nav .ss-card-search-box{width:354px;height:42px}
+}
+@media (max-width:759px){.ss-topbar-search-nav{display:none!important}}

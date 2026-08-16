@@ -10,7 +10,6 @@ import { getChapterByPath } from '../../../src/guide/chapters'
 import { getBranchLandingByPath, getSectionLandingByPath } from '../../../src/guide/branches'
 import { getChapterAccent } from '../../../src/guide/colors'
 import { getAlternateLocale, localizeHref, routeFromRelativePath, getLocaleFromPath } from '../../../src/guide/locales'
-import GuideNavBar from './components/GuideNavBar.vue'
 import CardRailNav from './components/CardRailNav.vue'
 
 const logoPath = withBase('/brand/shieldsigner.svg')
@@ -47,6 +46,7 @@ watch(locale, syncDocumentLanguage)
         <a class="ss-brand" :href="withBase(localizeHref('/', locale))" aria-label="ShieldSigner Guide home">
           <img :src="logoPath" alt="ShieldSigner" />
         </a>
+        <CardRailNav />
         <nav class="ss-top-actions" aria-label="External resources">
           <a class="ss-language-switch" :href="languageHref" :aria-label="alternateLocale === 'en' ? 'Switch to English' : '한국어로 전환'">{{ alternateLocale.toUpperCase() }}</a>
           <a href="https://github.com/JikkeyBTC/ShieldSigner-Guide" target="_blank" rel="noreferrer">GitHub ↗</a>
@@ -57,14 +57,8 @@ watch(locale, syncDocumentLanguage)
     <DocNavBar />
 
     <div class="ss-docs-shell" :style="{ '--chapter-accent': chapterAccent }">
-      <div class="ss-guide-column">
-        <GuideNavBar />
-        <GuideNav />
-      </div>
-      <div class="ss-card-column">
-        <CardRailNav />
-        <DemoCards />
-      </div>
+      <GuideNav />
+      <DemoCards />
       <main class="ss-article" tabindex="-1">
         <AnimatedChapter>
           <div class="ss-article-inner">

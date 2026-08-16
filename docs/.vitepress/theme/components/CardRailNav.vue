@@ -76,7 +76,7 @@ watch(guideSearchQuery, async () => {
 </script>
 
 <template>
-<div class="ss-card-rail-nav" aria-label="Card search and navigation">
+<div class="ss-topbar-search-nav" aria-label="Guide card search">
   <div class="ss-card-search-box" role="search">
     <span class="ss-topbar-search-icon" aria-hidden="true"></span>
     <input ref="input" v-model="guideSearchQuery" type="search" autocomplete="off" placeholder="Search" aria-label="Search guide cards" @keydown.esc="clear" @keydown.enter.prevent="cycle(1)" @keydown.arrowup.prevent="cycle(-1)" @keydown.arrowdown.prevent="cycle(1)">
