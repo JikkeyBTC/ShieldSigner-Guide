@@ -30,6 +30,8 @@ const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById)
 const isOpen = (section: NavSection) => section.id === current.value?.id || section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? '') || branch.landingId === current.value?.id)
 const hasChildren = (branch: NavBranch) => branch.chapterIds.length > 1
 const isBranchOpen = (branch: NavBranch) => branch.landingId === current.value?.id || (!hasChildren(branch) && branch.chapterIds.includes(current.value?.id ?? ''))
+const hasActiveBranch = (section: NavSection) => section.branches.some(isBranchOpen)
+const hasActiveChild = (branch: NavBranch) => branch.chapterIds.includes(current.value?.id ?? '')
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const landingHref = (landing: BranchLanding) => withBase(landing.href)
 const sectionHref = (section: NavSection) => {
@@ -52,10 +54,10 @@ watch(() => current.value?.id, async () => {
 <template>
   <aside class="ss-category-nav ss-anime-nav" aria-label="Guide table of contents">
     <div class="ss-rail-label">GUIDE</div>
-    <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
+    <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section), 'has-active-branch': hasActiveBranch(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
       <a ref="navLinks" class="ss-nav-section-title" :href="sectionHref(section)" :aria-current="isOpen(section) ? 'location' : undefined">{{ section.label }}</a>
       <div v-if="isOpen(section)" class="ss-nav-children">
-        <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch" :class="{ 'has-children': hasChildren(branch), 'is-active': isBranchOpen(branch) }">
+        <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch" :class="{ 'has-children': hasChildren(branch), 'is-active': isBranchOpen(branch), 'has-active-child': hasActiveChild(branch) }">
           <a ref="navLinks" class="ss-nav-branch-title" :class="{ 'is-active': isBranchOpen(branch) }" :href="branchHref(branch)">{{ branch.label }}</a>
           <div v-if="hasChildren(branch)" class="ss-nav-branch-items">
             <a v-for="chapter in branchChapters(branch)" ref="navLinks" :key="chapter.id" class="ss-nav-child ss-reveal" :href="href(chapter)" :aria-current="current?.id === chapter.id ? 'page' : undefined">
