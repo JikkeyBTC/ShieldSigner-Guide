@@ -30,6 +30,8 @@ npm run test:unit
 npm run test:e2e
 ```
 
+`npm run preview`는 빌드 출력 폴더 `.vitepress/dist`와 GitHub Pages 경로(`/ShieldSigner-Guide/`)를 함께 사용합니다.
+
 ## 출처와 라이선스
 
 사용한 오픈소스 프로젝트와 라이선스는 [`ATTRIBUTION.md`](ATTRIBUTION.md)에 정리했습니다. 이 가이드는 SeedSigner·SeedKeeper 프로젝트의 공식 웹사이트가 아닙니다.

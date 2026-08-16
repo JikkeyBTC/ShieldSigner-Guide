@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
-    "preview": "vitepress preview docs",
+    "preview": "vite preview . --outDir .vitepress/dist --base /ShieldSigner-Guide/",
     "test:unit": "vitest run",
     "test:e2e": "playwright test"
   },
