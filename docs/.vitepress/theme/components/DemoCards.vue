@@ -162,8 +162,7 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
       <div v-else-if="card.type === 'verify'" class="ss-demo-visual ss-demo-verify"><span class="ss-demo-dot"></span><span class="ss-demo-line"></span><span class="ss-demo-line short"></span><b>SHA-256</b></div>
       <div v-else-if="card.type === 'seed'" class="ss-demo-visual ss-demo-seed" :class="{ 'ss-demo-seed--backup': card.id === 'seedkeeper-backup' }">
         <div v-if="card.id === 'seedkeeper-backup'" class="ss-demo-seed-resource-field" aria-hidden="true">
-          <img v-for="tile in 4" :key="`seedkeeper-logo-${tile}`" class="ss-demo-seed-logo ss-demo-seed-logo--tile" :src="seedkeeperLogo" alt="">
-          <img v-for="tile in 8" :key="`seedkeeper-icon-${tile}`" class="ss-demo-seed-icon ss-demo-seed-icon--tile" :src="seedkeeperIcon" alt="">
+          <img class="ss-demo-seed-logo ss-demo-seed-logo--hero" :src="seedkeeperLogo" alt="">
         </div>
         <template v-else>
           <img class="ss-demo-seed-icon" :src="seedkeeperIcon" alt="">
