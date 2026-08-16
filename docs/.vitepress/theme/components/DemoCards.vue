@@ -87,7 +87,11 @@ const current = computed(() => {
   return getSectionLandingByPath(route) ?? getBranchLandingByPath(route) ?? getChapterByPath(route)
 })
 const href = (card: GuideCard) => withBase(card.href)
-const isCurrent = (card: GuideCard) => Boolean(current.value && card.href === current.value.href)
+const activeCard = computed(() => {
+  const matches = cards.filter((card) => card.href === current.value?.href)
+  return matches.find((card) => card.id.startsWith('branch-')) ?? matches.find((card) => card.id.startsWith('section-')) ?? matches[0]
+})
+const isCurrent = (card: GuideCard) => activeCard.value?.id === card.id
 const seedkeeperLogo = withBase('/brand/seedkeeper/seedkeeper_logo_black.png')
 const seedkeeperIcon = withBase('/brand/seedkeeper/seedkeeper_icon.png')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
