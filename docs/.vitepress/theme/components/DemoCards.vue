@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
-import { animate, scrambleText, stagger } from 'animejs'
+import { animate, scrambleText, splitText, stagger } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
 import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLandings } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
@@ -19,6 +19,7 @@ type GuideCard = {
   readonly type: string
   readonly caption: string
   readonly displayTitle: string
+  readonly copy: string
   readonly chapterId?: string
   readonly visual: string
 }
@@ -72,6 +73,45 @@ const cardVisual = (id: string) => ({
   sources: 'source-link',
 } as Record<string, string>)[id] ?? 'terms'
 
+const cardCopy = (id: string) => ({
+  'section-getting-started': 'SECURE SETUP',
+  'section-os': 'OFFLINE SYSTEM',
+  'section-seedkeeper': 'SEED / SECRET',
+  'section-wallet': 'PUBLIC ONLY',
+  'section-transactions': 'BITCOIN FLOW',
+  'section-reference': 'DOCS / SOURCES',
+  'branch-hardware': 'BUILD / CONNECT',
+  'branch-installation': 'FLASH → BOOT',
+  'branch-verification': 'HASH / SIGNATURE',
+  'branch-concepts': 'JAVA CARD',
+  'branch-backup-recovery': 'BACKUP → RESTORE',
+  'branch-bluewallet': 'XPUB / QR',
+  'branch-coconut': 'MULTISIG / KEYS',
+  'branch-receive': 'BITCOIN ← USER',
+  'branch-send': 'USER → BITCOIN',
+  'branch-signing': 'PSBT → SIGNED',
+  'branch-safety': 'CHECK / PROTECT',
+  'branch-terms': 'WORDS / LINKS',
+  assembly: 'FIT • TEST • BOOT',
+  'os-install': 'FLASH / BOOT',
+  'os-verify': 'HASH / SIGNATURE',
+  javacard: 'APPLET / CHIP',
+  'what-is-seedkeeper': 'ENCRYPTED VAULT',
+  'seedkeeper-initialize': 'PIN / READY',
+  'seedkeeper-backup': 'SEED → CARD',
+  'seedkeeper-clone': 'CARD A → CARD B',
+  'seedkeeper-restore': 'CARD → DEVICE',
+  'seedkeeper-recovery': 'PLAN / RECOVER',
+  bluewallet: 'XPUB / QR',
+  coconut: 'MULTISIG / KEYS',
+  'receive-guide': 'BITCOIN ← USER',
+  'sign-psbt': 'PSBT → SIGNED',
+  security: 'CHECK / PROTECT',
+  faq: 'ASK / ANSWER',
+  glossary: 'TERMS / WORDS',
+  sources: 'LINK / LICENSE',
+} as Record<string, string>)[id] ?? 'SHIELDSIGNER GUIDE'
+
 const sectionCards = computed<GuideCard[]>(() => sectionLandings.map((landing, index) => ({
   ...landing,
   id: `section-${landing.id}`,
@@ -82,7 +122,8 @@ const sectionCards = computed<GuideCard[]>(() => sectionLandings.map((landing, i
   type: 'category',
   caption: 'SECTION',
   displayTitle: getLocalizedLabel(landing.id, landing.label, locale.value),
-  visual: cardVisual(`section-${landing.id}`)
+  visual: cardVisual(`section-${landing.id}`),
+  copy: cardCopy(`section-${landing.id}`)
 })))
 
 const branchLandingCards = computed<GuideCard[]>(() => branchCards.map((landing, index) => ({
@@ -95,7 +136,8 @@ const branchLandingCards = computed<GuideCard[]>(() => branchCards.map((landing,
   type: 'category',
   caption: 'CATEGORY',
   displayTitle: getLocalizedLabel(landing.id, landing.label, locale.value),
-  visual: cardVisual(`branch-${landing.id}`)
+  visual: cardVisual(`branch-${landing.id}`),
+  copy: cardCopy(`branch-${landing.id}`)
 })))
 
 const chapterCards = computed<GuideCard[]>(() => chapters.filter((chapter) => chapter.id !== 'overview').map((chapter) => ({
@@ -107,7 +149,8 @@ const chapterCards = computed<GuideCard[]>(() => chapters.filter((chapter) => ch
   caption: chapter.group.toUpperCase(),
   displayTitle: getLocalizedChapterLabel(chapter.id, chapter.label, locale.value),
   chapterId: chapter.id,
-  visual: cardVisual(chapter.id)
+  visual: cardVisual(chapter.id),
+  copy: cardCopy(chapter.id)
 })))
 
 const cards = computed<GuideCard[]>(() => {
@@ -264,6 +307,22 @@ const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
   const title = cardElement.querySelector('.ss-scramble-title')
   if (title) animate(title, { innerHTML: scrambleText({ chars: '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' }), duration: 480, ease: 'linear' })
   const targets = (selector: string) => Array.from(cardElement.querySelectorAll(selector))
+  const copy = cardElement.querySelector<HTMLElement>('.ss-demo-card-copy')
+  if (copy) {
+    copy.textContent = card.copy
+    const splitter = splitText(copy, { chars: true, words: false, lines: false, accessible: false })
+    animate(copy, { opacity: [.62, 1], translateX: [-4, 0], duration: 360, ease: 'out(3)' })
+    if (splitter.chars.length) {
+      animate(splitter.chars, {
+        translateY: ['.55em', '0em'],
+        opacity: [0, 1],
+        delay: stagger(22),
+        duration: 420,
+        ease: 'out(3)',
+      })
+    }
+    window.setTimeout(() => splitter.revert(), 760)
+  }
   const iconTargets = targets('.ss-demo-icon')
   if (iconTargets.length) {
     const iconMotion: Record<string, Record<string, unknown>> = {
@@ -359,6 +418,7 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
       <div v-else-if="card.type === 'flow'" class="ss-demo-visual ss-demo-flow"><span class="ss-demo-flow-node">ADDR</span><i>→</i><span class="ss-demo-flow-node">PSBT</span><i>→</i><span class="ss-demo-flow-node">SIGN</span></div>
       <div v-else-if="card.type === 'reference'" class="ss-demo-visual ss-demo-reference"><span class="ss-demo-ref-line">FAQ / TERMS</span><span class="ss-demo-ref-line">SOURCES / SAFE</span></div>
       <div v-else class="ss-demo-visual ss-demo-wallet"><span class="ss-demo-qr-node">XPUB</span><span class="ss-demo-qr-node">QR</span><span class="ss-demo-qr-node">PSBT</span></div>
+      <span class="ss-demo-card-copy" aria-hidden="true">{{ card.copy }}</span>
     </a>
     <p v-if="visibleCards.length === 0" class="ss-card-search-empty">No matching chapters.</p>
   </aside>
