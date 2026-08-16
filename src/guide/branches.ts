@@ -14,7 +14,6 @@ export interface SectionLanding {
 
 export const sectionLandings = [
   { id: 'getting-started', label: 'Getting started', href: '/', group: '시작하기' },
-  { id: 'build', label: 'Build', href: '/build/', group: '준비' },
   { id: 'os', label: 'ShieldSigner OS', href: '/os/', group: 'OS' },
   { id: 'seedkeeper', label: 'SeedKeeper', href: '/seedkeeper/', group: 'SeedKeeper' },
   { id: 'wallet', label: 'Watch-only wallets', href: '/wallet/', group: '워치온리 지갑' },

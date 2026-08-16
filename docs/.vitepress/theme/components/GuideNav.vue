@@ -9,8 +9,7 @@ import { getChapterAccent } from '../../../../src/guide/colors'
 type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string }
 type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
 const sections: readonly NavSection[] = [
-  { id: 'getting-started', label: 'Getting started', branches: [] },
-  { id: 'build', label: 'Build', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'] }] },
+  { id: 'getting-started', label: 'Getting started', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'] }] },
   { id: 'os', label: 'ShieldSigner OS', branches: [{ id: 'install', label: 'Installation', chapterIds: ['os-install'] }, { id: 'verify', label: 'Verification', chapterIds: ['os-verify'] }] },
   { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'], landingId: 'seedkeeper-concepts' }, { id: 'backup', label: 'Backup & recovery', chapterIds: ['seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'], landingId: 'seedkeeper-backup-landing' }] },
   { id: 'wallet', label: 'Watch-only wallets', branches: [{ id: 'bluewallet', label: 'BlueWallet', chapterIds: ['bluewallet'] }, { id: 'coconut', label: 'Coconut', chapterIds: ['coconut'] }] },

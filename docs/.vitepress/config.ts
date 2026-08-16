@@ -15,10 +15,6 @@ export default defineConfig({
   themeConfig: {
     outline: 'deep',
     sidebar: {
-      '/build/': [
-        { text: 'Build', link: '/build/' },
-        { text: '키트 조립 방법', link: '/build/assembly' }
-      ],
       '/os/': [
         { text: 'ShieldSigner OS', link: '/os/' },
         { text: 'ShieldSigner OS 설치', link: '/os/install' },

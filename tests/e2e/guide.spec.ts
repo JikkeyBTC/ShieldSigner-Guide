@@ -47,11 +47,13 @@ test('chapter navigation reaches SeedKeeper backup and marks it active', async (
 
 test('clicking a guide section opens its independent landing page', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/ShieldSigner-Guide/');
-  await page.locator('.ss-nav-section-title').filter({ hasText: 'Build' }).click();
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/build\/?$/);
-  await expect(page.locator('main h1')).toContainText('Build');
-  await expect(page.locator('main')).toContainText('이 카테고리에서 다루는 내용');
+  await page.goto('/ShieldSigner-Guide/seedkeeper/javacard');
+  await page.locator('.ss-nav-section-title').filter({ hasText: 'Getting started' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/?$/);
+  await expect(page.locator('.ss-nav-branch-title').filter({ hasText: 'Hardware' })).toBeVisible();
+  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Hardware' }).click();
+  await expect(page).toHaveURL(/\/build\/assembly\/?$/);
+  await expect(page.locator('main h1')).toContainText('키트 조립 방법');
 });
 
 test('reduced motion keeps navigation and article content visible', async ({ page }) => {
