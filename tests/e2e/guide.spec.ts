@@ -33,7 +33,14 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   await expect(page.locator('.ss-demo-rail')).toBeVisible();
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator('.ss-mobile-tabs')).toBeVisible();
+  const mobileMenu = page.getByRole('button', { name: 'GUIDE' });
+  await expect(mobileMenu).toBeVisible();
+  await expect(page.locator('.ss-category-nav')).toBeHidden();
+  await mobileMenu.click();
+  await expect(page.locator('.ss-category-nav.is-mobile-open')).toBeVisible();
+  await expect(page.locator('.ss-nav-section-title').first()).toBeVisible();
+  await mobileMenu.click();
+  await expect(page.locator('.ss-category-nav')).toBeHidden();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(overflow).toBeFalsy();
 });

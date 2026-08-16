@@ -23,6 +23,7 @@ const current = computed(() => {
   return getSectionLandingByPath(route) ?? getBranchLandingByPath(route) ?? getChapterByPath(route)
 })
 const navLinks = ref<Element[]>([])
+const mobileOpen = ref(false)
 const chapterById = (id: string) => chapters.find((chapter) => chapter.id === id)
 const landingById = (id?: string) => branchLandings.find((landing) => landing.id === id)
 const sectionLandingById = (id: string) => sectionLandings.find((landing) => landing.id === id)
@@ -43,6 +44,7 @@ const sectionAccent = (section: NavSection) => {
 }
 onMounted(() => animateEnter(navLinks.value))
 watch(() => current.value?.id, async () => {
+  mobileOpen.value = false
   await nextTick()
   const active = document.querySelector<HTMLElement>('.ss-anime-nav a[aria-current="page"]')
   active?.focus({ preventScroll: true })
@@ -50,7 +52,12 @@ watch(() => current.value?.id, async () => {
 </script>
 
 <template>
-  <aside class="ss-category-nav ss-anime-nav" aria-label="Guide table of contents">
+  <button class="ss-mobile-menu-button" type="button" aria-controls="ss-mobile-guide-nav" :aria-expanded="mobileOpen" @click="mobileOpen = !mobileOpen">
+    <span class="ss-mobile-menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>GUIDE</span>
+  </button>
+  <div v-if="mobileOpen" class="ss-mobile-menu-scrim" aria-hidden="true" @click="mobileOpen = false"></div>
+  <aside id="ss-mobile-guide-nav" class="ss-category-nav ss-anime-nav" :class="{ 'is-mobile-open': mobileOpen }" aria-label="Guide table of contents">
     <div class="ss-rail-label">GUIDE</div>
     <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
       <a ref="navLinks" class="ss-nav-section-title" :class="{ 'is-active': section.id === current?.id }" :href="sectionHref(section)" :aria-current="isOpen(section) ? 'location' : undefined">{{ section.label }}</a>
@@ -66,7 +73,4 @@ watch(() => current.value?.id, async () => {
       </div>
     </div>
   </aside>
-  <nav class="ss-mobile-tabs" aria-label="Guide sections">
-    <a v-for="chapter in chapters.filter((item) => ['overview', 'assembly', 'os-install', 'seedkeeper-backup', 'bluewallet'].includes(item.id))" :key="chapter.id" :href="href(chapter)" :aria-current="current?.id === chapter.id ? 'page' : undefined">{{ chapter.label }}</a>
-  </nav>
 </template>
