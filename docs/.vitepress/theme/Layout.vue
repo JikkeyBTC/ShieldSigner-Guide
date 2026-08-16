@@ -5,15 +5,15 @@ import AnimatedChapter from './components/AnimatedChapter.vue'
 import DemoCards from './components/DemoCards.vue'
 import { useData } from 'vitepress'
 import { getChapterByPath } from '../../../src/guide/chapters'
-import { getBranchLandingByPath } from '../../../src/guide/branches'
+import { getBranchLandingByPath, getSectionLandingByPath } from '../../../src/guide/branches'
 import { getChapterAccent } from '../../../src/guide/colors'
 
 const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
 const { frontmatter, page } = useData()
 const currentChapter = computed(() => {
   const path = page.value.relativePath.replace(/\.md$/, '')
-  const route = path === 'index' ? '/' : `/${path}/`
-  return getChapterByPath(route) ?? getBranchLandingByPath(route)
+  const route = path === 'index' ? '/' : path.endsWith('/index') ? `/${path.slice(0, -6)}/` : `/${path}/`
+  return getChapterByPath(route) ?? getBranchLandingByPath(route) ?? getSectionLandingByPath(route)
 })
 const chapterAccent = computed(() => getChapterAccent(currentChapter.value))
 const formatDate = (value: unknown) => {

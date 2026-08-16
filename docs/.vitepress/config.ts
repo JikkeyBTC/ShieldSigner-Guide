@@ -16,13 +16,16 @@ export default defineConfig({
     outline: 'deep',
     sidebar: {
       '/build/': [
+        { text: 'Build', link: '/build/' },
         { text: '키트 조립 방법', link: '/build/assembly' }
       ],
       '/os/': [
+        { text: 'ShieldSigner OS', link: '/os/' },
         { text: 'ShieldSigner OS 설치', link: '/os/install' },
         { text: 'OS 이미지 검증', link: '/os/verify' }
       ],
       '/seedkeeper/': [
+        { text: 'SeedKeeper', link: '/seedkeeper/' },
         { text: 'Concepts', link: '/seedkeeper/concepts' },
         { text: 'JavaCard란?', link: '/seedkeeper/javacard' },
         { text: 'SeedKeeper란?', link: '/seedkeeper/what-is-seedkeeper' },
@@ -33,14 +36,17 @@ export default defineConfig({
         { text: '분실과 복구 계획', link: '/seedkeeper/recovery' }
       ],
       '/wallet/': [
+        { text: 'Watch-only wallets', link: '/wallet/' },
         { text: 'BlueWallet 워치온리', link: '/wallet/bluewallet' },
         { text: 'Coconut Wallet 워치온리', link: '/wallet/coconut' }
       ],
       '/transactions/': [
+        { text: 'Transactions', link: '/transactions/' },
         { text: '입금 주소 확인', link: '/transactions/receive' },
         { text: 'PSBT 검토·서명', link: '/transactions/sign-psbt' }
       ],
       '/reference/': [
+        { text: 'Reference', link: '/reference/' },
         { text: 'Safety', link: '/reference/safety' },
         { text: 'Terms', link: '/reference/terms' },
         { text: '보안 모델', link: '/reference/security' },

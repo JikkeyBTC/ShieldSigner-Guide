@@ -3,7 +3,7 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useData, withBase } from 'vitepress'
 import { animateEnter } from '../../../../src/guide/animation'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
-import { branchLandings, getBranchLandingByPath, type BranchLanding } from '../../../../src/guide/branches'
+import { branchLandings, getBranchLandingByPath, getSectionLandingByPath, sectionLandings, type BranchLanding, type SectionLanding } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
 
 type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string }
@@ -20,19 +20,23 @@ const sections: readonly NavSection[] = [
 const { page } = useData()
 const current = computed(() => {
   const path = page.value.relativePath.replace(/\.md$/, '')
-  const route = path === 'index' ? '/' : `/${path}/`
-  return getChapterByPath(route) ?? getBranchLandingByPath(route)
+  const route = path === 'index' ? '/' : path.endsWith('/index') ? `/${path.slice(0, -6)}/` : `/${path}/`
+  return getChapterByPath(route) ?? getBranchLandingByPath(route) ?? getSectionLandingByPath(route)
 })
 const navLinks = ref<Element[]>([])
 const chapterById = (id: string) => chapters.find((chapter) => chapter.id === id)
 const landingById = (id?: string) => branchLandings.find((landing) => landing.id === id)
+const sectionLandingById = (id: string) => sectionLandings.find((landing) => landing.id === id)
 const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
-const isOpen = (section: NavSection) => section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? '') || branch.landingId === current.value?.id)
+const isOpen = (section: NavSection) => section.id === current.value?.id || section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? '') || branch.landingId === current.value?.id)
 const hasChildren = (branch: NavBranch) => branch.chapterIds.length > 1
 const isBranchOpen = (branch: NavBranch) => branch.landingId === current.value?.id || (!hasChildren(branch) && branch.chapterIds.includes(current.value?.id ?? ''))
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const landingHref = (landing: BranchLanding) => withBase(landing.href)
-const sectionHref = (section: NavSection) => branchHref(section.branches[0])
+const sectionHref = (section: NavSection) => {
+  const landing = sectionLandingById(section.id)
+  return landing ? withBase(landing.href) : branchHref(section.branches[0])
+}
 const branchHref = (branch: NavBranch) => landingById(branch.landingId) ? landingHref(landingById(branch.landingId)!) : href(branchChapters(branch)[0])
 const sectionAccent = (section: NavSection) => getChapterAccent(branchChapters(section.branches[0])[0])
 const badge = (chapter: ChapterMeta) => ({ 'os-verify': 'PGP', javacard: 'JS', 'seedkeeper-backup': 'NEW' }[chapter.id])
