@@ -7,6 +7,14 @@ test('landing page exposes the first-run route map', async ({ page }) => {
     'href',
     /\/build\/$/
   );
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Verification' })).toHaveAttribute(
+    'href',
+    /\/os\/verification\/$/
+  );
+  await expect(page.locator('.ss-demo-card').filter({ hasText: '변조 확인 검증' })).toHaveAttribute(
+    'href',
+    /\/os\/verify\/$/
+  );
   await expect(page.locator('main')).toContainText('조립 방법');
   await expect(page.locator('.ss-demo-card').filter({ hasText: '키트 조립 방법' })).toHaveAttribute(
     'href',
@@ -62,6 +70,16 @@ test('clicking a guide section opens its independent landing page', async ({ pag
   await page.getByRole('link', { name: '키트 조립 방법 시작하기' }).click();
   await expect(page).toHaveURL(/\/build\/assembly\/?$/);
   await expect(page.locator('main h1')).toContainText('키트 조립 방법');
+});
+
+test('Verification landing and tamper-check detail are separate routes', async ({ page }) => {
+  await page.goto('/ShieldSigner-Guide/');
+  await page.locator('.ss-demo-card').filter({ hasText: 'Verification' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/os\/verification\/?$/);
+  await expect(page.locator('main h1')).toContainText('Verification');
+  await page.getByRole('link', { name: '변조 확인 검증 상세 페이지 열기' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/os\/verify\/?$/);
+  await expect(page.locator('main h1')).toContainText('OS 이미지 검증');
 });
 
 test('reduced motion keeps navigation and article content visible', async ({ page }) => {

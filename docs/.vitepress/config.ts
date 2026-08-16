@@ -18,6 +18,7 @@ export default defineConfig({
       '/os/': [
         { text: 'ShieldSigner OS', link: '/os/' },
         { text: 'ShieldSigner OS 설치', link: '/os/install' },
+        { text: 'Verification', link: '/os/verification' },
         { text: 'OS 이미지 검증', link: '/os/verify' }
       ],
       '/build/': [

@@ -28,7 +28,7 @@ GitHub 릴리스에서 이미지를 내려받아 microSD에 기록하고 첫 부
 
 SHA-256과 PGP 서명을 이용해 다운로드한 파일의 무결성과 출처를 확인합니다.
 
-[OS 이미지 검증](./verify)
+[Verification 안내](./verification)
 
 </div>
 
