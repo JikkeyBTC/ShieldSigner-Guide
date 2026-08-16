@@ -160,7 +160,16 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
       <div v-else-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
       <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
       <div v-else-if="card.type === 'verify'" class="ss-demo-visual ss-demo-verify"><span class="ss-demo-dot"></span><span class="ss-demo-line"></span><span class="ss-demo-line short"></span><b>SHA-256</b></div>
-      <div v-else-if="card.type === 'seed'" class="ss-demo-visual ss-demo-seed"><img v-if="card.id === 'seedkeeper-backup'" class="ss-demo-seed-logo" :src="seedkeeperLogo" alt="SeedKeeper"><img v-else class="ss-demo-seed-icon" :src="seedkeeperIcon" alt=""><span class="ss-demo-card-chip"></span><span class="ss-demo-lock">⌁</span><b>ENCRYPTED</b></div>
+      <div v-else-if="card.type === 'seed'" class="ss-demo-visual ss-demo-seed" :class="{ 'ss-demo-seed--backup': card.id === 'seedkeeper-backup' }">
+        <div v-if="card.id === 'seedkeeper-backup'" class="ss-demo-seed-resource-field" aria-hidden="true">
+          <img v-for="tile in 4" :key="`seedkeeper-logo-${tile}`" class="ss-demo-seed-logo ss-demo-seed-logo--tile" :src="seedkeeperLogo" alt="">
+          <img v-for="tile in 8" :key="`seedkeeper-icon-${tile}`" class="ss-demo-seed-icon ss-demo-seed-icon--tile" :src="seedkeeperIcon" alt="">
+        </div>
+        <template v-else>
+          <img class="ss-demo-seed-icon" :src="seedkeeperIcon" alt="">
+          <span class="ss-demo-card-chip"></span><span class="ss-demo-lock">⌁</span><b>ENCRYPTED</b>
+        </template>
+      </div>
       <div v-else-if="card.type === 'flow'" class="ss-demo-visual ss-demo-flow"><span class="ss-demo-flow-node">ADDR</span><i>→</i><span class="ss-demo-flow-node">PSBT</span><i>→</i><span class="ss-demo-flow-node">SIGN</span></div>
       <div v-else-if="card.type === 'reference'" class="ss-demo-visual ss-demo-reference"><span class="ss-demo-ref-line">FAQ / TERMS</span><span class="ss-demo-ref-line">SOURCES / SAFE</span></div>
       <div v-else class="ss-demo-visual ss-demo-wallet"><span class="ss-demo-qr-node">XPUB</span><span class="ss-demo-qr-node">QR</span><span class="ss-demo-qr-node">PSBT</span></div>
