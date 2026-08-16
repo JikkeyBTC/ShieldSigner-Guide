@@ -544,6 +544,23 @@ test('Send and Receive loops only run for the active transfer card', async ({ pa
   await expect(receiveCard).not.toHaveClass(/is-transfer-looping/);
 });
 
+test('every guide card exposes its mapped icon and click animation target', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko());
+  const cards = page.locator('.ss-demo-card');
+  const count = await cards.count();
+  expect(count).toBeGreaterThan(0);
+  for (let index = 0; index < count; index += 1) {
+    const card = cards.nth(index);
+    await expect(card).toHaveAttribute('data-card-visual', /.+/);
+    await expect(card.locator('.ss-demo-icon')).toHaveCount(1);
+  }
+
+  const referenceCard = cards.filter({ hasText: 'Safety' });
+  await referenceCard.click();
+  await expect.poll(() => referenceCard.locator('.ss-demo-icon').getAttribute('style')).toMatch(/(?:transform|opacity)/);
+});
+
 test('second-level navigation groups open their own landing content', async ({ page }) => {
   await page.goto(ko('/seedkeeper/javacard'));
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();

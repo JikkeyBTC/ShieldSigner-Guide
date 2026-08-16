@@ -7,6 +7,7 @@ import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLa
 import { getChapterAccent } from '../../../../src/guide/colors'
 import { guideCardOrder } from '../../../../src/guide/card-order'
 import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
+import CardGlyph from './CardGlyph.vue'
 
 type GuideCard = {
   readonly id: string
@@ -19,6 +20,7 @@ type GuideCard = {
   readonly caption: string
   readonly displayTitle: string
   readonly chapterId?: string
+  readonly visual: string
 }
 
 const { page } = useData()
@@ -33,6 +35,43 @@ const cardType = (chapter: ChapterMeta) => {
   return 'intro'
 }
 
+const cardVisual = (id: string) => ({
+  'section-getting-started': 'shield-check',
+  'section-os': 'shield-logo',
+  'section-seedkeeper': 'seed-vault',
+  'section-wallet': 'eye-wallet',
+  'section-transactions': 'bitcoin-flow',
+  'section-reference': 'book-links',
+  'branch-hardware': 'circuit-board',
+  'branch-installation': 'sd-flash',
+  'branch-verification': 'hash-check',
+  'branch-concepts': 'chip',
+  'branch-backup-recovery': 'backup-cycle',
+  'branch-bluewallet': 'bluewallet',
+  'branch-coconut': 'coconut',
+  'branch-receive': 'receive',
+  'branch-send': 'send',
+  'branch-signing': 'signature',
+  'branch-safety': 'shield-warning',
+  'branch-terms': 'terms',
+  assembly: 'screwdriver',
+  'os-install': 'sd-flash',
+  javacard: 'smart-card',
+  'what-is-seedkeeper': 'vault',
+  'seedkeeper-initialize': 'pin-lock',
+  'seedkeeper-backup': 'seed-upload',
+  'seedkeeper-clone': 'card-copy',
+  'seedkeeper-restore': 'restore',
+  'seedkeeper-recovery': 'recovery-route',
+  bluewallet: 'bluewallet',
+  coconut: 'coconut',
+  'sign-psbt': 'signature',
+  security: 'shield-check',
+  faq: 'faq',
+  glossary: 'glossary',
+  sources: 'source-link',
+} as Record<string, string>)[id] ?? 'terms'
+
 const sectionCards = computed<GuideCard[]>(() => sectionLandings.map((landing, index) => ({
   ...landing,
   id: `section-${landing.id}`,
@@ -42,7 +81,8 @@ const sectionCards = computed<GuideCard[]>(() => sectionLandings.map((landing, i
   order: index + 1,
   type: 'category',
   caption: 'SECTION',
-  displayTitle: getLocalizedLabel(landing.id, landing.label, locale.value)
+  displayTitle: getLocalizedLabel(landing.id, landing.label, locale.value),
+  visual: cardVisual(`section-${landing.id}`)
 })))
 
 const branchLandingCards = computed<GuideCard[]>(() => branchCards.map((landing, index) => ({
@@ -54,7 +94,8 @@ const branchLandingCards = computed<GuideCard[]>(() => branchCards.map((landing,
   order: index + 1,
   type: 'category',
   caption: 'CATEGORY',
-  displayTitle: getLocalizedLabel(landing.id, landing.label, locale.value)
+  displayTitle: getLocalizedLabel(landing.id, landing.label, locale.value),
+  visual: cardVisual(`branch-${landing.id}`)
 })))
 
 const chapterCards = computed<GuideCard[]>(() => chapters.filter((chapter) => chapter.id !== 'overview').map((chapter) => ({
@@ -65,7 +106,8 @@ const chapterCards = computed<GuideCard[]>(() => chapters.filter((chapter) => ch
   type: cardType(chapter),
   caption: chapter.group.toUpperCase(),
   displayTitle: getLocalizedChapterLabel(chapter.id, chapter.label, locale.value),
-  chapterId: chapter.id
+  chapterId: chapter.id,
+  visual: cardVisual(chapter.id)
 })))
 
 const cards = computed<GuideCard[]>(() => {
@@ -222,6 +264,41 @@ const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
   const title = cardElement.querySelector('.ss-scramble-title')
   if (title) animate(title, { innerHTML: scrambleText({ chars: '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' }), duration: 480, ease: 'linear' })
   const targets = (selector: string) => Array.from(cardElement.querySelectorAll(selector))
+  const iconTargets = targets('.ss-demo-icon')
+  if (iconTargets.length) {
+    const iconMotion: Record<string, Record<string, unknown>> = {
+      'shield-check': { scale: [.82, 1.08, 1], rotate: [-5, 0], duration: 520, ease: 'out(3)' },
+      'shield-logo': { scale: [.9, 1.06, 1], opacity: [.5, 1, 1], duration: 520, ease: 'out(3)' },
+      'seed-vault': { rotateY: [0, 360], scale: [.85, 1, 1], duration: 620, ease: 'inOutSine' },
+      'eye-wallet': { scale: [.8, 1.1, 1], translateX: [-4, 4, 0], duration: 520, ease: 'inOutSine' },
+      'bitcoin-flow': { translateX: [-8, 8, 0], duration: 520, ease: 'inOutSine' },
+      send: { translateX: [-8, 8, 0], duration: 520, ease: 'inOutSine' },
+      receive: { translateX: [8, -8, 0], duration: 520, ease: 'inOutSine' },
+      'book-links': { rotate: [-4, 4, 0], translateY: [6, -3, 0], duration: 560, ease: 'out(3)' },
+      'circuit-board': { scale: [.86, 1.08, 1], rotate: [-3, 3, 0], duration: 560, ease: 'inOutSine' },
+      'sd-flash': { translateX: [-12, 0], scaleX: [.8, 1], duration: 620, ease: 'out(2)' },
+      'hash-check': { scale: [.75, 1.14, 1], opacity: [.45, 1, 1], duration: 500, ease: 'inOutSine' },
+      chip: { rotate: [-8, 8, 0], scale: [.88, 1.08, 1], duration: 560, ease: 'inOutSine' },
+      'backup-cycle': { rotate: [0, 180, 360], duration: 680, ease: 'inOutSine' },
+      bluewallet: { scale: [.76, 1.12, 1], translateY: [8, -3, 0], duration: 520, ease: 'out(3)' },
+      coconut: { rotate: [-12, 12, 0], scale: [.9, 1.06, 1], duration: 560, ease: 'inOutSine' },
+      screwdriver: { rotate: [-18, 18, 0], translateX: [-5, 5, 0], duration: 560, ease: 'out(3)' },
+      'smart-card': { translateY: [10, -2, 0], rotate: [-3, 0], duration: 560, ease: 'out(3)' },
+      vault: { scale: [.86, 1.08, 1], rotateY: [0, 180, 360], duration: 620, ease: 'inOutSine' },
+      'pin-lock': { scale: [.8, 1.12, 1], duration: 500, ease: 'out(3)' },
+      'seed-upload': { translateY: [12, -4, 0], opacity: [.45, 1, 1], duration: 620, ease: 'out(3)' },
+      'card-copy': { translateX: [-10, 10, 0], duration: 620, ease: 'inOutSine' },
+      restore: { translateY: [-10, 6, 0], rotate: [-8, 0], duration: 560, ease: 'out(3)' },
+      'recovery-route': { translateX: [-8, 8, 0], opacity: [.45, 1, 1], duration: 560, ease: 'inOutSine' },
+      signature: { translateX: [-8, 8, 0], rotate: [-4, 2, 0], duration: 560, ease: 'out(3)' },
+      'shield-warning': { translateY: [5, -5, 0], rotate: [-3, 3, 0], duration: 520, ease: 'inOutSine' },
+      faq: { scale: [.8, 1.1, 1], translateY: [6, -2, 0], duration: 520, ease: 'out(3)' },
+      terms: { translateY: [8, -2, 0], opacity: [.45, 1, 1], duration: 520, ease: 'out(3)' },
+      glossary: { rotate: [-4, 4, 0], scale: [.9, 1.08, 1], duration: 520, ease: 'inOutSine' },
+      'source-link': { translateX: [-8, 8, 0], opacity: [.45, 1, 1], duration: 560, ease: 'inOutSine' },
+    }
+    animate(iconTargets, iconMotion[card.visual] ?? { scale: [.86, 1.08, 1], duration: 500, ease: 'out(3)' })
+  }
   if (card.type === 'category' && card.id !== 'section-os') animate(targets('.ss-demo-category-shape'), { translateY: [10, -5, 0], rotate: [-4, 4, 0], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
   if (card.id === 'section-os') animate(targets('.ss-demo-os-logo'), { scale: [.94, 1.02, 1], opacity: [.72, 1, 1], duration: 520, ease: 'out(3)' })
   if (card.id === 'branch-hardware' || card.id === 'section-build' || card.id === 'assembly') animate(targets('.ss-demo-stagger i'), { translateY: [18, 0], rotate: [-8, 0], opacity: [.35, 1], delay: stagger(120), duration: 560, ease: 'out(3)' })
@@ -261,8 +338,8 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
 
 <template>
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
-    <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
-      <header><span class="ss-scramble-title">{{ card.displayTitle }}</span></header>
+    <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :data-card-visual="card.visual" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
+      <header><span class="ss-card-title-lockup"><CardGlyph :name="card.visual" /><span class="ss-scramble-title">{{ card.displayTitle }}</span></span></header>
       <div v-if="card.id === 'branch-send'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--send" aria-label="User sends Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
       <div v-else-if="card.id === 'branch-receive'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--receive" aria-label="User receives Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
       <div v-else-if="card.id === 'section-os'" class="ss-demo-visual ss-demo-category ss-demo-os"><img class="ss-demo-os-logo" :src="shieldsignerLogo" alt="ShieldSigner"></div>
