@@ -3,7 +3,7 @@ import type { ChapterMeta } from './chapters'
 export const categoryAccents = {
   '시작하기': '#fd6d02',
   '준비': '#ff9f43',
-  'OS': '#48c6ef',
+  'OS': '#ff9f43',
   SeedKeeper: '#9b5de5',
   '워치온리 지갑': '#2ec4b6',
   거래: '#f15bb5',
