@@ -23,7 +23,7 @@ export const sectionLandings = [
 
 /** Card destinations for every second-level navigation group. */
 export const branchCards = [
-  { id: 'hardware', label: 'Hardware', href: '/build/', group: '준비' },
+  { id: 'hardware', label: 'Hardware', href: '/build/', group: '시작하기' },
   { id: 'installation', label: 'Installation', href: '/os/install/', group: 'OS' },
   { id: 'verification', label: 'Verification', href: '/os/verify/', group: 'OS' },
   { id: 'concepts', label: 'Concepts', href: '/seedkeeper/concepts/', group: 'SeedKeeper' },
@@ -38,7 +38,7 @@ export const branchCards = [
 
 /** Landing pages for second-level navigation groups that contain multiple chapters. */
 export const branchLandings = [
-  { id: 'hardware', label: 'Hardware', href: '/build/', group: '준비' },
+  { id: 'hardware', label: 'Hardware', href: '/build/', group: '시작하기' },
   { id: 'seedkeeper-concepts', label: 'Concepts', href: '/seedkeeper/concepts/', group: 'SeedKeeper' },
   { id: 'seedkeeper-backup-landing', label: 'Backup & recovery', href: '/seedkeeper/backup-recovery/', group: 'SeedKeeper' },
   { id: 'reference-safety', label: 'Safety', href: '/reference/safety/', group: '참고' },

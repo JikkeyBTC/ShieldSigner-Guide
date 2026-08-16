@@ -9,7 +9,7 @@ export interface ChapterMeta {
 /** The public route map. Keep links site-relative so GitHub Pages' base path can be applied by VitePress. */
 export const chapters = [
   { id: 'overview', label: '개요', href: '/', group: '시작하기', order: 1 },
-  { id: 'assembly', label: '조립 방법', href: '/build/assembly/', group: '준비', order: 2 },
+  { id: 'assembly', label: '조립 방법', href: '/build/assembly/', group: '시작하기', order: 2 },
   { id: 'os-install', label: 'ShieldSigner OS 설치', href: '/os/install/', group: 'OS', order: 3 },
   { id: 'os-verify', label: 'OS 이미지 검증', href: '/os/verify/', group: 'OS', order: 4 },
   { id: 'javacard', label: 'JavaCard란?', href: '/seedkeeper/javacard/', group: 'SeedKeeper', order: 5 },

@@ -55,6 +55,7 @@ test('clicking a guide section opens its independent landing page', async ({ pag
   await page.locator('.ss-nav-section-title').filter({ hasText: 'Getting started' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/?$/);
   await expect(page.locator('.ss-nav-branch-title').filter({ hasText: 'Hardware' })).toBeVisible();
+  await expect(page.locator('.ss-nav-child').filter({ hasText: '조립 방법' })).toBeVisible();
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Hardware' }).click();
   await expect(page).toHaveURL(/\/build\/?$/);
   await expect(page.locator('main h1')).toContainText('Hardware');

@@ -6,10 +6,10 @@ import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/gu
 import { branchLandings, getBranchLandingByPath, getSectionLandingByPath, sectionLandings, type BranchLanding, type SectionLanding } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
 
-type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string }
+type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string; showChildren?: boolean }
 type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
 const sections: readonly NavSection[] = [
-  { id: 'getting-started', label: 'Getting started', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'], landingId: 'hardware' }] },
+  { id: 'getting-started', label: 'Getting started', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'], landingId: 'hardware', showChildren: true }] },
   { id: 'os', label: 'ShieldSigner OS', branches: [{ id: 'install', label: 'Installation', chapterIds: ['os-install'] }, { id: 'verify', label: 'Verification', chapterIds: ['os-verify'] }] },
   { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'], landingId: 'seedkeeper-concepts' }, { id: 'backup', label: 'Backup & recovery', chapterIds: ['seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'], landingId: 'seedkeeper-backup-landing' }] },
   { id: 'wallet', label: 'Watch-only wallets', branches: [{ id: 'bluewallet', label: 'BlueWallet', chapterIds: ['bluewallet'] }, { id: 'coconut', label: 'Coconut', chapterIds: ['coconut'] }] },
@@ -28,7 +28,7 @@ const landingById = (id?: string) => branchLandings.find((landing) => landing.id
 const sectionLandingById = (id: string) => sectionLandings.find((landing) => landing.id === id)
 const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
 const isOpen = (section: NavSection) => section.id === current.value?.id || section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? '') || branch.landingId === current.value?.id)
-const hasChildren = (branch: NavBranch) => branch.chapterIds.length > 1
+const hasChildren = (branch: NavBranch) => branch.showChildren ?? branch.chapterIds.length > 1
 const isBranchOpen = (branch: NavBranch) => branch.landingId === current.value?.id || (!hasChildren(branch) && branch.chapterIds.includes(current.value?.id ?? ''))
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const landingHref = (landing: BranchLanding) => withBase(landing.href)
