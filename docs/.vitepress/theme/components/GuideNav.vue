@@ -54,7 +54,7 @@ watch(() => current.value?.id, async () => {
   <aside class="ss-category-nav ss-anime-nav" aria-label="Guide table of contents">
     <div class="ss-rail-label">GUIDE</div>
     <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section), 'has-active-branch': hasActiveBranch(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
-      <a ref="navLinks" class="ss-nav-section-title" :href="sectionHref(section)" :aria-current="isOpen(section) ? 'location' : undefined">{{ section.label }}</a>
+      <a ref="navLinks" class="ss-nav-section-title" :class="{ 'is-active': section.id === current?.id }" :href="sectionHref(section)" :aria-current="isOpen(section) ? 'location' : undefined">{{ section.label }}</a>
       <div v-if="isOpen(section)" class="ss-nav-children">
         <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch" :class="{ 'has-children': hasChildren(branch), 'is-active': isBranchOpen(branch) }">
           <a ref="navLinks" class="ss-nav-branch-title" :class="{ 'is-active': isBranchOpen(branch) }" :href="branchHref(branch)">{{ branch.label }}</a>
