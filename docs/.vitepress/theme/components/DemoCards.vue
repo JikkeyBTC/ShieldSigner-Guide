@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
 import { animate, scrambleText, stagger } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
+import { getChapterAccent } from '../../../../src/guide/colors'
 
 const cardType = (chapter: ChapterMeta) => {
   if (chapter.id === 'os-verify') return 'verify'
@@ -18,8 +19,7 @@ const cards = chapters.map((chapter) => ({
   caption: chapter.group.toUpperCase(),
   displayTitle: ({ assembly: '쉽게 조립하는 방법', 'os-verify': '변조 확인 검증', 'seedkeeper-backup': 'SeedKeeper 소개', bluewallet: '워치온리 지갑' } as Record<string, string>)[chapter.id] ?? chapter.label
 }))
-const chapterAccents = ['#fd6d02', '#ff9f43', '#ffd166', '#7bdff2', '#4cc9f0', '#4895ef', '#4361ee', '#7b61ff', '#9b5de5', '#f15bb5', '#ff6b9d', '#2ec4b6', '#00b4d8', '#52b788', '#80ed99', '#c9e265', '#f4a261', '#e76f51', '#f94144']
-const accentFor = (card: typeof cards[number]) => chapterAccents[card.order - 1] ?? '#fd6d02'
+const accentFor = (card: typeof cards[number]) => getChapterAccent(card)
 const searchQuery = ref('')
 const visibleCards = computed(() => {
   const query = searchQuery.value.trim().toLocaleLowerCase()

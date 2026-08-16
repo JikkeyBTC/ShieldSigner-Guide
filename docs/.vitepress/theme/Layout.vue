@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import GuideNav from './components/GuideNav.vue'
 import AnimatedChapter from './components/AnimatedChapter.vue'
 import DemoCards from './components/DemoCards.vue'
 import { useData } from 'vitepress'
+import { getChapterByPath } from '../../../src/guide/chapters'
+import { getChapterAccent } from '../../../src/guide/colors'
 
 const logoPath = '/ShieldSigner-Guide/brand/shieldsigner.svg'
-const { frontmatter } = useData()
+const { frontmatter, page } = useData()
+const currentChapter = computed(() => {
+  const path = page.value.relativePath.replace(/\.md$/, '')
+  return getChapterByPath(path === 'index' ? '/' : `/${path}/`)
+})
+const chapterAccent = computed(() => getChapterAccent(currentChapter.value))
 const formatDate = (value: unknown) => {
   if (!value) return ''
   const date = new Date(String(value))
@@ -25,7 +33,7 @@ const formatDate = (value: unknown) => {
       </nav>
     </header>
 
-    <div class="ss-docs-shell">
+    <div class="ss-docs-shell" :style="{ '--chapter-accent': chapterAccent }">
       <GuideNav />
       <DemoCards />
       <main class="ss-article" tabindex="-1">

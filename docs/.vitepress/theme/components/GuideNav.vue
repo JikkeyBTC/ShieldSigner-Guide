@@ -3,6 +3,7 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useData, withBase } from 'vitepress'
 import { animateEnter } from '../../../../src/guide/animation'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
+import { getChapterAccent } from '../../../../src/guide/colors'
 
 type NavBranch = { id: string; label: string; chapterIds: readonly string[] }
 type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
@@ -28,6 +29,7 @@ const isBranchOpen = (branch: NavBranch) => branch.chapterIds.includes(current.v
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
 const sectionHref = (section: NavSection) => href(branchChapters(section.branches[0])[0])
 const branchHref = (branch: NavBranch) => href(branchChapters(branch)[0])
+const sectionAccent = (section: NavSection) => getChapterAccent(branchChapters(section.branches[0])[0])
 const badge = (chapter: ChapterMeta) => ({ 'os-verify': 'PGP', javacard: 'JS', 'seedkeeper-backup': 'NEW' }[chapter.id])
 onMounted(() => animateEnter(navLinks.value))
 watch(() => current.value?.id, async () => {
@@ -40,7 +42,7 @@ watch(() => current.value?.id, async () => {
 <template>
   <aside class="ss-category-nav ss-anime-nav" aria-label="Guide table of contents">
     <div class="ss-rail-label">GUIDE</div>
-    <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }">
+    <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
       <a ref="navLinks" class="ss-nav-section-title" :href="sectionHref(section)" :aria-current="isOpen(section) ? 'location' : undefined">{{ section.label }}</a>
       <div v-if="isOpen(section)" class="ss-nav-children">
         <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch">
