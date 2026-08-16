@@ -151,7 +151,7 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
       <span class="ss-card-search-count" aria-live="polite">{{ visibleCards.length }}/{{ cards.length }}</span>
     </div>
     <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
-      <header><span class="ss-scramble-title">{{ card.displayTitle }}</span><small>{{ card.caption }}</small></header>
+      <header><span class="ss-scramble-title">{{ card.displayTitle }}</span></header>
       <div v-if="card.type === 'category'" class="ss-demo-visual ss-demo-category"><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><strong>{{ card.caption === 'SECTION' ? '01' : '02' }}</strong></div>
       <div v-else-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
       <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i><strong>{{ String(card.order).padStart(2, '0') }}</strong></div>
