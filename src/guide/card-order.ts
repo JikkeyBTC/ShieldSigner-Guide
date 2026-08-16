@@ -8,7 +8,7 @@ export interface GuideCardOrderItem {
 /** The single source of truth for the visual card sequence and document navigation. */
 export const guideCardOrder = [
   { kind: 'section', id: 'getting-started' }, { kind: 'branch', id: 'hardware' }, { kind: 'chapter', id: 'assembly' },
-  { kind: 'section', id: 'os' }, { kind: 'branch', id: 'installation' }, { kind: 'chapter', id: 'os-install' }, { kind: 'branch', id: 'verification' }, { kind: 'chapter', id: 'os-verify' },
+  { kind: 'section', id: 'os' }, { kind: 'branch', id: 'installation' }, { kind: 'chapter', id: 'os-install' }, { kind: 'branch', id: 'verification' },
   { kind: 'section', id: 'seedkeeper' }, { kind: 'branch', id: 'concepts' }, { kind: 'chapter', id: 'javacard' }, { kind: 'chapter', id: 'what-is-seedkeeper' }, { kind: 'branch', id: 'backup-recovery' },
   { kind: 'chapter', id: 'seedkeeper-initialize' }, { kind: 'chapter', id: 'seedkeeper-backup' }, { kind: 'chapter', id: 'seedkeeper-clone' }, { kind: 'chapter', id: 'seedkeeper-restore' }, { kind: 'chapter', id: 'seedkeeper-recovery' },
   { kind: 'section', id: 'wallet' }, { kind: 'branch', id: 'bluewallet' }, { kind: 'branch', id: 'coconut' }, { kind: 'chapter', id: 'coconut' },

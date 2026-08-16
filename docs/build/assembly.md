@@ -48,7 +48,7 @@ estimatedTime: 30–45분
 
 ## 첫 부팅 테스트
 
-1. 검증된 OS를 기록한 microSD를 삽입합니다(아직 검증하지 않았다면 [OS 검증](../os/verify)부터 진행).
+1. 검증된 OS를 기록한 microSD를 삽입합니다(아직 검증하지 않았다면 [OS 검증](../os/verification)부터 진행).
 2. USB 전원을 연결하고 화면이 켜지는지 확인합니다.
 3. 시작 화면에서 버튼 입력과 카메라 미리보기가 반응하는지 확인합니다.
 4. 테스트가 끝나면 전원을 안전하게 분리합니다.
@@ -66,5 +66,5 @@ estimatedTime: 30–45분
 - [ ] 검증된 OS로 첫 부팅과 버튼 입력을 확인했다.
 
 <Callout type="success" title="조립 완료">
-이제 [ShieldSigner OS 설치](../os/install)와 [이미지 검증](../os/verify)을 진행하세요. 조립 사진은 나중에 각 플레이스홀더에 추가할 수 있습니다.
+이제 [ShieldSigner OS 설치](../os/install)와 [이미지 검증](../os/verification)을 진행하세요. 조립 사진은 나중에 각 플레이스홀더에 추가할 수 있습니다.
 </Callout>

@@ -11,10 +11,7 @@ test('landing page exposes the first-run route map', async ({ page }) => {
     'href',
     /\/os\/verification\/$/
   );
-  await expect(page.locator('.ss-demo-card').filter({ hasText: '변조 확인 검증' })).toHaveAttribute(
-    'href',
-    /\/os\/verify\/$/
-  );
+  await expect(page.locator('.ss-demo-card').filter({ hasText: '변조 확인 검증' })).toHaveCount(0);
   await expect(page.locator('main')).toContainText('조립 방법');
   await expect(page.locator('.ss-demo-card').filter({ hasText: '키트 조립 방법' })).toHaveAttribute(
     'href',
@@ -102,14 +99,15 @@ test('clicking a guide section opens its independent landing page', async ({ pag
   await expect(page.locator('main h1')).toContainText('키트 조립 방법');
 });
 
-test('Verification landing and tamper-check detail are separate routes', async ({ page }) => {
+test('Verification is a single landing route', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/');
-  await page.locator('.ss-demo-card').filter({ hasText: 'Verification' }).click();
+  const verificationCard = page.locator('.ss-demo-card').filter({ hasText: 'Verification' });
+  await expect(verificationCard).toHaveCount(1);
+  await verificationCard.click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/os\/verification\/?$/);
   await expect(page.locator('main h1')).toContainText('Verification');
-  await page.getByRole('link', { name: '변조 확인 검증 상세 페이지 열기' }).click();
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/os\/verify\/?$/);
-  await expect(page.locator('main h1')).toContainText('OS 이미지 검증');
+  await expect(page.locator('main')).toContainText('Get-FileHash');
+  await expect(page.locator('main')).not.toContainText('변조 확인 검증 상세 페이지 열기');
 });
 
 test('reduced motion keeps navigation and article content visible', async ({ page }) => {
@@ -132,8 +130,8 @@ test('buyer setup guides expose safety checks and verification commands', async 
   await expect(page.locator('main')).toContainText('microSD');
   await expect(page.locator('main')).toContainText('검증 전에는 플래시 금지');
 
-  await page.goto('/ShieldSigner-Guide/os/verify/');
-  await expect(page.locator('main')).toContainText('OS 이미지 검증');
+  await page.goto('/ShieldSigner-Guide/os/verification/');
+  await expect(page.locator('main')).toContainText('Verification');
   await expect(page.locator('main')).toContainText('Get-FileHash');
   await expect(page.locator('main')).toContainText('sha256sum');
   await expect(page.locator('main')).toContainText('gpg --verify');

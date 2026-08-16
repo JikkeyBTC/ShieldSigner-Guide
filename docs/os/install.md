@@ -8,7 +8,7 @@ estimatedTime: 20–30분
 
 # ShieldSigner OS 설치
 
-ShieldSigner는 SeedSigner 오픈소스 펌웨어를 사용하는 장치입니다. 이 가이드는 판매자가 제공한 ShieldSigner 하드웨어에 공식 릴리스 이미지를 설치하는 절차를 설명합니다. 먼저 [OS 이미지 검증](./verify)을 완료하세요.
+ShieldSigner는 SeedSigner 오픈소스 펌웨어를 사용하는 장치입니다. 이 가이드는 판매자가 제공한 ShieldSigner 하드웨어에 공식 릴리스 이미지를 설치하는 절차를 설명합니다. 먼저 [Verification](./verification)을 완료하세요.
 
 ## 1. GitHub에서 이미지 받기
 

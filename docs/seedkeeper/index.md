@@ -36,4 +36,4 @@ SeedKeeper 카테고리는 JavaCard 플랫폼, SeedKeeper 애플릿, ShieldSigne
 SeedKeeper 카드는 시드 보관과 암호 연산을 담당하고, ShieldSigner OS는 오프라인 화면과 입력을 담당합니다.
 </Callout>
 
-<GuideNav prev="/os/verify" next="/seedkeeper/concepts" prevLabel="이전: OS 이미지 검증" nextLabel="다음: Concepts" />
+<GuideNav prev="/os/verification" next="/seedkeeper/concepts" prevLabel="이전: Verification" nextLabel="다음: Concepts" />

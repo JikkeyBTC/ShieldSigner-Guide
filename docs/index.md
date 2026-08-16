@@ -14,7 +14,7 @@ ShieldSigner를 안전하게 시작하는 방법을 안내합니다. 조립부�
 
 - [키트 조립 방법](./build/assembly)
 - [ShieldSigner OS 설치](./os/install)
-- [OS 이미지 검증(PGP·SHA-256)](./os/verify)
+- [Verification(PGP·SHA-256)](./os/verification)
 - [JavaCard란?](./seedkeeper/javacard)
 - [SeedKeeper란?](./seedkeeper/what-is-seedkeeper)
 - [카드 초기화와 PIN](./seedkeeper/initialize)
