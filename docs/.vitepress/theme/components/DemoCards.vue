@@ -98,12 +98,42 @@ const userAsset = withBase('/brand/user-circle.svg')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 let skipNextRailSync = false
 let alignNextRailCard = false
+let activeTransferAnimation: ReturnType<typeof animate> | null = null
+let activeTransferCardElement: HTMLElement | null = null
 
 const transferDistance = (cardElement: HTMLElement) => {
   const user = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-user')
   const bitcoin = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
   if (!user || !bitcoin) return 0
   return Math.max(0, bitcoin.offsetLeft - user.offsetLeft)
+}
+
+const stopTransferLoop = () => {
+  activeTransferAnimation?.pause()
+  activeTransferCardElement?.classList.remove('is-transfer-looping')
+  activeTransferAnimation = null
+  activeTransferCardElement = null
+}
+
+const startTransferLoop = (card?: GuideCard) => {
+  stopTransferLoop()
+  if (!card || prefersReducedMotion() || (card.id !== 'branch-send' && card.id !== 'branch-receive')) return
+  const cardElement = Array.from(document.querySelectorAll<HTMLElement>('.ss-demo-card')).find((item) => item.getAttribute('href') === href(card))
+  const bitcoin = cardElement?.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
+  if (!cardElement || !bitcoin) return
+  const distance = transferDistance(cardElement)
+  if (distance <= 0) return
+  const start = card.id === 'branch-send' ? -distance : 0
+  const end = card.id === 'branch-send' ? 0 : -distance
+  activeTransferCardElement = cardElement
+  activeTransferCardElement.classList.add('is-transfer-looping')
+  activeTransferAnimation = animate(bitcoin, {
+    translateX: [start, end],
+    duration: 1500,
+    ease: 'inOutSine',
+    loop: true,
+    alternate: true,
+  })
 }
 
 const revealCardIfNeeded = (rail: HTMLElement, card: HTMLElement) => {
@@ -144,8 +174,14 @@ const handleTocNavigation = (event: Event) => {
   alignNextRailCard = true
 }
 
-onMounted(() => window.addEventListener('ss:toc-navigation', handleTocNavigation))
-onBeforeUnmount(() => window.removeEventListener('ss:toc-navigation', handleTocNavigation))
+onMounted(() => {
+  window.addEventListener('ss:toc-navigation', handleTocNavigation)
+  nextTick(() => startTransferLoop(activeCard.value))
+})
+onBeforeUnmount(() => {
+  stopTransferLoop()
+  window.removeEventListener('ss:toc-navigation', handleTocNavigation)
+})
 
 const navigateBesideCards = (path: string) => {
   const scrollY = window.scrollY
@@ -163,6 +199,7 @@ const navigateBesideCards = (path: string) => {
 watch(() => current.value?.id, async (id) => {
   if (!id) return
   await nextTick()
+  startTransferLoop(activeCard.value)
   if (alignNextRailCard) {
     alignNextRailCard = false
     const rail = document.querySelector<HTMLElement>('.ss-demo-rail')

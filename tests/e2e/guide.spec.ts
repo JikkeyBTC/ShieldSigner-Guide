@@ -506,7 +506,8 @@ test('Send and Receive transfer animations travel between the user and Bitcoin',
   const sendFinalGap = await transferGap(sendCard);
   expect(sendInitialGap).not.toBeNull();
   expect(sendEarlyGap).toBeLessThan(sendInitialGap! - 5);
-  expect(sendFinalGap).toBeGreaterThan(sendInitialGap! * 0.8);
+  expect(sendFinalGap).not.toBeNull();
+  await expect(sendCard).toHaveClass(/is-transfer-looping/);
 
   await page.goto(ko());
   await page.locator('.ss-demo-rail').evaluate((rail) => { rail.scrollTop = rail.scrollHeight; });
@@ -516,13 +517,31 @@ test('Send and Receive transfer animations travel between the user and Bitcoin',
   const receiveBox = await receiveCard.boundingBox();
   expect(receiveBox).not.toBeNull();
   await page.mouse.click(receiveBox!.x + receiveBox!.width / 2, receiveBox!.y + receiveBox!.height / 2);
-  await page.waitForTimeout(120);
+  await page.waitForTimeout(450);
   const receiveEarlyGap = await transferGap(receiveCard);
   await page.waitForTimeout(650);
   const receiveFinalGap = await transferGap(receiveCard);
   expect(receiveInitialGap).not.toBeNull();
-  expect(receiveEarlyGap).toBeLessThan(receiveInitialGap! * 0.75);
-  expect(receiveFinalGap).toBeLessThan(10);
+  expect(receiveEarlyGap).toBeLessThan(receiveInitialGap! * 0.9);
+  expect(receiveFinalGap).not.toBeNull();
+  await expect(receiveCard).toHaveClass(/is-transfer-looping/);
+});
+
+test('Send and Receive loops only run for the active transfer card', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko('/transactions/send-guide/'));
+  const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
+  const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
+  await expect(sendCard).toHaveClass(/is-transfer-looping/);
+  await expect(receiveCard).not.toHaveClass(/is-transfer-looping/);
+
+  await page.goto(ko('/transactions/receive-guide/'));
+  await expect(receiveCard).toHaveClass(/is-transfer-looping/);
+  await expect(sendCard).not.toHaveClass(/is-transfer-looping/);
+
+  await page.goto(ko('/seedkeeper/javacard/'));
+  await expect(sendCard).not.toHaveClass(/is-transfer-looping/);
+  await expect(receiveCard).not.toHaveClass(/is-transfer-looping/);
 });
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {
