@@ -147,3 +147,17 @@ test('watch-only, transaction, and reference chapters expose safety content', as
   await page.goto('/ShieldSigner-Guide/reference/sources/');
   await expect(page.getByRole('link', { name: 'SeedKeeper Applet 공식 저장소' })).toHaveAttribute('href', /github.com\/Toporin\/Seedkeeper-Applet/);
 });
+
+test('second-level navigation groups open their own landing content', async ({ page }) => {
+  await page.goto('/ShieldSigner-Guide/seedkeeper/javacard');
+  await page.getByRole('link', { name: 'Concepts' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/seedkeeper\/concepts\/?$/);
+  await expect(page.locator('main h1')).toContainText('Concepts');
+  await expect(page.locator('main')).toContainText('이 카테고리에서 다루는 내용');
+  await expect(page.getByRole('link', { name: 'JavaCard 안내 열기' })).toHaveAttribute('href', './javacard');
+
+  await page.getByRole('link', { name: 'Backup & recovery' }).click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/seedkeeper\/backup-recovery\/?$/);
+  await expect(page.locator('main h1')).toContainText('Backup & recovery');
+  await expect(page.locator('main')).toContainText('작업 흐름');
+});

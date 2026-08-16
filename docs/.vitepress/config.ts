@@ -23,6 +23,7 @@ export default defineConfig({
         { text: 'OS 이미지 검증', link: '/os/verify' }
       ],
       '/seedkeeper/': [
+        { text: 'Concepts', link: '/seedkeeper/concepts' },
         { text: 'JavaCard란?', link: '/seedkeeper/javacard' },
         { text: 'SeedKeeper란?', link: '/seedkeeper/what-is-seedkeeper' },
         { text: '카드 초기화와 PIN', link: '/seedkeeper/initialize' },
@@ -40,6 +41,8 @@ export default defineConfig({
         { text: 'PSBT 검토·서명', link: '/transactions/sign-psbt' }
       ],
       '/reference/': [
+        { text: 'Safety', link: '/reference/safety' },
+        { text: 'Terms', link: '/reference/terms' },
         { text: '보안 모델', link: '/reference/security' },
         { text: '자주 묻는 질문', link: '/reference/faq' },
         { text: '용어집', link: '/reference/glossary' },

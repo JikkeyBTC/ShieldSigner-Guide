@@ -3,33 +3,37 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useData, withBase } from 'vitepress'
 import { animateEnter } from '../../../../src/guide/animation'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
+import { branchLandings, getBranchLandingByPath, type BranchLanding } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
 
-type NavBranch = { id: string; label: string; chapterIds: readonly string[] }
+type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string }
 type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
 const sections: readonly NavSection[] = [
   { id: 'getting-started', label: 'Getting started', branches: [{ id: 'overview', label: 'Overview', chapterIds: ['overview'] }] },
   { id: 'build', label: 'Build', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'] }] },
   { id: 'os', label: 'ShieldSigner OS', branches: [{ id: 'install', label: 'Installation', chapterIds: ['os-install'] }, { id: 'verify', label: 'Verification', chapterIds: ['os-verify'] }] },
-  { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'] }, { id: 'backup', label: 'Backup & recovery', chapterIds: ['seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'] }] },
+  { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'], landingId: 'seedkeeper-concepts' }, { id: 'backup', label: 'Backup & recovery', chapterIds: ['seedkeeper-initialize', 'seedkeeper-backup', 'seedkeeper-clone', 'seedkeeper-restore', 'seedkeeper-recovery'], landingId: 'seedkeeper-backup' }] },
   { id: 'wallet', label: 'Watch-only wallets', branches: [{ id: 'bluewallet', label: 'BlueWallet', chapterIds: ['bluewallet'] }, { id: 'coconut', label: 'Coconut', chapterIds: ['coconut'] }] },
   { id: 'transactions', label: 'Transactions', branches: [{ id: 'receive', label: 'Receive', chapterIds: ['receive'] }, { id: 'signing', label: 'Signing', chapterIds: ['sign-psbt'] }] },
-  { id: 'reference', label: 'Reference', branches: [{ id: 'safety', label: 'Safety', chapterIds: ['security', 'faq'] }, { id: 'terms', label: 'Terms', chapterIds: ['glossary', 'sources'] }] }
+  { id: 'reference', label: 'Reference', branches: [{ id: 'safety', label: 'Safety', chapterIds: ['security', 'faq'], landingId: 'reference-safety' }, { id: 'terms', label: 'Terms', chapterIds: ['glossary', 'sources'], landingId: 'reference-terms' }] }
 ]
 const { page } = useData()
 const current = computed(() => {
   const path = page.value.relativePath.replace(/\.md$/, '')
-  return getChapterByPath(path === 'index' ? '/' : `/${path}/`)
+  const route = path === 'index' ? '/' : `/${path}/`
+  return getChapterByPath(route) ?? getBranchLandingByPath(route)
 })
 const navLinks = ref<Element[]>([])
 const chapterById = (id: string) => chapters.find((chapter) => chapter.id === id)
+const landingById = (id?: string) => branchLandings.find((landing) => landing.id === id)
 const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
-const isOpen = (section: NavSection) => section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? ''))
+const isOpen = (section: NavSection) => section.branches.some((branch) => branch.chapterIds.includes(current.value?.id ?? '') || branch.landingId === current.value?.id)
 const hasChildren = (branch: NavBranch) => branch.chapterIds.length > 1
-const isBranchOpen = (branch: NavBranch) => !hasChildren(branch) && branch.chapterIds.includes(current.value?.id ?? '')
+const isBranchOpen = (branch: NavBranch) => branch.landingId === current.value?.id || (!hasChildren(branch) && branch.chapterIds.includes(current.value?.id ?? ''))
 const href = (chapter: ChapterMeta) => withBase(chapter.href)
-const sectionHref = (section: NavSection) => href(branchChapters(section.branches[0])[0])
-const branchHref = (branch: NavBranch) => href(branchChapters(branch)[0])
+const landingHref = (landing: BranchLanding) => withBase(landing.href)
+const sectionHref = (section: NavSection) => branchHref(section.branches[0])
+const branchHref = (branch: NavBranch) => landingById(branch.landingId) ? landingHref(landingById(branch.landingId)!) : href(branchChapters(branch)[0])
 const sectionAccent = (section: NavSection) => getChapterAccent(branchChapters(section.branches[0])[0])
 const badge = (chapter: ChapterMeta) => ({ 'os-verify': 'PGP', javacard: 'JS', 'seedkeeper-backup': 'NEW' }[chapter.id])
 onMounted(() => animateEnter(navLinks.value))
