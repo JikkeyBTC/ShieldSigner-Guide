@@ -53,7 +53,6 @@ const chapterCards: GuideCard[] = chapters.filter((chapter) => chapter.id !== 'o
     assembly: '키트 조립 방법',
     'os-verify': '변조 확인 검증',
     'seedkeeper-backup': 'SeedKeeper 소개',
-    bluewallet: '워치온리 지갑'
   } as Record<string, string>)[chapter.id] ?? chapter.label,
   chapterId: chapter.id
 }))
@@ -66,7 +65,7 @@ const cardOrder: readonly (readonly ['section' | 'branch' | 'chapter', string])[
   ['section', 'os'], ['branch', 'installation'], ['chapter', 'os-install'], ['branch', 'verification'], ['chapter', 'os-verify'],
   ['section', 'seedkeeper'], ['branch', 'concepts'], ['chapter', 'javacard'], ['chapter', 'what-is-seedkeeper'], ['branch', 'backup-recovery'],
   ['chapter', 'seedkeeper-initialize'], ['chapter', 'seedkeeper-backup'], ['chapter', 'seedkeeper-clone'], ['chapter', 'seedkeeper-restore'], ['chapter', 'seedkeeper-recovery'],
-  ['section', 'wallet'], ['branch', 'bluewallet'], ['chapter', 'bluewallet'], ['branch', 'coconut'], ['chapter', 'coconut'],
+  ['section', 'wallet'], ['branch', 'bluewallet'], ['branch', 'coconut'], ['chapter', 'coconut'],
   ['section', 'transactions'], ['branch', 'receive'], ['chapter', 'receive'], ['branch', 'signing'], ['chapter', 'sign-psbt'],
   ['section', 'reference'], ['branch', 'safety'], ['chapter', 'security'], ['chapter', 'faq'], ['branch', 'terms'], ['chapter', 'glossary'], ['chapter', 'sources']
 ]

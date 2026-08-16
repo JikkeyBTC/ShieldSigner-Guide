@@ -168,6 +168,12 @@ test('watch-only, transaction, and reference chapters expose safety content', as
   await expect(page.getByRole('link', { name: 'SeedKeeper Applet 공식 저장소' })).toHaveAttribute('href', /github.com\/Toporin\/Seedkeeper-Applet/);
 });
 
+test('watch-only card list keeps one BlueWallet entry', async ({ page }) => {
+  await page.goto('/ShieldSigner-Guide/');
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'BlueWallet' })).toHaveCount(1);
+  await expect(page.locator('.ss-demo-card').filter({ hasText: '워치온리 지갑' })).toHaveCount(0);
+});
+
 test('second-level navigation groups open their own landing content', async ({ page }) => {
   await page.goto('/ShieldSigner-Guide/seedkeeper/javacard');
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();
