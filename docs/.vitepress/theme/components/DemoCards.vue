@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
-import { animate, scrambleText, splitText, stagger } from 'animejs'
+import { animate, scrambleText } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
 import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLandings } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
@@ -131,52 +131,9 @@ const activeCard = computed(() => {
   return matches.find((card) => card.chapterId) ?? matches.find((card) => card.id.startsWith('branch-')) ?? matches.find((card) => card.id.startsWith('section-')) ?? matches[0]
 })
 const isCurrent = (card: GuideCard) => activeCard.value?.id === card.id
-const seedkeeperLogo = withBase('/brand/seedkeeper/seedkeeper_logo_black.png')
-const seedkeeperIcon = withBase('/brand/seedkeeper/seedkeeper_icon.png')
-const shieldsignerLogo = withBase('/brand/shieldsigner.svg')
-const shieldsignerBootCapture = withBase('/brand/simulator/shieldsigner-boot.png')
-const bitcoinAsset = withBase('/brand/bitcoin.svg')
-const userAsset = withBase('/brand/user-circle.svg')
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 let skipNextRailSync = false
 let alignNextRailCard = false
-let activeTransferAnimation: ReturnType<typeof animate> | null = null
-let activeTransferCardElement: HTMLElement | null = null
-
-const transferDistance = (cardElement: HTMLElement) => {
-  const user = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-user')
-  const bitcoin = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
-  if (!user || !bitcoin) return 0
-  return Math.max(0, bitcoin.offsetLeft - user.offsetLeft)
-}
-
-const stopTransferLoop = () => {
-  activeTransferAnimation?.pause()
-  activeTransferCardElement?.classList.remove('is-transfer-looping')
-  activeTransferAnimation = null
-  activeTransferCardElement = null
-}
-
-const startTransferLoop = (card?: GuideCard) => {
-  stopTransferLoop()
-  if (!card || prefersReducedMotion() || (card.id !== 'branch-send' && card.id !== 'branch-receive')) return
-  const cardElement = Array.from(document.querySelectorAll<HTMLElement>('.ss-demo-card')).find((item) => item.getAttribute('href') === href(card))
-  const bitcoin = cardElement?.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
-  if (!cardElement || !bitcoin) return
-  const distance = transferDistance(cardElement)
-  if (distance <= 0) return
-  const start = card.id === 'branch-send' ? -distance : 0
-  const end = card.id === 'branch-send' ? 0 : -distance
-  activeTransferCardElement = cardElement
-  activeTransferCardElement.classList.add('is-transfer-looping')
-  activeTransferAnimation = animate(bitcoin, {
-    translateX: [start, end],
-    duration: 1500,
-    ease: 'inOutSine',
-    loop: true,
-    alternate: true,
-  })
-}
 
 const revealCardIfNeeded = (rail: HTMLElement, card: HTMLElement) => {
   const railBox = rail.getBoundingClientRect()
@@ -218,10 +175,8 @@ const handleTocNavigation = (event: Event) => {
 
 onMounted(() => {
   window.addEventListener('ss:toc-navigation', handleTocNavigation)
-  nextTick(() => startTransferLoop(activeCard.value))
 })
 onBeforeUnmount(() => {
-  stopTransferLoop()
   window.removeEventListener('ss:toc-navigation', handleTocNavigation)
 })
 
@@ -241,7 +196,6 @@ const navigateBesideCards = (path: string) => {
 watch(() => current.value?.id, async (id) => {
   if (!id) return
   await nextTick()
-  startTransferLoop(activeCard.value)
   if (alignNextRailCard) {
     alignNextRailCard = false
     const rail = document.querySelector<HTMLElement>('.ss-demo-rail')
@@ -263,50 +217,6 @@ const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
   if (prefersReducedMotion()) return
   const title = cardElement.querySelector('.ss-scramble-title')
   if (title) animate(title, { innerHTML: scrambleText({ chars: '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' }), duration: 480, ease: 'linear' })
-  const targets = (selector: string) => Array.from(cardElement.querySelectorAll(selector))
-  const linesCopy = cardElement.querySelector<HTMLElement>('.ss-demo-lines-copy')
-  if (linesCopy && card.id === 'section-getting-started') {
-    const splitter = splitText(linesCopy, { lines: true, words: false, chars: false, accessible: false })
-    animate(linesCopy, { opacity: [.5, 1], translateX: [-5, 0], duration: 420, ease: 'out(3)' })
-    const animateLines = () => {
-      if (!splitter.lines.length) {
-        if (!splitter.ready) requestAnimationFrame(animateLines)
-        return
-      }
-      animate(splitter.lines, {
-        translateY: ['.8em', '0em'],
-        opacity: [0, 1],
-        delay: stagger(120),
-        duration: 520,
-        ease: 'out(3)',
-      })
-    }
-    animateLines()
-    window.setTimeout(() => splitter.revert(), 1200)
-  }
-  if (card.type === 'category' && card.id !== 'section-os') animate(targets('.ss-demo-category-shape'), { translateY: [10, -5, 0], rotate: [-4, 4, 0], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
-  if (card.id === 'section-os') animate(targets('.ss-demo-os-logo'), { scale: [.94, 1.02, 1], opacity: [.72, 1, 1], duration: 520, ease: 'out(3)' })
-  if (card.id === 'branch-hardware') {
-    animate(targets('.ss-demo-hardware-card'), { translateX: [18, 0], opacity: [.35, 1], duration: 720, ease: 'out(3)' })
-    animate(targets('.ss-demo-hardware-screen'), { scale: [1.06, 1], opacity: [.55, 1], duration: 620, ease: 'out(3)' })
-  }
-  if (card.id === 'section-build' || card.id === 'assembly') animate(targets('.ss-demo-stagger i'), { translateY: [18, 0], rotate: [-8, 0], opacity: [.35, 1], delay: stagger(120), duration: 560, ease: 'out(3)' })
-  if (card.id === 'os-install') animate(targets('.ss-demo-install-progress'), { scaleX: [0, 1], transformOrigin: 'left center', duration: 620, ease: 'out(2)' })
-  if (card.type === 'verify') animate([...targets('.ss-demo-dot'), ...targets('.ss-demo-line')], { scale: [.75, 1.15, 1], opacity: [.45, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
-  if (card.type === 'seed') animate([...targets('.ss-demo-seed-logo'), ...targets('.ss-demo-seed-icon'), ...targets('.ss-demo-card-chip'), ...targets('.ss-demo-lock')], { rotateY: [0, 360], scale: [.85, 1.08, 1], delay: stagger(90), duration: 560, ease: 'inOutSine' })
-  if (card.type === 'wallet') animate(targets('.ss-demo-qr-node'), { scale: [.75, 1.12, 1], opacity: [.45, 1, 1], delay: stagger(110), duration: 500, ease: 'inOutSine' })
-  if (card.id === 'branch-send') {
-    const bitcoin = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
-    const distance = transferDistance(cardElement)
-    if (bitcoin && distance > 0) animate(bitcoin, { translateX: { from: `${-distance}px`, to: '0px', duration: 680, ease: 'out(3)' } })
-  } else if (card.id === 'branch-receive') {
-    const bitcoin = cardElement.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin')
-    const distance = transferDistance(cardElement)
-    if (bitcoin && distance > 0) animate(bitcoin, { translateX: { from: '0px', to: `${-distance}px`, duration: 680, ease: 'out(3)' } })
-  } else if (card.type === 'flow') {
-    animate([...targets('.ss-demo-flow-node'), ...targets('.ss-demo-flow i')], { translateX: [-8, 8, 0], opacity: [.35, 1, 1], delay: stagger(90), duration: 520, ease: 'inOutSine' })
-  }
-  if (card.type === 'reference') animate(targets('.ss-demo-ref-line'), { innerHTML: scrambleText({ chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' }), delay: stagger(100), duration: 520, ease: 'linear' })
 }
 
 const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
@@ -329,33 +239,7 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
     <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :data-card-visual="card.visual" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
       <header><span class="ss-scramble-title">{{ card.displayTitle }}</span></header>
-      <div v-if="card.id === 'branch-send'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--send" aria-label="User sends Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
-      <div v-else-if="card.id === 'branch-receive'" class="ss-demo-visual ss-demo-transfer ss-demo-transfer--receive" aria-label="User receives Bitcoin"><img class="ss-demo-transfer-user" :src="userAsset" alt=""><span class="ss-demo-transfer-arrow" aria-hidden="true"></span><img class="ss-demo-transfer-bitcoin" :src="bitcoinAsset" alt=""></div>
-      <div v-else-if="card.id === 'branch-hardware'" class="ss-demo-visual ss-demo-hardware" aria-label="ShieldSigner boot screen and Card A insertion"><span class="ss-demo-hardware-screen-frame"><img class="ss-demo-hardware-screen" :src="shieldsignerBootCapture" alt="ShieldSigner boot screen"></span><span class="ss-demo-hardware-slot" aria-hidden="true"></span><span class="ss-demo-hardware-card" aria-hidden="true"><i></i><b>A</b></span></div>
-      <div v-else-if="card.id === 'section-os'" class="ss-demo-visual ss-demo-category ss-demo-os"><img class="ss-demo-os-logo" :src="shieldsignerLogo" alt="ShieldSigner"></div>
-      <div v-else-if="card.type === 'category'" class="ss-demo-visual ss-demo-category">
-        <template v-if="card.id === 'section-getting-started'">
-          <span class="ss-demo-lines-copy" aria-hidden="true">Don't Trust,<br>Verify.</span>
-        </template>
-        <template v-else>
-          <i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i><i class="ss-demo-category-shape"></i>
-        </template>
-      </div>
-      <div v-else-if="card.type === 'intro' && card.id === 'os-install'" class="ss-demo-visual ss-demo-intro ss-demo-install"><span class="ss-demo-install-track"><i class="ss-demo-install-progress"></i></span><b>FLASH / BOOT</b></div>
-      <div v-else-if="card.type === 'intro'" class="ss-demo-visual ss-demo-intro ss-demo-stagger"><i></i><i></i><i></i></div>
-      <div v-else-if="card.type === 'verify'" class="ss-demo-visual ss-demo-verify"><span class="ss-demo-dot"></span><span class="ss-demo-line"></span><span class="ss-demo-line short"></span><b>SHA-256</b></div>
-      <div v-else-if="card.type === 'seed'" class="ss-demo-visual ss-demo-seed" :class="{ 'ss-demo-seed--backup': card.id === 'seedkeeper-backup' }">
-        <div v-if="card.id === 'seedkeeper-backup'" class="ss-demo-seed-resource-field" aria-hidden="true">
-          <img class="ss-demo-seed-logo ss-demo-seed-logo--hero" :src="seedkeeperLogo" alt="">
-        </div>
-        <template v-else>
-          <img class="ss-demo-seed-icon" :src="seedkeeperIcon" alt="">
-          <span class="ss-demo-card-chip"></span><span class="ss-demo-lock">⌁</span><b>ENCRYPTED</b>
-        </template>
-      </div>
-      <div v-else-if="card.type === 'flow'" class="ss-demo-visual ss-demo-flow"><span class="ss-demo-flow-node">ADDR</span><i>→</i><span class="ss-demo-flow-node">PSBT</span><i>→</i><span class="ss-demo-flow-node">SIGN</span></div>
-      <div v-else-if="card.type === 'reference'" class="ss-demo-visual ss-demo-reference"><span class="ss-demo-ref-line">FAQ / TERMS</span><span class="ss-demo-ref-line">SOURCES / SAFE</span></div>
-      <div v-else class="ss-demo-visual ss-demo-wallet"><span class="ss-demo-qr-node">XPUB</span><span class="ss-demo-qr-node">QR</span><span class="ss-demo-qr-node">PSBT</span></div>
+      <div class="ss-demo-visual ss-demo-visual--empty" aria-hidden="true"></div>
     </a>
     <p v-if="visibleCards.length === 0" class="ss-card-search-empty">No matching chapters.</p>
   </aside>

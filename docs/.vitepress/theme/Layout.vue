@@ -44,7 +44,7 @@ watch(locale, syncDocumentLanguage)
     <header class="ss-topbar">
       <div class="ss-topbar-inner">
         <a class="ss-brand" :href="withBase(localizeHref('/', locale))" aria-label="ShieldSigner Guide home">
-          <img :src="logoPath" alt="ShieldSigner" />
+          <img :src="logoPath" alt="ShieldSigner" width="1214" height="389" />
         </a>
         <CardRailNav />
         <nav class="ss-top-actions" aria-label="External resources">

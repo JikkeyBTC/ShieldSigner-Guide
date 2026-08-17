@@ -32,13 +32,12 @@ test('OS card list keeps one Installation entry without a duplicate install card
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS 설치' })).toHaveCount(0);
 });
 
-test('ShieldSigner OS section card shows the brand logo inside its visual panel', async ({ page }) => {
+test('ShieldSigner OS section card starts with an empty visual panel', async ({ page }) => {
   await page.goto(ko('/os/'));
   const osCard = page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS' }).first();
   await expect(osCard).toHaveCount(1);
-  await expect(osCard.locator('.ss-demo-os')).toBeVisible();
-  await expect(osCard.locator('.ss-demo-os-logo')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/shieldsigner.svg');
-  await expect(osCard.locator('.ss-demo-os-logo')).toHaveCSS('object-fit', 'contain');
+  await expect(osCard.locator('.ss-demo-visual--empty')).toBeVisible();
+  await expect(osCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
 });
 
 test('assembly labels use the shared Korean-friendly guide font stack', async ({ page }) => {
@@ -65,6 +64,7 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   await expect(page.locator('.ss-demo-rail')).toBeVisible();
   await expect(page.locator('.ss-doc-nav-bar')).toBeHidden();
   await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.ss-brand')).toHaveCSS('width', '148px');
   await expect(page.getByRole('button', { name: 'Previous card' })).toBeDisabled();
   await expect(page.getByRole('button', { name: 'Next card' })).toBeEnabled();
   const mobileMenu = page.locator('#docs-nav-menu');
@@ -84,6 +84,15 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   await expect(page.locator('.ss-mobile-search-panel')).toBeHidden();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(overflow).toBeFalsy();
+});
+
+test('topbar brand reserves its intrinsic logo box during route loading', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko('/os/verification/'));
+  const logo = page.locator('.ss-brand img');
+  await expect(logo).toHaveAttribute('width', '1214');
+  await expect(logo).toHaveAttribute('height', '389');
+  await expect(page.locator('.ss-brand')).toHaveCSS('flex-shrink', '0');
 });
 
 test('mobile guide drawer stays open across section, branch, and page navigation', async ({ page }) => {
@@ -158,6 +167,9 @@ test('desktop shell uses the wide card rail and article measure', async ({ page 
   await expect(page.locator('.ss-article-inner')).toHaveCSS('max-width', '1080px');
   await expect(page.locator('.ss-article-inner')).toHaveCSS('padding-top', '56px');
   await expect(page.locator('.ss-article-inner')).toHaveCSS('padding-right', '64px');
+  const cardHeights = await page.locator('.ss-demo-card').evaluateAll((cards) => cards.map((card) => Math.round(card.getBoundingClientRect().height)));
+  expect(cardHeights.length).toBeGreaterThan(0);
+  expect(cardHeights.every((height) => height === 192)).toBeTruthy();
 });
 
 test('article titles use the compact documentation scale', async ({ page }) => {
@@ -280,15 +292,16 @@ test('TOC navigation aligns the selected card to the top of the rail', async ({ 
   expect(alignment!.cardTop).toBeLessThan(alignment!.railTop + 36);
 });
 
-test('TOC navigation runs the selected card animation', async ({ page }) => {
+test('TOC navigation keeps the selected card visual panel ready for artwork', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko('/seedkeeper/javacard/'));
   const selectedCard = page.locator('.ss-demo-card').filter({ hasText: 'Backup & recovery' });
-  const animatedShape = selectedCard.locator('.ss-demo-category-shape').first();
 
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Backup & recovery' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
-  await expect.poll(() => animatedShape.getAttribute('style')).toMatch(/(?:transform|opacity)/);
+  await expect(selectedCard).toHaveAttribute('aria-current', 'page');
+  await expect(selectedCard.locator('.ss-demo-visual--empty')).toBeVisible();
+  await expect(selectedCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
 });
 
 test('active branch highlight bar reaches the end of its nested items', async ({ page }) => {
@@ -444,24 +457,24 @@ test('watch-only, transaction, and reference chapters expose safety content', as
   await expect(page.getByRole('link', { name: 'SeedKeeper Applet 공식 저장소' })).toHaveAttribute('href', /github.com\/Toporin\/Seedkeeper-Applet/);
 });
 
-test('watch-only card list keeps one BlueWallet entry', async ({ page }) => {
+test('watch-only card list keeps one BlueWallet and one Coconut entry', async ({ page }) => {
   await page.goto(ko());
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'BlueWallet' })).toHaveCount(1);
   await expect(page.locator('.ss-demo-card').filter({ hasText: '워치온리 지갑' })).toHaveCount(0);
+  await expect(page.locator('.ss-demo-card').filter({ hasText: '코코넛 월렛' })).toHaveCount(1);
+  await expect(page.locator('.ss-demo-card').filter({ hasText: /^Coconut$/ })).toHaveCount(0);
 });
 
 test('Receive is a single landing route', async ({ page }) => {
   await page.goto(ko());
   const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
   await expect(receiveCard).toHaveCount(1);
-  await expect(receiveCard.locator('.ss-demo-transfer')).toHaveCount(1);
-  await expect(receiveCard.locator('.ss-demo-transfer-bitcoin')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/bitcoin.svg');
+  await expect(receiveCard.locator('.ss-demo-visual--empty')).toBeVisible();
   await expect(page.locator('.ss-demo-card').filter({ hasText: '수신 주소 확인' })).toHaveCount(0);
   const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
   await expect(sendCard).toHaveCount(1);
   await expect(sendCard).toHaveAttribute('href', /\/transactions\/send-guide\/$/);
-  await expect(sendCard.locator('.ss-demo-transfer-user')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/user-circle.svg');
-  await expect(sendCard.locator('.ss-demo-transfer-bitcoin')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/bitcoin.svg');
+  await expect(sendCard.locator('.ss-demo-visual--empty')).toBeVisible();
   const signingCard = page.locator('.ss-demo-card').filter({ hasText: 'Signing' });
   await expect(signingCard).toHaveCount(1);
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'PSBT 검토·서명' })).toHaveCount(0);
@@ -480,68 +493,13 @@ test('Receive is a single landing route', async ({ page }) => {
   await expect(page.locator('main')).toContainText('수신자 주소');
 });
 
-test('Send and Receive transfer animations travel between the user and Bitcoin', async ({ page }) => {
+test('Send and Receive cards stay empty until their artwork is designed', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  const transferGap = (card: ReturnType<typeof page.locator>) => card.evaluate((element) => {
-    const user = element.querySelector<HTMLElement>('.ss-demo-transfer-user');
-    const bitcoin = element.querySelector<HTMLElement>('.ss-demo-transfer-bitcoin');
-    if (!user || !bitcoin) return null;
-    const userBox = user.getBoundingClientRect();
-    const bitcoinBox = bitcoin.getBoundingClientRect();
-    return Math.abs((bitcoinBox.left + bitcoinBox.width / 2) - (userBox.left + userBox.width / 2));
-  });
-
   await page.goto(ko());
-  await page.locator('.ss-demo-rail').evaluate((rail) => { rail.scrollTop = rail.scrollHeight; });
-  const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
-  await sendCard.evaluate((element) => { const rail = element.closest<HTMLElement>('.ss-demo-rail'); if (rail) rail.scrollTop += element.getBoundingClientRect().top - rail.getBoundingClientRect().top - 120; });
-  const sendInitialGap = await transferGap(sendCard);
-  const sendBox = await sendCard.boundingBox();
-  expect(sendBox).not.toBeNull();
-  await page.mouse.click(sendBox!.x + sendBox!.width / 2, sendBox!.y + sendBox!.height / 2);
-  await page.waitForTimeout(50);
-  await page.waitForTimeout(120);
-  const sendEarlyGap = await transferGap(sendCard);
-  await page.waitForTimeout(650);
-  const sendFinalGap = await transferGap(sendCard);
-  expect(sendInitialGap).not.toBeNull();
-  expect(sendEarlyGap).toBeLessThan(sendInitialGap! - 5);
-  expect(sendFinalGap).not.toBeNull();
-  await expect(sendCard).toHaveClass(/is-transfer-looping/);
-
-  await page.goto(ko());
-  await page.locator('.ss-demo-rail').evaluate((rail) => { rail.scrollTop = rail.scrollHeight; });
-  const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
-  await receiveCard.evaluate((element) => { const rail = element.closest<HTMLElement>('.ss-demo-rail'); if (rail) rail.scrollTop += element.getBoundingClientRect().top - rail.getBoundingClientRect().top - 120; });
-  const receiveInitialGap = await transferGap(receiveCard);
-  const receiveBox = await receiveCard.boundingBox();
-  expect(receiveBox).not.toBeNull();
-  await page.mouse.click(receiveBox!.x + receiveBox!.width / 2, receiveBox!.y + receiveBox!.height / 2);
-  await page.waitForTimeout(450);
-  const receiveEarlyGap = await transferGap(receiveCard);
-  await page.waitForTimeout(650);
-  const receiveFinalGap = await transferGap(receiveCard);
-  expect(receiveInitialGap).not.toBeNull();
-  expect(receiveEarlyGap).toBeLessThan(receiveInitialGap! * 0.9);
-  expect(receiveFinalGap).not.toBeNull();
-  await expect(receiveCard).toHaveClass(/is-transfer-looping/);
-});
-
-test('Send and Receive loops only run for the active transfer card', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(ko('/transactions/send-guide/'));
   const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
   const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
-  await expect(sendCard).toHaveClass(/is-transfer-looping/);
-  await expect(receiveCard).not.toHaveClass(/is-transfer-looping/);
-
-  await page.goto(ko('/transactions/receive-guide/'));
-  await expect(receiveCard).toHaveClass(/is-transfer-looping/);
-  await expect(sendCard).not.toHaveClass(/is-transfer-looping/);
-
-  await page.goto(ko('/seedkeeper/javacard/'));
-  await expect(sendCard).not.toHaveClass(/is-transfer-looping/);
-  await expect(receiveCard).not.toHaveClass(/is-transfer-looping/);
+  await expect(sendCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
+  await expect(receiveCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
 });
 
 test('guide cards keep their visual mapping without header icons', async ({ page }) => {
@@ -556,6 +514,26 @@ test('guide cards keep their visual mapping without header icons', async ({ page
     await expect(card.locator('header .ss-demo-icon')).toHaveCount(0);
     await expect(card.locator('.ss-scramble-title')).toBeVisible();
   }
+});
+
+test('guide card visual panels start empty for incremental artwork', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const visualChildCounts = await page.locator('.ss-demo-card .ss-demo-visual').evaluateAll((panels) => panels.map((panel) => panel.children.length));
+  expect(visualChildCounts.length).toBeGreaterThan(0);
+  expect(visualChildCounts.every((count) => count === 0)).toBeTruthy();
+});
+
+test('active guide cards do not add a visible border or halo', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const activeCard = page.locator('.ss-demo-card[aria-current="page"]').first();
+  const styles = await activeCard.evaluate((card) => {
+    const computed = getComputedStyle(card);
+    return { borderColor: computed.borderColor, boxShadow: computed.boxShadow };
+  });
+  expect(styles.borderColor).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
+  expect(styles.boxShadow).toBe('none');
 });
 
 test('cards omit the old bottom-left summary copy', async ({ page }) => {
@@ -573,25 +551,20 @@ test('cards keep summary copy out of both the visual panel and card header', asy
   await expect(card.locator('header .ss-demo-card-copy')).toHaveCount(0);
 });
 
-test('Getting started card exposes the two-line trust verification message', async ({ page }) => {
+test('Getting started card starts with an empty visual panel', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
-  await expect(card.locator('.ss-demo-lines-copy')).toContainText("Don't Trust,");
-  await expect(card.locator('.ss-demo-lines-copy')).toContainText('Verify.');
-  await card.click();
-  await expect.poll(() => card.locator('.ss-demo-lines-copy [data-line]').count(), { timeout: 2000 }).toBe(2);
-  await expect.poll(() => card.locator('.ss-demo-lines-copy').getAttribute('style')).toMatch(/(?:transform|opacity)/);
+  await expect(card.locator('.ss-demo-visual--empty')).toBeVisible();
+  await expect(card.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
 });
 
-test('Hardware card uses the ShieldSigner boot capture and card insertion target', async ({ page }) => {
+test('Hardware card starts with an empty visual panel', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Hardware' }).first();
-  await expect(card.locator('.ss-demo-hardware-screen')).toHaveAttribute('src', /shieldsigner-boot\.png/);
-  await expect(card.locator('.ss-demo-hardware-card')).toHaveCount(1);
-  await card.click();
-  await expect.poll(() => card.locator('.ss-demo-hardware-card').getAttribute('style')).toMatch(/transform/);
+  await expect(card.locator('.ss-demo-visual--empty')).toBeVisible();
+  await expect(card.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
 });
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {
