@@ -1,15 +1,14 @@
 ---
-title: Backup & recovery
-description: Initialize, back up, clone, restore, and recover a SeedKeeper card
+title: Using your card
+description: Initialize a SeedKeeper card, save a seed, and load it back into ShieldSigner
 ---
 
-# Backup & recovery
+# Using your card
 
-Use a staged workflow: prepare the card, make an encrypted backup, create a second copy, test restoration, and document a loss plan.
+Prepare a new card with a PIN, save a seed from ShieldSigner, and load it back when needed.
 
-- [Initialize the card and set a PIN](./initialize)
-- [Back up a seed to the card](./backup)
-- [Clone between cards](./clone)
-- [Restore a seed](./restore)
-- [Loss and recovery plan](./recovery)
+1. [Initialize the card and set a PIN](./initialize)
+2. [Save a seed to the card](./save)
+3. [Load a seed from the card](./load)
 
+Saving copies a seed from ShieldSigner to the card. Loading reads it back into ShieldSigner without deleting the copy on the card.

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 530" role="img" aria-labelledby="title desc">
+  <title id="title">Etcher로 SD 카드에 기록하는 순서</title>
+  <desc id="desc">Flash from file에서 검증한 이미지, Select target에서 대상 microSD, Flash에서 쓰기와 검증 완료를 확인합니다. 실제 앱 화면이 아닌 단계 안내도입니다.</desc>
+  <rect width="680" height="530" fill="#2a2928"/>
+  <g font-family="Pretendard, Malgun Gothic, sans-serif">
+    <text x="32" y="45" fill="#ff9a52" font-size="17" letter-spacing="2">BALENAETCHER · 단계 안내</text>
+    <text x="32" y="84" fill="#fff8f0" font-size="29" font-weight="700">이 버튼 순서대로 진행해요</text>
+    <g fill="#33302d" stroke="#554b42"><rect x="32" y="113" width="616" height="101" rx="10"/><rect x="32" y="231" width="616" height="101" rx="10"/><rect x="32" y="349" width="616" height="101" rx="10"/></g>
+    <g fill="#ff9a52" font-size="27" font-weight="700"><text x="53" y="161">01</text><text x="53" y="279">02</text><text x="53" y="397">03</text></g>
+    <g fill="#fff8f0" font-size="26" font-weight="700"><text x="116" y="153">Flash from file</text><text x="116" y="271">Select target</text><text x="116" y="389">Flash!</text></g>
+    <g fill="#c5bcb3" font-size="22"><text x="116" y="189">검증한 .img 파일을 선택해요</text><text x="116" y="307">SD 카드의 이름과 용량을 확인해요</text><text x="116" y="425">Flashing → Validating → 완료</text></g>
+    <path d="M586 139v38m-11-12 11 12 11-12M578 260h23v37h-32v-27zM570 397l10 10 22-23" fill="none" stroke="#ff9a52" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="32" y="492" fill="#ffd08d" font-size="22">선택한 SD 카드의 기존 데이터가 모두 지워져요.</text>
+  </g>
+</svg>

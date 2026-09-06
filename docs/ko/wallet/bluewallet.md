@@ -30,4 +30,4 @@ BlueWallet은 거래를 만들고 PSBT QR을 표시할 수 있습니다. ShieldS
 
 <Callout type="warning" title="시드 노출 금지">BlueWallet에 시드나 개인키를 입력하면 워치온리가 아닙니다. 휴대폰 카메라로 SeedKeeper 카드나 복구 문구를 촬영하지 마세요.</Callout>
 
-<GuideNav prev="/seedkeeper/recovery" next="/wallet/coconut" prevLabel="분실과 복구 계획" nextLabel="다음: Coconut Wallet 워치온리 지갑" />
+<GuideNav prev="/seedkeeper/load" next="/wallet/coconut" prevLabel="카드에서 시드 불러오기" nextLabel="다음: Coconut Wallet 워치온리 지갑" />

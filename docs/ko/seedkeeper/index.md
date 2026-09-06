@@ -1,6 +1,6 @@
 ---
 title: SeedKeeper
-description: JavaCard 기반 시드 백업과 복구를 시작하는 카테고리
+description: SeedKeeper 카드의 첫 설정과 시드 저장·불러오기 안내
 verifiedOn: 2026-08-16
 verifiedVersion: SeedKeeper buyer guide
 estimatedTime: 5분
@@ -8,7 +8,7 @@ estimatedTime: 5분
 
 # SeedKeeper
 
-SeedKeeper 카테고리는 JavaCard 플랫폼, SeedKeeper 애플릿, ShieldSigner의 역할을 구분하고 카드 백업·복구 흐름으로 이어집니다.
+SeedKeeper 카테고리는 JavaCard 플랫폼, SeedKeeper 애플릿, ShieldSigner의 역할을 구분하고 카드 초기화, 시드 저장, 불러오기 순서로 이어져요.
 
 ## 이 카테고리에서 다루는 내용
 
@@ -24,11 +24,11 @@ SeedKeeper 카테고리는 JavaCard 플랫폼, SeedKeeper 애플릿, ShieldSigne
 
 <div class="ss-summary-card">
 
-### Backup & recovery
+### 카드 사용하기
 
-카드 초기화, 암호화 백업, 복제, 복원 테스트, 분실 대응을 순서대로 진행합니다.
+카드에 PIN을 정하고, 시드를 저장한 다음 다시 불러와 확인해요.
 
-[Backup & recovery 본문](./backup-recovery)
+[카드 사용 방법](./backup-recovery)
 
 </div>
 

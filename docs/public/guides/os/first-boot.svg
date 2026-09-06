@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 490" role="img" aria-labelledby="title desc">
+  <title id="title">SD 카드를 넣은 다음 전원을 연결해요</title>
+  <desc id="desc">컴퓨터에서 안전하게 추출한 SD 카드를 전원이 꺼진 기기에 삽입하고 전원을 연결합니다. 기기의 모양은 단순화한 안내도입니다.</desc>
+  <rect width="680" height="490" fill="#2a2928"/>
+  <g font-family="Pretendard, Malgun Gothic, sans-serif">
+    <text x="32" y="45" fill="#ff9a52" font-size="17" letter-spacing="2">FIRST BOOT · 순서 안내</text>
+    <text x="32" y="84" fill="#fff8f0" font-size="29" font-weight="700">카드를 먼저, 전원은 나중에</text>
+    <g fill="#33302d" stroke="#554b42"><rect x="32" y="115" width="616" height="102" rx="10"/><rect x="32" y="231" width="616" height="102" rx="10"/><rect x="32" y="347" width="616" height="102" rx="10"/></g>
+    <g fill="none" stroke="#ff9a52" stroke-width="3" stroke-linejoin="round">
+      <rect x="58" y="140" width="86" height="49" rx="4"/><path d="M47 198h108M101 158v21m-9-9 9 9 9-9"/>
+      <rect x="109" y="247" width="42" height="71" rx="5"/><path d="M122 258h17v23h-17zM53 258h19v29H47v-23zM75 277h25m-7-7 7 7-7 7"/>
+      <rect x="54" y="372" width="48" height="52" rx="5"/><path d="M67 386h22v21H67zM102 412h12m9-8v16h18v-16zM141 412h13V377"/>
+    </g>
+    <g fill="#fff8f0" font-size="25" font-weight="700"><text x="185" y="154">① 컴퓨터에서 안전하게 꺼내요</text><text x="185" y="270">② 꺼진 기기에 SD 카드를 넣어요</text><text x="185" y="386">③ 전원을 연결하고 기다려요</text></g>
+    <g fill="#c5bcb3" font-size="21"><text x="185" y="188">기록과 검증이 끝난 다음 추출해요</text><text x="185" y="304">방향을 확인하고 무리한 힘은 피하세요</text><text x="185" y="420">홈 메뉴가 보이면 버튼 반응을 확인해요</text></g>
+  </g>
+</svg>

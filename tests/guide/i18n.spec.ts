@@ -13,21 +13,21 @@ describe('guide locale routing', () => {
   it('defaults the root and legacy routes to Korean', () => {
     expect(DEFAULT_LOCALE).toBe('ko')
     expect(getLocaleFromPath('/')).toBe('ko')
-    expect(getLocaleFromPath('/seedkeeper/backup/')).toBe('ko')
+    expect(getLocaleFromPath('/seedkeeper/save/')).toBe('ko')
   })
 
   it('normalizes localized paths to the shared route model', () => {
-    expect(stripLocalePrefix('/en/seedkeeper/backup/')).toBe('/seedkeeper/backup/')
-    expect(routeFromRelativePath('ko/seedkeeper/backup.md')).toBe('/seedkeeper/backup/')
+    expect(stripLocalePrefix('/en/seedkeeper/save/')).toBe('/seedkeeper/save/')
+    expect(routeFromRelativePath('ko/seedkeeper/save.md')).toBe('/seedkeeper/save/')
     expect(routeFromRelativePath('en/index.md')).toBe('/')
   })
 
   it('maps one route id to localized hrefs and labels', () => {
     const locales: GuideLocale[] = ['ko', 'en']
-    expect(locales.map((locale) => localizeHref('/seedkeeper/backup/', locale))).toEqual([
-      '/ko/seedkeeper/backup/',
-      '/en/seedkeeper/backup/'
+    expect(locales.map((locale) => localizeHref('/seedkeeper/save/', locale))).toEqual([
+      '/ko/seedkeeper/save/',
+      '/en/seedkeeper/save/'
     ])
-    expect(getLocalizedLabel('seedkeeper-backup', '시드를 카드에 백업하기', 'en')).toBe('Back up a seed to the card')
+    expect(getLocalizedLabel('seedkeeper-save', '시드를 카드에 저장하기', 'en')).toBe('Save a seed to the card')
   })
 })

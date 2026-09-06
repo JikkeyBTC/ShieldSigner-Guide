@@ -1,41 +1,204 @@
 ---
 title: 카드 초기화와 PIN
-description: 공식 애플릿 확인과 SeedKeeper 카드 초기화 체크리스트
-verifiedOn: 2026-08-16
-verifiedVersion: SeedKeeper buyer guide
-estimatedTime: 10분
+description: ShieldSigner에서 새 SeedKeeper 카드에 PIN을 설정하고, 카드 정보에서 완료 상태를 확인하는 방법
+verifiedOn: 2026-09-06
+verifiedVersion: SeSi-0.8.7+ShSi-B12 · 시뮬레이터 화면 기준
+estimatedTime: 5~10분
 ---
+
+<script setup>
+import GuideFigure from '../../.vitepress/theme/components/GuideFigure.vue'
+import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
+</script>
+
+<GuideContent>
 
 # 카드 초기화와 PIN
 
-아래 단계는 빈 카드 또는 판매자가 초기화하지 않은 카드를 처음 준비할 때의 공통 흐름입니다. 실제 메뉴 이름은 카드 리더와 SeedKeeper 버전에 따라 달라질 수 있으므로, 화면의 의미가 아래 체크포인트와 일치하는지 확인하세요.
+새 SeedKeeper 카드에 **나만의 PIN**을 정해 사용할 준비를 해요. PIN은 카드의 데이터를 사용할 때 필요한 비밀번호예요. 시드 단어나 지갑의 패스프레이즈와는 별개예요.
 
-## 초기화 전
+**카드 연결 → Card Info → 새 PIN 입력 → PIN 확인 → 설정 완료**
 
-- [ ] OS와 SeedKeeper 도구를 공식 출처에서 내려받고 서명을 확인했다.
-- [ ] 카드 리더가 신뢰할 수 있는 컴퓨터에 연결되어 있고 다른 USB 장치는 분리했다.
-- [ ] 실제 시드가 아닌 `TEST_SEED_DO_NOT_USE` 같은 테스트 값만 사용한다.
-- [ ] 카드 외부에 기록할 복구 정책(카드 수, 보관 장소, 교체 주기)을 정했다.
+이 안내는 **ShieldSigner B12**를 기준으로 해요. 이미지는 시뮬레이터에서 직접 캡처한 기기 전체와 화면 내부예요. 기기 언어가 영어일 때의 메뉴를 그대로 보여드려요.
 
-## 단계
+<Callout type="warning" title="여기서 초기화는 새 카드의 첫 설정을 뜻해요">
 
-1. SeedKeeper 애플릿이 공식 릴리스인지 버전·해시·서명으로 확인합니다.
-2. 카드에 애플릿을 설치하거나 이미 있다면 애플릿 식별자와 버전을 확인합니다.
-3. 초기화 작업을 시작하고 카드가 요구하는 PIN을 새로 설정합니다. PIN은 비밀번호 관리자나 카드와 분리된 봉인 기록에 보관하세요.
-4. 실패 횟수와 잠금 정책을 기록합니다. 추측으로 PIN을 반복 입력하지 마세요.
-5. 화면에 표시되는 카드 식별자(`CARD_ID_PLACEHOLDER`)를 대조해 다른 카드를 잘못 초기화하지 않았는지 확인합니다.
-6. 실제 시드를 넣기 전에 테스트 시크릿을 저장·조회하고 PIN 인증이 기대대로 작동하는지 확인합니다.
+이 안내에서는 새 카드에 PIN을 만들어요. 기존 데이터를 지우는 **Factory Reset Card**는 선택하지 마세요. 이미 사용 중인 카드라면 기존 PIN과 백업 상태부터 확인해 주세요.
 
-<Callout type="warning" title="초기화는 되돌릴 수 없을 수 있습니다">
-초기화·삭제 명령은 카드의 기존 데이터를 지울 수 있습니다. 카드가 새 제품이라는 확신이 없거나 이미 백업이 있다면 먼저 중단하고, 공식 절차에서 초기화 대상과 경고 문구를 확인하세요.
 </Callout>
 
-## 완료 기준
+## 시작하기 전에
 
-카드 식별자와 애플릿 버전을 기록했고, 새 PIN을 다른 사람에게 공개하지 않았으며, 테스트 시크릿으로 인증·저장·삭제가 성공해야 합니다. 그 뒤에만 [ShieldSigner 시드 백업](./backup)을 진행합니다.
+- [OS 설치](../os/install)와 [다운로드 파일 검증](../os/verification)을 마친 ShieldSigner를 준비해요.
+- **SeedKeeper 애플릿이 설치되어 있고, 아직 PIN을 설정하지 않은 카드**가 필요해요. 애플릿은 카드 안에서 동작하는 프로그램이에요. 아무 프로그램도 없는 빈 JavaCard에 애플릿을 설치하는 과정은 이 안내에 포함되지 않아요.
+- 카드가 여러 장이라면 A·B·C처럼 구분해 두고 **한 장씩** 설정해요.
+- 새 PIN을 안전하게 보관할 방법을 정해요. 카드 겉면에 PIN을 적거나, 카드와 PIN 기록을 함께 보관하지 마세요.
+
+아직 시드를 만들거나 카드에 저장할 필요는 없어요. 먼저 PIN 설정부터 마칠게요.
+
+## 1. 카드를 연결하고 Tools를 열어요 {#connect}
+
+ShieldSigner를 켜고 메인 메뉴가 나올 때까지 기다려요. 기기에 연결된 스마트카드 리더의 방향 표시에 맞춰 SeedKeeper 카드를 넣어 주세요.
+
+메인 메뉴에서 **Tools**를 선택해요. 방향키로 주황색 선택 표시를 옮긴 뒤, 가운데 확인 버튼을 누르면 돼요.
+
+<GuideFigure
+  src="/guides/seedkeeper/initialize/03-home-tools-device.png"
+  alt="ShieldSigner 시뮬레이터의 기기 전체. 메인 메뉴 왼쪽 아래 Tools가 주황색으로 선택되어 있다."
+  caption="왼쪽 방향키로 Tools를 고르고 가운데 버튼으로 열어요."
+/>
+
+<details>
+<summary>실물 카드 없이 시뮬레이터로 먼저 연습하려면</summary>
+
+[시뮬레이터 열기](https://jikkeybtc.github.io/seedsigner-simulator/wallet.html?firmware=smartcard&wallet=1&lang=ko)에서 **ShieldSigner**를 선택하고, 기기 아래의 **카드 A**를 눌러 연결해요. 이 안내의 캡처도 새 연습용 카드 A로 진행했어요.
+
+PC에서는 방향키와 Enter로 이동할 수 있어요. 휴대폰에서는 기기 화면의 메뉴를 터치해도 돼요. 실제 카드의 PIN이나 실제 시드는 시뮬레이터에 입력하지 말고, 연습용 값만 사용해 주세요.
+
+</details>
+
+## 2. Card Info로 들어가요 {#card-info-menu}
+
+전체 경로는 **Tools → Smartcard Tools → Common Functions → Card Info**예요.
+
+### Smartcard Tools 선택
+
+Tools 목록에서 아래로 이동해 **Smartcard Tools**를 열어요.
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/05-smartcard-selected-screen.png"
+  alt="Tools 목록에서 네 번째 항목 Smartcard Tools가 선택된 실제 기기 화면."
+  caption="Smartcard Tools는 스마트카드를 관리하는 메뉴예요."
+/>
+
+### Common Functions 선택
+
+맨 위의 **Common Functions**를 열어요.
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/06-smartcard-menu-screen.png"
+  alt="Smartcard Tools 화면에서 맨 위 Common Functions가 선택되어 있다."
+  caption="카드의 첫 설정은 Common Functions에서 진행할 수 있어요."
+/>
+
+### Card Info 선택
+
+화면 제목이 **Common Tools**로 바뀌면 두 번째 항목인 **Card Info**를 열어요. 새 카드라면 카드 정보를 보여주기 전에 PIN 설정을 안내해요.
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/08-card-info-selected-screen.png"
+  alt="Common Tools 화면에서 두 번째 항목 Card Info가 선택되어 있다."
+  caption="Device Filter 아래에 있는 Card Info를 선택해 주세요."
+/>
+
+## 3. 새 카드라는 안내를 확인해요 {#new-card}
+
+**Card Uninitialised**가 나오면 아직 첫 설정을 하지 않은 카드예요. 화면의 안내는 “카드 설정을 마치려면 PIN을 정해 주세요”라는 뜻이에요.
+
+**I Understand**를 선택해 다음으로 넘어가요.
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/09-card-uninitialised-screen.png"
+  alt="Card Uninitialised 화면. Set a device PIN to complete Card Setup 안내와 I Understand 버튼이 보인다."
+  caption="새 카드에서 나오는 첫 설정 안내예요. 아래 I Understand로 계속해요."
+/>
+
+이 화면 없이 바로 `Card Info`에 **Setup: Done**이 보인다면 이미 설정된 카드예요. 다시 초기화하지 말고 기존 PIN을 알고 있는지 확인해 주세요.
+
+## 4. 새 PIN을 입력해요 {#new-pin}
+
+**New Card PIN**에서 이 카드에 사용할 PIN을 정해요. B12의 SeedKeeper PIN은 **4~16자**이고, 숫자뿐 아니라 영문도 사용할 수 있어요. 짧은 반복 문자나 생일처럼 쉽게 짐작할 수 있는 값은 피해 주세요.
+
+<GuideFigure
+  src="/guides/seedkeeper/initialize/10-new-pin-device.png"
+  alt="기기 전체에 표시된 New Card PIN 입력 화면. 왼쪽은 방향키, 화면 오른쪽에는 ABC, 123, 초록색 체크 표시가 있다."
+  caption="방향키로 문자를 고르고 가운데 버튼으로 한 글자씩 입력해요."
+/>
+
+| 하고 싶은 일 | 누를 곳 |
+| --- | --- |
+| 문자 선택·입력 | 방향키로 이동한 뒤 가운데 확인 버튼 |
+| 대문자·소문자 전환 | 화면 오른쪽 위 `ABC` 또는 `abc`에 대응하는 버튼 |
+| 숫자 키보드로 전환 | 화면 오른쪽 가운데 `123`에 대응하는 버튼 |
+| 잘못 입력한 글자 지우기 | 키보드 아래의 지우기 기호 `⌫` |
+| 입력 마치기 | 화면 오른쪽 아래 **초록색 체크 표시**에 대응하는 버튼 |
+
+입력을 마치면 초록색 **확인 버튼**을 눌러요. 시뮬레이터의 PC 단축키로는 `1`이 위쪽 버튼, `2`가 가운데 버튼, `3`이 아래쪽 확인 버튼이에요.
+
+입력한 글자는 화면에 보일 수 있어요. 실제 PIN을 정할 때는 주변 시선과 촬영에 주의해 주세요.
+
+<details>
+<summary>PIN 입력 화면만 크게 보기</summary>
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/10-new-pin-screen.png"
+  alt="New Card PIN의 빈 입력창과 영문 키보드, ABC·123 전환 버튼, 초록색 확인 표시를 확대한 화면."
+  caption="문자 선택과 입력을 마쳤다면 오른쪽 아래 초록색 체크 표시로 확인해요."
+/>
+
+</details>
+
+## 5. 같은 PIN을 한 번 더 입력해요 {#confirm-pin}
+
+**Confirm Card PIN**이 나오면 방금 정한 PIN을 똑같이 입력하고 초록색 **확인 버튼**을 눌러요. 영문 대소문자와 입력한 글자 수까지 같아야 해요.
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/12-confirm-pin-screen.png"
+  alt="Confirm Card PIN 화면. 새 PIN과 같은 값을 다시 입력할 수 있는 빈 키보드가 보인다."
+  caption="새로운 PIN을 정하는 화면이 아니라, 방금 입력한 PIN을 확인하는 화면이에요."
+/>
+
+`PIN Mismatch`가 나오면 두 입력이 달랐다는 뜻이에요. 안내를 확인하고 새 PIN 입력부터 다시 진행해 주세요.
+
+## 6. 설정 완료를 확인해요 {#complete}
+
+**Card Setup**과 초록색 체크 표시, **PIN set. Import seed next.** 문구가 보이면 PIN 설정이 끝났어요. **OK**를 눌러 카드 정보로 넘어가요.
+
+<GuideFigure
+  src="/guides/seedkeeper/initialize/13-card-setup-complete-device.png"
+  alt="ShieldSigner 기기 전체에 Card Setup 성공 화면이 표시되어 있다. PIN set. Import seed next.와 OK 버튼이 보인다."
+  caption="PIN 설정 성공 화면이에요. 시뮬레이터의 카드 A도 ‘설정 완료’ 상태로 바뀌어요."
+/>
+
+이어서 나오는 **Card Info**에서 다음 항목을 확인해 주세요.
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/14-card-info-done-screen.png"
+  alt="Card Info에서 Type: SeedKeeper, Remaining PIN tries: 5, Setup: Done이 표시된 연습용 카드 A의 화면."
+  caption="Setup: Done이 첫 설정 완료를 뜻해요. UID와 버전은 캡처와 달라도 괜찮아요."
+/>
+
+| 화면의 항목 | 확인할 내용 |
+| --- | --- |
+| `Type` | **SeedKeeper**인지 확인해요. |
+| `UID` | 카드 식별자예요. 카드 A·B·C를 구분할 때 함께 기록할 수 있어요. |
+| `Version` | 카드가 보고하는 프로토콜·애플릿 버전이에요. ShieldSigner OS의 B12 버전과는 달라요. |
+| `Remaining PIN tries` | PIN을 틀리게 입력할 수 있는 남은 횟수예요. 캡처는 **5회**이며 카드 설정과 사용 상태에 따라 달라요. |
+| `Setup` | **Done**이면 카드의 첫 설정을 마친 상태예요. |
+
+카드 B·C도 준비한다면 현재 카드의 설정을 마친 후 교체하고, 같은 순서로 한 장씩 진행해요.
+
+<Callout type="success" title="카드를 사용할 준비가 끝났어요">
+
+지금까지는 **PIN만 설정**했어요. 시드가 카드에 백업된 상태는 아니에요. 다음 [시드를 카드에 저장하기](./save)에서 저장 과정을 이어가세요.
+
+</Callout>
+
+## 화면이 다르게 나오면 {#troubleshooting}
+
+| 이런 화면·상황이라면 | 이렇게 해 주세요 |
+| --- | --- |
+| 카드가 인식되지 않아요 | 카드 종류, 삽입 방향, 리더 연결부터 확인해요. 시뮬레이터에서는 ShieldSigner를 선택했는지, 카드 A·B·C 중 하나가 연결되어 있는지 확인해요. |
+| `Card Uninitialised`가 안 나와요 | `Card Info`의 `Setup`을 확인해요. `Done`이면 이미 설정된 카드예요. 처음부터 따라 하려고 Factory Reset을 선택하지 마세요. |
+| `Invalid PIN`이 나와요 | 이 안내의 SeedKeeper 기준으로 4~16자인지 확인하고 다시 입력해요. 다른 종류의 카드는 PIN 규칙이 다를 수 있어요. |
+| `PIN Mismatch`가 나와요 | 새 PIN과 확인용 PIN이 달라요. 대소문자와 오타를 확인하고 두 번 다시 입력해요. |
+| `Incorrect PIN` 또는 남은 횟수가 나와요 | 기존 카드의 PIN 인증에 실패한 상태예요. 추측해서 반복 입력하지 말고 보관한 PIN 기록을 확인해요. |
+| PIN을 잊었어요 | PIN을 재설정하면서 기존 시드를 그대로 살릴 수 있다고 가정하면 안 돼요. 별도로 보관한 백업부터 확인해 주세요. Factory Reset은 데이터 복구 기능이 아니에요. |
 
 ## 다음 단계
 
-[← SeedKeeper란?](./what-is-seedkeeper) · [다음: 시드를 카드에 백업하기 →](./backup)
+[← SeedKeeper란?](./what-is-seedkeeper) · [다음: 시드를 카드에 저장하기 →](./save)
 
-공식 절차 확인: [SeedKeeper Applet](https://github.com/Toporin/Seedkeeper-Applet) · [seedkeeper.io](https://seedkeeper.io/quick-start/)
+절차 확인: [ShieldSigner B12 릴리스](https://github.com/3rdIteration/seedsigner/releases/tag/SeSi-0.8.7%2BShSi-B12) · [B12 카드 메뉴 소스](https://github.com/3rdIteration/seedsigner/blob/SeSi-0.8.7%2BShSi-B12/src/seedsigner/views/smartcard_views.py) · [B12 PIN 설정 소스](https://github.com/3rdIteration/seedsigner/blob/SeSi-0.8.7%2BShSi-B12/src/seedsigner/helpers/seedkeeper_utils.py)
+
+</GuideContent>

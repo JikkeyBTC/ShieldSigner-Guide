@@ -43,7 +43,7 @@ test('ShieldSigner OS section card starts with an empty visual panel', async ({ 
 test('assembly labels use the shared Korean-friendly guide font stack', async ({ page }) => {
   await page.goto(ko('/build/assembly/'));
   const fonts = await page.evaluate(() => {
-    const selectors = ['.ss-nav-child[aria-current="page"]', '.ss-demo-card[aria-current="page"] .ss-scramble-title', 'main h1'];
+    const selectors = ['.ss-nav-child[aria-current="page"]', '.ss-demo-card[aria-current="page"] .ss-scramble-title', '.ss-doc-breadcrumb [aria-current="page"]'];
     return selectors.map((selector) => getComputedStyle(document.querySelector(selector)!).fontFamily);
   });
   expect(fonts[0]).toContain('Pretendard');
@@ -174,7 +174,7 @@ test('desktop shell uses the wide card rail and article measure', async ({ page 
 
 test('article titles use the compact documentation scale', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(ko('/build/assembly/'));
+  await page.goto(ko('/os/install/'));
   const titleSize = await page.locator('main h1').evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
   expect(titleSize).toBeLessThanOrEqual(48);
   expect(titleSize).toBeGreaterThanOrEqual(40);
@@ -215,25 +215,25 @@ test('global top navigation opens Anime-style documentation search', async ({ pa
 
 test('document nav follows the visual card order', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(ko('/seedkeeper/backup/'));
+  await page.goto(ko('/seedkeeper/save/'));
   await page.getByRole('button', { name: 'Next card' }).click();
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/clone\/?$/);
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/load\/?$/);
   await page.getByRole('button', { name: 'Previous card' }).click();
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup\/?$/);
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/save\/?$/);
 });
 
 test('article next steps use paired previous and next cards', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(ko('/seedkeeper/backup/'));
+  await page.goto(ko('/seedkeeper/save/'));
   const nav = page.locator('.ss-doc-nav-bottom');
   await expect(nav).toBeVisible();
   await expect(nav.locator('.ss-doc-nav-step-label')).toHaveText(['Previous', 'Next']);
   await expect(nav.getByRole('link', { name: /카드 초기화와 PIN/ })).toHaveAttribute('href', /\/seedkeeper\/initialize/);
-  await expect(nav.getByRole('link', { name: /카드 간 복제/ })).toHaveAttribute('href', /\/seedkeeper\/clone/);
+  await expect(nav.getByRole('link', { name: /카드에서 시드 불러오기/ })).toHaveAttribute('href', /\/seedkeeper\/load/);
   await expect(nav.locator('.ss-doc-nav-link')).toHaveCount(2);
 });
 
-test('article titles are preceded by a linked documentation breadcrumb', async ({ page }) => {
+test('assembly video is preceded by a linked documentation breadcrumb', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko('/build/assembly/'));
   const breadcrumb = page.locator('.ss-doc-breadcrumb');
@@ -243,7 +243,7 @@ test('article titles are preceded by a linked documentation breadcrumb', async (
   await expect(breadcrumb.locator('a').nth(1)).toHaveAttribute('href', '/ShieldSigner-Guide/ko/build/');
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText('키트 조립 방법');
   const positions = await breadcrumb.evaluate((element) => {
-    const title = element.parentElement?.querySelector('h1');
+    const title = element.parentElement?.querySelector('video');
     return title ? { breadcrumbBottom: element.getBoundingClientRect().bottom, titleTop: title.getBoundingClientRect().top } : null;
   });
   expect(positions).not.toBeNull();
@@ -269,7 +269,7 @@ test('TOC navigation aligns the selected card to the top of the rail', async ({ 
   const rail = page.locator('.ss-demo-rail');
   await rail.evaluate((element) => { element.scrollTop = 620; });
 
-  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Backup & recovery' }).click();
+  await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
   const cardOffset = () => page.evaluate(() => {
     const railElement = document.querySelector<HTMLElement>('.ss-demo-rail');
@@ -295,9 +295,9 @@ test('TOC navigation aligns the selected card to the top of the rail', async ({ 
 test('TOC navigation keeps the selected card visual panel ready for artwork', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko('/seedkeeper/javacard/'));
-  const selectedCard = page.locator('.ss-demo-card').filter({ hasText: 'Backup & recovery' });
+  const selectedCard = page.locator('.ss-demo-card').filter({ hasText: '카드 사용하기' });
 
-  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Backup & recovery' }).click();
+  await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
   await expect(selectedCard).toHaveAttribute('aria-current', 'page');
   await expect(selectedCard.locator('.ss-demo-visual--empty')).toBeVisible();
@@ -306,8 +306,8 @@ test('TOC navigation keeps the selected card visual panel ready for artwork', as
 
 test('active branch highlight bar reaches the end of its nested items', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(ko('/seedkeeper/backup/'));
-  const metrics = await page.locator('.ss-nav-branch.is-active').filter({ hasText: 'Backup & recovery' }).evaluate((branch) => {
+  await page.goto(ko('/seedkeeper/save/'));
+  const metrics = await page.locator('.ss-nav-branch.is-active').filter({ hasText: '카드 사용하기' }).evaluate((branch) => {
     const branchBox = branch.getBoundingClientRect();
     const items = branch.querySelector<HTMLElement>('.ss-nav-branch-items')?.getBoundingClientRect();
     const pseudo = getComputedStyle(branch, '::after');
@@ -337,11 +337,11 @@ test('active branch highlight bar reaches the end of its nested items', async ({
   expect(metrics.connectorWidth).toBe('16px');
 });
 
-test('chapter navigation reaches SeedKeeper backup and marks it active', async ({ page }) => {
+test('chapter navigation reaches SeedKeeper save and marks it active', async ({ page }) => {
   await page.goto(ko());
-  await page.getByRole('link', { name: '시드를 카드에 백업하기' }).first().click();
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup\/?$/);
-  await expect(page.locator('.ss-nav-child[aria-current="page"]')).toContainText('시드를 카드에 백업하기');
+  await page.getByRole('link', { name: '시드를 카드에 저장하기' }).first().click();
+  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/save\/?$/);
+  await expect(page.locator('.ss-nav-child[aria-current="page"]')).toContainText('시드를 카드에 저장하기');
 });
 
 test('clicking a guide section opens its independent landing page', async ({ page }) => {
@@ -357,7 +357,7 @@ test('clicking a guide section opens its independent landing page', async ({ pag
   await expect(page.locator('.ss-nav-child').filter({ hasText: '조립 방법' })).toBeVisible();
   await page.getByRole('link', { name: '키트 조립 방법 시작하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/build\/assembly\/?$/);
-  await expect(page.locator('main h1')).toContainText('키트 조립 방법');
+  await expect(page.getByLabel('ShieldSigner 키트 조립 동영상')).toBeVisible();
 });
 
 test('Verification is a single landing route', async ({ page }) => {
@@ -366,7 +366,7 @@ test('Verification is a single landing route', async ({ page }) => {
   await expect(verificationCard).toHaveCount(1);
   await verificationCard.click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/os\/verification\/?$/);
-  await expect(page.locator('main h1')).toContainText('Verification');
+  await expect(page.locator('main h1')).toContainText('설치 파일 검증');
   await expect(page.locator('main')).toContainText('Get-FileHash');
   await expect(page.locator('main')).not.toContainText('변조 확인 검증 상세 페이지 열기');
 });
@@ -376,65 +376,61 @@ test('reduced motion keeps navigation and article content visible', async ({ pag
   await page.goto(ko());
   await expect(page.locator('main')).toBeVisible();
   await expect(page.locator('.ss-reveal').first()).toBeVisible();
-  await expect(page.getByRole('link', { name: '시드를 카드에 백업하기' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: '시드를 카드에 저장하기' }).first()).toBeVisible();
 });
 
-test('buyer setup guides expose safety checks and verification commands', async ({ page }) => {
+test('assembly contains only the playable video and resizes for mobile', async ({ page }) => {
   await page.goto(ko('/build/assembly/'));
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/build\/assembly\/?$/);
-  await expect(page.locator('main')).toContainText('키트 조립 방법');
-  await expect(page.locator('main')).toContainText('완료 체크리스트');
-  await expect(page.locator('main')).toContainText('시드를 입력하지 마세요');
+  const video = page.getByLabel('ShieldSigner 키트 조립 동영상');
+  await expect(page.locator('main video')).toHaveCount(1);
+  await expect(page.locator('main h1, main h2, main .ss-media-placeholder')).toHaveCount(0);
+  await expect(video).toHaveAttribute('src', '/ShieldSigner-Guide/guides/assembly/assembly.mp4');
+  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.readyState)).toBeGreaterThanOrEqual(2);
+  await video.evaluate((element: HTMLVideoElement) => element.play());
+  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
+  await video.evaluate((element: HTMLVideoElement) => element.pause());
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(video).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+});
 
+test('buyer OS guides expose release-specific verification and installation steps', async ({ page }) => {
   await page.goto(ko('/os/install/'));
   await expect(page.locator('main')).toContainText('ShieldSigner OS 설치');
   await expect(page.locator('main')).toContainText('microSD');
-  await expect(page.locator('main')).toContainText('검증 전에는 플래시 금지');
+  await expect(page.locator('main')).toContainText('검증한 이미지를 SD 카드에 기록하기');
 
   await page.goto(ko('/os/verification/'));
-  await expect(page.locator('main')).toContainText('Verification');
+  await expect(page.locator('main h1')).toContainText('설치 파일 검증');
   await expect(page.locator('main')).toContainText('Get-FileHash');
   await expect(page.locator('main')).toContainText('sha256sum');
-  await expect(page.locator('main')).toContainText('gpg --verify');
-  await expect(page.locator('main')).toContainText('REPLACE_WITH_OFFICIAL_MAINTAINER_FINGERPRINT');
-  await expect(page.locator('main')).toContainText('하나라도 실패하면 즉시 중단');
+  await expect(page.locator('main')).toContainText('비트코인 메시지 서명');
+  await expect(page.locator('main')).toContainText('Valid signature');
+  await expect(page.locator('main')).not.toContainText('REPLACE_WITH_OFFICIAL_MAINTAINER_FINGERPRINT');
+  await expect(page.locator('main')).toContainText('서명 확인에 실패하면 설치를 멈춰 주세요');
 });
 
-test('SeedKeeper chapter routes expose the complete backup and recovery flow', async ({ page }) => {
-  const routes = [
-    ['/seedkeeper/javacard/', 'JavaCard란?'],
-    ['/seedkeeper/what-is-seedkeeper/', 'SeedKeeper란?'],
-    ['/seedkeeper/initialize/', '카드 초기화와 PIN'],
-    ['/seedkeeper/backup/', '시드를 카드에 백업하기'],
-    ['/seedkeeper/clone/', '카드 간 복제'],
-    ['/seedkeeper/restore/', '시드 복원하기'],
-    ['/seedkeeper/recovery/', '분실과 복구 계획']
-  ] as const;
-
-  for (const [route, heading] of routes) {
-    await page.goto(ko(route));
-    await expect(page.locator('main h1')).toContainText(heading);
-    await expect(page.locator('main')).toContainText('PIN');
+test('SeedKeeper navigation preserves the package QR and offers save and load guides', async ({ page }) => {
+  await page.goto(ko('/seedkeeper/initialize/'));
+  await expect(page.locator('main h1')).toHaveText('카드 초기화와 PIN');
+  await expect(page.locator('.ss-doc-nav-bottom .ss-doc-nav-link-next')).toHaveAttribute('href', /seedkeeper\/save/);
+  const nav = page.locator('.ss-anime-nav');
+  await expect(nav.getByRole('link', { name: '카드 초기화와 PIN', exact: true })).toHaveAttribute('href', /ko\/seedkeeper\/initialize/);
+  for (const old of ['backup', 'clone', 'restore', 'recovery']) {
+    await expect(page.locator('a[href$="/seedkeeper/' + old + '/"]')).toHaveCount(0);
   }
-
-  await page.goto(ko('/seedkeeper/backup/'));
-  await expect(page.getByRole('link', { name: '카드 간 복제' }).first()).toHaveAttribute('href', /\/seedkeeper\/clone\//);
-  await expect(page.getByRole('link', { name: '시드 복원하기' }).first()).toHaveAttribute('href', /\/seedkeeper\/restore\//);
-  await expect(page.getByRole('link', { name: '분실과 복구 계획' }).first()).toHaveAttribute('href', /\/seedkeeper\/recovery\//);
-  await expect(page.getByRole('link', { name: '다음: 카드 간 복제 →' })).toHaveAttribute('href', './clone');
-  await expect(page.getByRole('link', { name: /SeedKeeper Applet 저장소/ })).toHaveCount(0);
-
-  await page.goto(ko('/seedkeeper/recovery/'));
-  await expect(page.locator('.backup-matrix')).toBeVisible();
-  await expect(page.locator('.backup-matrix')).toContainText('금속 1장');
-  await expect(page.getByRole('link', { name: '다음: BlueWallet 워치온리 지갑' })).toHaveAttribute('href', /wallet\/bluewallet/);
-
-  await page.goto(ko('/seedkeeper/javacard/'));
-  await expect(page.getByRole('link', { name: /SeedKeeper Applet GitHub/ })).toHaveAttribute('href', 'https://github.com/Toporin/Seedkeeper-Applet');
-
-  await page.goto(ko('/seedkeeper/restore/'));
-  await expect(page.locator('main')).toContainText('평문 가져오기');
-  await expect(page.locator('main')).toContainText('암호화 가져오기');
+  for (const [route, heading, menu] of [
+    ['save', '시드를 카드에 저장하기', 'To SeedKeeper'],
+    ['load', '카드에서 시드 불러오기', 'From SeedKeeper']
+  ]) {
+    await page.goto(ko('/seedkeeper/' + route + '/'));
+    await expect(page.locator('main h1')).toHaveText(heading);
+    await expect(page.locator('main')).toContainText(menu);
+    await expect(page.locator('main')).toContainText('PIN');
+    await expect(page.locator('main')).toContainText('지문');
+    await expect(page.locator('main .ss-guide-figure').first()).toBeVisible();
+    await expect(page.locator('main')).not.toContainText('PLACEHOLDER');
+  }
 });
 
 test('watch-only, transaction, and reference chapters expose safety content', async ({ page }) => {
@@ -575,10 +571,11 @@ test('second-level navigation groups open their own landing content', async ({ p
   await expect(page.locator('main')).toContainText('이 카테고리에서 다루는 내용');
   await expect(page.getByRole('link', { name: 'JavaCard 안내 열기' })).toHaveAttribute('href', './javacard');
 
-  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Backup & recovery' }).click();
+  await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
-  await expect(page.locator('main h1')).toContainText('Backup & recovery');
-  await expect(page.locator('main')).toContainText('작업 흐름');
+  await expect(page.locator('main h1')).toContainText('카드 사용하기');
+  await expect(page.locator('main').getByRole('link', { name: '시드 저장 방법' })).toHaveAttribute('href', './save');
+  await expect(page.locator('main').getByRole('link', { name: '시드 불러오기 방법' })).toHaveAttribute('href', './load');
 });
 
 test('root redirects to Korean and the language switch preserves the route', async ({ page }) => {

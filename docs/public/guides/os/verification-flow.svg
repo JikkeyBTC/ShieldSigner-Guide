@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 486" role="img" aria-labelledby="title desc">
+  <title id="title">설치 파일 검증의 세 단계</title>
+  <desc id="desc">제작자의 주소 대조, 해시 목록의 메시지 서명 검증, 내 이미지의 SHA-256 비교 순서입니다.</desc>
+  <rect width="680" height="486" fill="#2a2928"/>
+  <g font-family="Pretendard, Malgun Gothic, sans-serif">
+    <text x="32" y="45" fill="#ff9a52" font-size="17" letter-spacing="2">VERIFY BEFORE WRITING</text>
+    <text x="32" y="84" fill="#fff8f0" font-size="29" font-weight="700">세 가지를 연결해서 확인해요</text>
+    <path d="M67 160v235" stroke="#766353" stroke-width="2"/>
+    <g fill="#33302d" stroke="#554b42"><rect x="112" y="115" width="536" height="94" rx="10"/><rect x="112" y="231" width="536" height="94" rx="10"/><rect x="112" y="347" width="536" height="94" rx="10"/></g>
+    <g fill="#ff9a52"><circle cx="67" cy="160" r="26"/><circle cx="67" cy="276" r="26"/><circle cx="67" cy="392" r="26"/></g>
+    <g fill="#2a211b" font-size="24" font-weight="700" text-anchor="middle"><text x="67" y="169">1</text><text x="67" y="285">2</text><text x="67" y="401">3</text></g>
+    <g fill="#fff8f0" font-size="25" font-weight="700"><text x="137" y="153">제작자의 주소가 맞나요?</text><text x="137" y="269">해시 목록의 서명이 맞나요?</text><text x="137" y="385">내 파일의 해시도 같나요?</text></g>
+    <g fill="#c1b8af" font-size="21"><text x="137" y="188">릴리스 주소 ↔ 제작자의 별도 채널</text><text x="137" y="304">주소 + 원문 다섯 줄 + 메시지 서명</text><text x="137" y="420">서명된 SHA-256 ↔ 내 .img의 값</text></g>
+  </g>
+</svg>

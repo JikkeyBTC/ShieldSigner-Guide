@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" role="img" aria-labelledby="title desc">
+  <title id="title">압축을 푼 이미지로 검증하고 설치해요</title>
+  <desc id="desc">img.zip을 압축 해제해 img 파일을 얻습니다. 같은 img 파일의 SHA-256을 확인한 뒤 Etcher로 기록합니다.</desc>
+  <rect width="680" height="440" fill="#2a2928"/>
+  <g font-family="Pretendard, Malgun Gothic, sans-serif">
+    <text x="32" y="50" fill="#ff9a52" font-size="17" letter-spacing="2">DOWNLOAD → EXTRACT</text>
+    <text x="32" y="91" fill="#fff8f0" font-size="29" font-weight="700">검증할 파일은 .img예요</text>
+    <rect x="32" y="122" width="250" height="161" rx="12" fill="#34312e" stroke="#58514b"/>
+    <path d="M62 151h37l17 17v69H62z M99 151v18h17" fill="none" stroke="#b8afa5" stroke-width="3"/>
+    <path d="M83 155v60" stroke="#b8afa5" stroke-width="5" stroke-dasharray="5 4"/>
+    <text x="135" y="188" fill="#fff8f0" font-size="27" font-weight="700">.img.zip</text>
+    <text x="57" y="262" fill="#bcb3a9" font-size="21">다운로드한 압축 파일</text>
+    <path d="M301 197h70m-13-12 13 12-13 12" fill="none" stroke="#ff9a52" stroke-width="3"/>
+    <text x="310" y="239" fill="#ffb987" font-size="17">압축 풀기</text>
+    <rect x="398" y="122" width="250" height="161" rx="12" fill="#3a3028" stroke="#ff9a52"/>
+    <path d="M428 151h37l17 17v69h-54z M465 151v18h17" fill="none" stroke="#ff9a52" stroke-width="3"/>
+    <text x="500" y="188" fill="#fff8f0" font-size="32" font-weight="700">.img</text>
+    <text x="425" y="262" fill="#ffca9d" font-size="21">실제로 설치할 이미지</text>
+    <path d="M523 284v30H159v23m364-23v23" fill="none" stroke="#ff9a52" stroke-width="2"/>
+    <rect x="32" y="337" width="294" height="65" rx="9" fill="#1f211f" stroke="#507561"/>
+    <rect x="344" y="337" width="304" height="65" rx="9" fill="#1f211f" stroke="#507561"/>
+    <text x="58" y="378" fill="#a2e0bc" font-size="23">① SHA-256 확인</text>
+    <text x="369" y="378" fill="#a2e0bc" font-size="23">② 같은 파일로 설치</text>
+  </g>
+</svg>
