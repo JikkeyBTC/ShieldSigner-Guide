@@ -7,6 +7,8 @@ description: ShieldSigner 키트 조립 동영상
 import { withBase } from 'vitepress'
 </script>
 
+# ShieldSigner 조립 동영상
+
 <div>
 <video
   :src="withBase('/guides/assembly/assembly.mp4')"

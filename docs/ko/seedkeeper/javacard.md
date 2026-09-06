@@ -8,35 +8,14 @@ estimatedTime: 5분
 
 # JavaCard란?
 
-JavaCard는 작은 스마트카드 안에서 보안 애플릿(applet)을 실행하도록 만든 플랫폼입니다. 일반 운영체제처럼 앱을 마음대로 설치하는 장치가 아니라, 카드가 제공하는 제한된 보안 API와 권한 경계를 통해 키·PIN 같은 값을 카드 안에서 처리합니다.
+카드 안에 아주 작은 컴퓨터가 들어 있다고 생각해 보세요.<br>실제로 Java Card를 지원하는 스마트카드에는 정보를 저장하고 계산도 할 수 있는 칩이 들어 있어요.<br><br>
 
-## 세 가지를 구분하세요
-
-<div class="ss-compare-table-wrap">
-<table class="ss-compare-table">
-  <thead>
-    <tr><th scope="col">구성요소</th><th scope="col">역할</th><th scope="col">저장·실행 위치</th></tr>
-  </thead>
-  <tbody>
-    <tr><td data-label="구성요소">JavaCard 플랫폼</td><td data-label="역할">스마트카드에서 애플릿을 실행하는 기반</td><td data-label="저장·실행 위치">보안 칩 카드</td></tr>
-    <tr><td data-label="구성요소">SeedKeeper 애플릿</td><td data-label="역할">시드와 시크릿을 보호하는 카드용 금고 프로그램</td><td data-label="저장·실행 위치">JavaCard 안</td></tr>
-    <tr><td data-label="구성요소">ShieldSigner</td><td data-label="역할">오프라인에서 시드를 생성·사용하고 화면에 서명 내용을 보여주는 장치</td><td data-label="저장·실행 위치">Raspberry Pi + microSD</td></tr>
-  </tbody>
-</table>
-</div>
-
-SeedKeeper 카드는 ShieldSigner의 microSD를 대신하지 않습니다. microSD에는 ShieldSigner OS가 있고, 카드는 별도의 백업 보관 수단입니다. 카드나 microSD 어느 하나만 믿지 말고, 복구 절차를 직접 시험하세요.
-
-<Callout type="warning" title="애플릿 출처를 먼저 확인하세요">
-카드에 애플릿을 설치하거나 교체하기 전에 공식 SeedKeeper 배포 페이지와 릴리스 서명을 확인하세요. 이 안내는 실제 카드 번호·PIN·시드가 보이는 화면을 제공하지 않으며, 캡처가 필요하면 `CARD_ID_PLACEHOLDER`, `FINGERPRINT_PLACEHOLDER` 같은 가림값을 사용합니다.
-</Callout>
-
-## 학습 순서
-
-1. [SeedKeeper란?](./what-is-seedkeeper)에서 카드의 보안 금고 모델을 이해합니다.
-2. [카드 초기화와 PIN](./initialize)에서 빈 카드를 준비합니다.
-3. [시드를 카드에 저장하기](./save)에서 ShieldSigner의 시드를 카드에 보관해요.
-4. [카드에서 시드 불러오기](./load)로 저장한 시드를 다시 읽고 지문을 확인해요.
+Java Card는 그 작은 컴퓨터에서 프로그램을 실행할 수 있게 해주는 기술이에요. <br>Java라는 컴퓨터 언어로 만든 프로그램을 카드 안에서 사용할 수 있도록 해주는 거죠.<br>
+정확히 말하면 Java Card는 플라스틱 카드 자체가 아니라, 카드 속 프로그램을 위한 기술의 이름이라고 할 수 있습니다.<br>
+# Applet 이란?
+Applet(애플릿)은 그 카드 안에 설치해서 사용하는 작은 앱이에요.<br>스마트폰에 계산기 앱을 설치하는 것처럼, 카드에도 특정 일을 하는 프로그램을 넣는 거예요.<br><br>
+ShieldSigner 에서는 JavaCard에 SeedKeeper 라는 Applet을 설치할 수 있도록 기능이 내장되어 있어요.<br>
+니모닉 문구를 카드속 보안금고에 넣고, PIN 번호가 일치하면 다시 읽을수도 있어요<br><br>
 
 공식 참고자료: [SeedKeeper Applet GitHub (Toporin)](https://github.com/Toporin/Seedkeeper-Applet) · [SeedKeeper 공식 빠른 시작](https://seedkeeper.io/quick-start/)
 

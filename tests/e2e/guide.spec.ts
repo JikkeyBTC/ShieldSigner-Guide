@@ -383,7 +383,8 @@ test('assembly contains only the playable video and resizes for mobile', async (
   await page.goto(ko('/build/assembly/'));
   const video = page.getByLabel('ShieldSigner 키트 조립 동영상');
   await expect(page.locator('main video')).toHaveCount(1);
-  await expect(page.locator('main h1, main h2, main .ss-media-placeholder')).toHaveCount(0);
+  await expect(page.locator('main h1')).toHaveText('ShieldSigner 조립 동영상');
+  await expect(page.locator('main h2, main .ss-media-placeholder')).toHaveCount(0);
   await expect(video).toHaveAttribute('src', '/ShieldSigner-Guide/guides/assembly/assembly.mp4');
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.readyState)).toBeGreaterThanOrEqual(2);
   await video.evaluate((element: HTMLVideoElement) => element.play());
@@ -398,7 +399,7 @@ test('buyer OS guides expose release-specific verification and installation step
   await page.goto(ko('/os/install/'));
   await expect(page.locator('main')).toContainText('ShieldSigner OS 설치');
   await expect(page.locator('main')).toContainText('microSD');
-  await expect(page.locator('main')).toContainText('검증한 이미지를 SD 카드에 기록하기');
+  await expect(page.locator('main')).toContainText('앞에서 검증한 이미지를 SD 카드에 기록할 거예요.');
 
   await page.goto(ko('/os/verification/'));
   await expect(page.locator('main h1')).toContainText('설치 파일 검증');

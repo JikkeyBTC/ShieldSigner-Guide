@@ -16,13 +16,13 @@ SeedKeeper 카드에 저장한 시드를 ShieldSigner로 읽어와요. 불러온
 
 **Seeds → From SeedKeeper → 카드 PIN → 저장한 시드 선택 → 지문 확인 → Done**
 
-이 안내는 **ShieldSigner B12의 일반 BIP39 시드**를 기준으로 해요. 이미지는 앞의 저장 가이드에서 사용한 연습용 카드 A를 직접 불러오며 캡처했어요.
+이 안내는 **ShieldSigner B12의 일반 BIP39 시드**를 기준으로 해요. 화면 예시는 카드에 저장한 시드를 다시 불러오는 일반적인 흐름을 보여줘요.
 
 ## 시작하기 전에
 
 - [시드 저장](./save)을 마친 SeedKeeper 카드와 해당 카드의 PIN을 준비해요. PIN만 설정한 빈 카드에는 아직 불러올 시드가 없어요.
 - 저장할 때 확인한 시드 지문과 카드에 붙인 이름을 준비해요.
-- 실제 시드는 실물 ShieldSigner에서 불러와요. 시뮬레이터에서는 공개된 연습용 값만 사용해 주세요.
+- 실제 시드는 실물 ShieldSigner에서 불러와요.
 
 ## 1. 카드를 연결하고 Seeds를 열어요 {#open-seeds}
 
@@ -30,7 +30,7 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요. 메인
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/09-home-seeds-device.png"
-  alt="주황색 배경 없이 캡처한 ShieldSigner 기기. 메인 메뉴의 Seeds가 주황색으로 선택되어 있다."
+  alt="ShieldSigner 기기 전체. 메인 메뉴의 Seeds가 주황색으로 선택되어 있다."
   caption="시드를 가져올 때는 메인 메뉴의 Seeds에서 시작해요."
 />
 
@@ -46,11 +46,11 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요. 메인
   caption="From SeedKeeper는 카드에서 기기로 시드를 읽어오는 메뉴예요."
 />
 
-시뮬레이터에서는 앞서 저장한 **같은 카드 A·B·C**를 연결해 주세요. 다른 빈 카드를 고르면 저장한 시드가 나오지 않아요.
+앞서 시드를 저장한 **같은 카드**를 연결해 주세요. 다른 빈 카드를 고르면 저장한 시드가 나오지 않아요.
 
 ## 3. 카드 PIN을 입력해요 {#card-pin}
 
-**Card PIN**에서 현재 카드의 PIN을 입력하고, 오른쪽 아래 초록색 **확인 버튼**을 눌러요. PC 시뮬레이터의 확인 단축키는 `3`이에요.
+**Card PIN**에서 현재 카드의 PIN을 입력하고, 오른쪽 아래 초록색 **확인 버튼**을 눌러요.
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/11-load-pin-screen.png"
