@@ -5,7 +5,7 @@ description: Download, verify, flash, and boot the ShieldSigner image
 
 # Install ShieldSigner OS
 
-Download the image, checksum, and signature from the same official GitHub release. Complete [Verification](./verification) before flashing.
+Download the image, checksum, and signature from the same official GitHub release.<br> Complete [Verification](./verification) before flashing.
 
 1. Copy the image to an offline working folder.
 2. Verify SHA-256 and PGP using the release values.

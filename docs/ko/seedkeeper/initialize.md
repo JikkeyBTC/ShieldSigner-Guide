@@ -15,36 +15,36 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 
 # 카드 초기화와 PIN
 
-새 SeedKeeper 카드에 **나만의 PIN**을 정해 사용할 준비를 해요. PIN은 카드의 데이터를 사용할 때 필요한 비밀번호예요. 시드 단어나 지갑의 패스프레이즈와는 별개예요.
+새 SeedKeeper 카드에 **나만의 PIN**을 정해 사용할 준비를 해요.<br> PIN은 카드의 데이터를 사용할 때 필요한 비밀번호예요.<br> 시드 단어나 지갑의 패스프레이즈와는 별개예요.
 
 **카드 연결 → SeedKeeper Applet 설치 → Card Info → 새 PIN 입력 → PIN 확인 → 설정 완료**
 
-이 안내는 **ShieldSigner B12**를 기준으로 해요. 메뉴 이름은 기기 화면의 영어 표기를 그대로 보여드려요.
+이 안내는 **ShieldSigner B12**를 기준으로 해요.<br> 메뉴 이름은 기기 화면의 영어 표기를 그대로 보여드려요.
 
 <Callout type="warning" title="여기서 초기화는 새 카드의 첫 설정을 뜻해요">
 
-이 안내에서는 새 카드에 PIN을 만들어요. 기존 데이터를 지우는 **Factory Reset Card**는 선택하지 마세요. 이미 사용 중인 카드라면 기존 PIN과 백업 상태부터 확인해 주세요.
+이 안내에서는 새 카드에 PIN을 만들어요.<br> 기존 데이터를 지우는 **Factory Reset Card**는 선택하지 마세요.<br> 이미 사용 중인 카드라면 기존 PIN과 백업 상태부터 확인해 주세요.
 
 </Callout>
 
 ## 시작하기 전에
 
 - [OS 설치](../os/install)와 [다운로드 파일 검증](../os/verification)을 마친 ShieldSigner를 준비해요.
-- **SeedKeeper Applet을 설치할 카드**가 필요해요. Applet은 카드 안에서 동작하는 프로그램이에요. 이 안내에서 실물 ShieldSigner에 `SeedKeeper-0.2-official.cap`을 설치한 뒤 PIN을 설정해요.
+- **SeedKeeper Applet을 설치할 카드**가 필요해요.<br> Applet은 카드 안에서 동작하는 프로그램이에요.<br> 이 안내에서 실물 ShieldSigner에 `SeedKeeper-0.2-official.cap`을 설치한 뒤 PIN을 설정해요.
 - 카드가 여러 장이라면 A·B·C처럼 구분해 두고 **한 장씩** 설정해요.
-- 새 PIN을 안전하게 보관할 방법을 정해요. 카드 겉면에 PIN을 적거나, 카드와 PIN 기록을 함께 보관하지 마세요.
+- 새 PIN을 안전하게 보관할 방법을 정해요.<br> 카드 겉면에 PIN을 적거나, 카드와 PIN 기록을 함께 보관하지 마세요.
 
-아직 시드를 만들거나 카드에 저장할 필요는 없어요. 먼저 PIN 설정부터 마칠게요.
+아직 시드를 만들거나 카드에 저장할 필요는 없어요.<br> 먼저 PIN 설정부터 마칠게요.
 
 ## 1. 카드를 연결하고 Tools를 열어요 {#connect}
 
-ShieldSigner를 켜고 메인 메뉴가 나올 때까지 기다려요. 기기에 연결된 스마트카드 리더의 방향 표시에 맞춰 SeedKeeper 카드를 넣어 주세요.
+ShieldSigner를 켜고 메인 메뉴가 나올 때까지 기다려요.<br> 기기에 연결된 스마트카드 리더의 방향 표시에 맞춰 SeedKeeper 카드를 넣어 주세요.
 
 다음에 카드 삽입 방향을 확인하고 카드를 연결합니다.
 
 금색 표면이 아래로 가도록 삽입해주세요.
 
-카드를 연결한 뒤 메인 메뉴에서 **Tools**를 선택해요. 방향키로 주황색 선택 표시를 옮긴 뒤, 가운데 확인 버튼을 누르면 돼요.
+카드를 연결한 뒤 메인 메뉴에서 **Tools**를 선택해요.<br> 방향키로 주황색 선택 표시를 옮긴 뒤, 가운데 확인 버튼을 누르면 돼요.
 
 <GuideFigure
   src="/guides/seedkeeper/initialize/03-home-tools-device.png"
@@ -54,7 +54,7 @@ ShieldSigner를 켜고 메인 메뉴가 나올 때까지 기다려요. 기기에
 
 ## 2. SeedKeeper Applet을 설치해요 {#install-applet}
 
-시뮬레이터에서는 Applet 설치를 지원하지 않아요. 이 단계는 **실물 ShieldSigner**에서 진행해요.
+시뮬레이터에서는 Applet 설치를 지원하지 않아요.<br> 이 단계는 **실물 ShieldSigner**에서 진행해요.
 
 ### Smartcard Tools 선택
 
@@ -120,7 +120,7 @@ Applet 설치가 끝나면 **Tools → Smartcard Tools → Common Functions → 
 
 ### Card Info 선택
 
-화면 제목이 **Common Tools**로 바뀌면 두 번째 항목인 **Card Info**를 열어요. 새 카드라면 카드 정보를 보여주기 전에 PIN 설정을 안내해요.
+화면 제목이 **Common Tools**로 바뀌면 두 번째 항목인 **Card Info**를 열어요.<br> 새 카드라면 카드 정보를 보여주기 전에 PIN 설정을 안내해요.
 
 <GuideFigure screen
   src="/guides/seedkeeper/initialize/08-card-info-selected-screen.png"
@@ -130,7 +130,7 @@ Applet 설치가 끝나면 **Tools → Smartcard Tools → Common Functions → 
 
 ## 4. 새 카드라는 안내를 확인해요 {#new-card}
 
-**Card Uninitialised**가 나오면 아직 첫 설정을 하지 않은 카드예요. 화면의 안내는 “카드 설정을 마치려면 PIN을 정해 주세요”라는 뜻이에요.
+**Card Uninitialised**가 나오면 아직 첫 설정을 하지 않은 카드예요.<br> 화면의 안내는 “카드 설정을 마치려면 PIN을 정해 주세요”라는 뜻이에요.
 
 **I Understand**를 선택해 다음으로 넘어가요.
 
@@ -140,11 +140,11 @@ Applet 설치가 끝나면 **Tools → Smartcard Tools → Common Functions → 
   caption="새 카드에서 나오는 첫 설정 안내예요. 아래 I Understand로 계속해요."
 />
 
-이 화면 없이 바로 `Card Info`에 **Setup: Done**이 보인다면 이미 설정된 카드예요. 다시 초기화하지 말고 기존 PIN을 알고 있는지 확인해 주세요.
+이 화면 없이 바로 `Card Info`에 **Setup: Done**이 보인다면 이미 설정된 카드예요.<br> 다시 초기화하지 말고 기존 PIN을 알고 있는지 확인해 주세요.
 
 ## 5. 새 PIN을 입력해요 {#new-pin}
 
-**New Card PIN**에서 이 카드에 사용할 PIN을 정해요. B12의 SeedKeeper PIN은 **4~16자**이고, 숫자뿐 아니라 영문도 사용할 수 있어요. 짧은 반복 문자나 생일처럼 쉽게 짐작할 수 있는 값은 피해 주세요.
+**New Card PIN**에서 이 카드에 사용할 PIN을 정해요.<br> B12의 SeedKeeper PIN은 **4~16자**이고, 숫자뿐 아니라 영문도 사용할 수 있어요.<br> 짧은 반복 문자나 생일처럼 쉽게 짐작할 수 있는 값은 피해 주세요.
 
 <GuideFigure
   src="/guides/seedkeeper/initialize/10-new-pin-device.png"
@@ -162,7 +162,7 @@ Applet 설치가 끝나면 **Tools → Smartcard Tools → Common Functions → 
 
 입력을 마치면 화면 오른쪽 아래의 초록색 **확인 버튼**을 눌러요.
 
-입력한 글자는 화면에 보일 수 있어요. 실제 PIN을 정할 때는 주변 시선과 촬영에 주의해 주세요.
+입력한 글자는 화면에 보일 수 있어요.<br> 실제 PIN을 정할 때는 주변 시선과 촬영에 주의해 주세요.
 
 <details>
 <summary>PIN 입력 화면만 크게 보기</summary>
@@ -177,7 +177,7 @@ Applet 설치가 끝나면 **Tools → Smartcard Tools → Common Functions → 
 
 ## 6. 같은 PIN을 한 번 더 입력해요 {#confirm-pin}
 
-**Confirm Card PIN**이 나오면 방금 정한 PIN을 똑같이 입력하고 초록색 **확인 버튼**을 눌러요. 영문 대소문자와 입력한 글자 수까지 같아야 해요.
+**Confirm Card PIN**이 나오면 방금 정한 PIN을 똑같이 입력하고 초록색 **확인 버튼**을 눌러요.<br> 영문 대소문자와 입력한 글자 수까지 같아야 해요.
 
 <GuideFigure screen
   src="/guides/seedkeeper/initialize/12-confirm-pin-screen.png"
@@ -185,11 +185,11 @@ Applet 설치가 끝나면 **Tools → Smartcard Tools → Common Functions → 
   caption="새로운 PIN을 정하는 화면이 아니라, 방금 입력한 PIN을 확인하는 화면이에요."
 />
 
-`PIN Mismatch`가 나오면 두 입력이 달랐다는 뜻이에요. 안내를 확인하고 새 PIN 입력부터 다시 진행해 주세요.
+`PIN Mismatch`가 나오면 두 입력이 달랐다는 뜻이에요.<br> 안내를 확인하고 새 PIN 입력부터 다시 진행해 주세요.
 
 ## 7. 설정 완료를 확인해요 {#complete}
 
-**Card Setup**과 초록색 체크 표시, **PIN set. Import seed next.** 문구가 보이면 PIN 설정이 끝났어요. **OK**를 눌러 카드 정보로 넘어가요.
+**Card Setup**과 초록색 체크 표시, **PIN set.<br> Import seed next.** 문구가 보이면 PIN 설정이 끝났어요.<br> **OK**를 눌러 카드 정보로 넘어가요.
 
 <GuideFigure
   src="/guides/seedkeeper/initialize/13-card-setup-complete-device.png"
@@ -217,7 +217,7 @@ Applet 설치가 끝나면 **Tools → Smartcard Tools → Common Functions → 
 
 <Callout type="success" title="카드를 사용할 준비가 끝났어요">
 
-지금까지는 **PIN만 설정**했어요. 시드가 카드에 백업된 상태는 아니에요. 다음 [시드를 카드에 저장하기](./save)에서 저장 과정을 이어가세요.
+지금까지는 **PIN만 설정**했어요.<br> 시드가 카드에 백업된 상태는 아니에요.<br> 다음 [시드를 카드에 저장하기](./save)에서 저장 과정을 이어가세요.
 
 </Callout>
 

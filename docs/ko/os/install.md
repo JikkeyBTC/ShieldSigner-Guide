@@ -52,7 +52,7 @@ ShieldSigner OS 이미지를 준비하고, Raspberry Pi Imager로 microSD 카드
 
 PC에서 ShieldSigner OS 이미지를 내려받아요.
 
-1. [ShieldSigner 공식 GitHub 릴리스](https://github.com/3rdIteration/seedsigner/releases/tag/SeSi-0.8.7%2BShSi-B12)를 열어요. 이 안내는 **SeSi-0.8.7+ShSi-B12** 기준이에요.
+1. [ShieldSigner 공식 GitHub 릴리스](https://github.com/3rdIteration/seedsigner/releases/tag/SeSi-0.8.7%2BShSi-B12)를 열어요.<br> 이 안내는 **SeSi-0.8.7+ShSi-B12** 기준이에요.
 
 <figure class="ss-install-image">
   <a :href="installationImage('05-os-download.png')" target="_blank" rel="noopener"><img :src="installationImage('05-os-download.png')" alt="ShieldSigner B12 릴리스 Assets에서 pi0-smartcard.img.zip이 강조된 화면" loading="lazy" /></a>
@@ -73,7 +73,7 @@ Raspberry Pi Imager를 설치해요.
   <a :href="installationImage('06-imager-download.png')" target="_blank" rel="noopener"><img :src="installationImage('06-imager-download.png')" alt="Raspberry Pi Imager 다운로드 페이지" loading="lazy" /></a>
 </figure>
 
-사용 중인 운영체제에 맞는 설치 파일을 받아 주세요. Windows, macOS, Ubuntu 중에서 선택할 수 있어요.
+사용 중인 운영체제에 맞는 설치 파일을 받아 주세요.<br> Windows, macOS, Ubuntu 중에서 선택할 수 있어요.
 
 2. 내려받은 파일을 열어 설치를 진행해요.
 
@@ -85,7 +85,7 @@ Raspberry Pi Imager를 설치해요.
 
 ## 4. Raspberry Pi Imager 실행 및 Flash 준비 {#write-card}
 
-Raspberry Pi Imager를 실행해요. 앞에서 검증한 이미지를 SD 카드에 기록할 거예요.
+Raspberry Pi Imager를 실행해요.<br> 앞에서 검증한 이미지를 SD 카드에 기록할 거예요.
 
 **Device** 단계에서 아래로 내려 **Raspberry Pi Zero**를 선택하고 **다음**을 눌러요.
 
@@ -111,19 +111,19 @@ Raspberry Pi Imager를 실행해요. 앞에서 검증한 이미지를 SD 카드�
   <a :href="installationImage('11-imager-storage.png')" target="_blank" rel="noopener"><img :src="installationImage('11-imager-storage.png')" alt="기록할 SD 카드를 고르는 저장소 선택 화면" loading="lazy" /></a>
 </figure>
 
-**다음**으로 넘어가 이미지 파일과 대상 카드를 확인해요. <br> **Write image** 화면에서 **WRITE**를 눌러요.
+**다음**으로 넘어가 이미지 파일과 대상 카드를 확인해요.<br> **Write image** 화면에서 **WRITE**를 눌러요.
 
 <figure class="ss-install-image">
   <a :href="installationImage('12-imager-write-review.png')" target="_blank" rel="noopener"><img :src="installationImage('12-imager-write-review.png')" alt="Raspberry Pi Zero, pi0-smartcard.img, MXT-USB Storage Device를 확인하고 WRITE를 누르는 화면" loading="lazy" /></a>
 </figure>
 
-선택한 저장장치의 **데이터가 모두 지워진다는 안내**가 나와요. <br>필요한 파일을 백업했고 대상 카드가 맞다면 **I UNDERSTAND, ERASE AND WRITE**를 눌러요.
+선택한 저장장치의 **데이터가 모두 지워진다는 안내**가 나와요.<br>필요한 파일을 백업했고 대상 카드가 맞다면 **I UNDERSTAND, ERASE AND WRITE**를 눌러요.
 
 <figure class="ss-install-image">
   <a :href="installationImage('13-imager-erase-warning.png')" target="_blank" rel="noopener"><img :src="installationImage('13-imager-erase-warning.png')" alt="데이터 삭제 안내와 I UNDERSTAND, ERASE AND WRITE 확인 버튼" loading="lazy" /></a>
 </figure>
 
-기록과 검증이 끝날 때까지 기다려요. **Write complete!**가 나오면 설치가 끝났어요.
+기록과 검증이 끝날 때까지 기다려요.<br> **Write complete!**가 나오면 설치가 끝났어요.
 
 <figure class="ss-install-image">
   <a :href="installationImage('14-imager-complete.png')" target="_blank" rel="noopener"><img :src="installationImage('14-imager-complete.png')" alt="Raspberry Pi Zero와 pi0-smartcard.img 기록이 완료된 Write complete 화면" loading="lazy" /></a>
@@ -149,7 +149,7 @@ Raspberry Pi Imager를 실행해요. 앞에서 검증한 이미지를 SD 카드�
 
 ---
 
-> **전원 연결 안내:** 제품에 맞는 5V 전원을 사용해 주세요. 고속충전기는 사용이 불가능해요.
+> **전원 연결 안내:** 제품에 맞는 5V 전원을 사용해 주세요.<br> 고속충전기는 사용이 불가능해요.
 
 ---
 

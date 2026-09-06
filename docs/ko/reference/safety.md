@@ -33,7 +33,7 @@ estimatedTime: 4분
 </div>
 
 <Callout type="warning" title="의심스러운 값은 즉시 중단">
-주소·금액·스크립트·파일 해시가 예상과 다르면 서명하지 말고 원인을 확인하세요. 시드나 PIN을 지원 채널에 보내지 않습니다.
+주소·금액·스크립트·파일 해시가 예상과 다르면 서명하지 말고 원인을 확인하세요.<br> 시드나 PIN을 지원 채널에 보내지 않습니다.
 </Callout>
 
 <GuideNav prev="/transactions/sign-psbt" next="/reference/security" prevLabel="이전: PSBT 검토·서명" nextLabel="다음: 보안 모델" />

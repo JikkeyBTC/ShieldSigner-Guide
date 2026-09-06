@@ -8,7 +8,7 @@ estimatedTime: 4분
 
 # Watch-only wallets
 
-워치온리 지갑은 공개 디스크립터나 xpub만 사용해 잔액과 수신 주소를 확인합니다. 시드와 개인키는 지갑 앱에 입력하지 않습니다.
+워치온리 지갑은 공개 디스크립터나 xpub만 사용해 잔액과 수신 주소를 확인합니다.<br> 시드와 개인키는 지갑 앱에 입력하지 않습니다.
 
 ## 이 카테고리에서 다루는 내용
 
@@ -33,7 +33,7 @@ Coconut Wallet에서 공개 정보만 연결하는 흐름과 메뉴 차이를 �
 </div>
 
 <Callout type="warning" title="공개 정보만 입력하세요">
-워치온리 지갑에는 시드·PIN·개인키를 입력하지 않습니다. xpub나 디스크립터를 공유할 때도 잔액과 거래 내역 노출을 고려하세요.
+워치온리 지갑에는 시드·PIN·개인키를 입력하지 않습니다.<br> xpub나 디스크립터를 공유할 때도 잔액과 거래 내역 노출을 고려하세요.
 </Callout>
 
 <GuideNav prev="/seedkeeper/load" next="/wallet/bluewallet" prevLabel="이전: 카드에서 시드 불러오기" nextLabel="다음: BlueWallet" />

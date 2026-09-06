@@ -5,7 +5,7 @@ description: Prepare a new SeedKeeper card safely
 
 # Initialize the card and set a PIN
 
-Use a trusted offline computer and the official SeedKeeper applet/tooling. Confirm the applet source and release before connecting a card.
+Use a trusted offline computer and the official SeedKeeper applet/tooling.<br> Confirm the applet source and release before connecting a card.
 
 1. Initialize only a blank card.
 2. Choose a unique PIN and record the recovery procedure, not the PIN itself, in public notes.

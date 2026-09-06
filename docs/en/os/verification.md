@@ -15,5 +15,5 @@ Use `Get-FileHash`, `shasum -a 256`, or `sha256sum` and compare the result chara
 
 Import the maintainer key from an independent official source, confirm its fingerprint, then run `gpg --verify image.asc image.img`.
 
-Stop immediately on any mismatch. Do not flash, boot, or “fix” a failed verification by editing the expected value.
+Stop immediately on any mismatch.<br> Do not flash, boot, or “fix” a failed verification by editing the expected value.
 

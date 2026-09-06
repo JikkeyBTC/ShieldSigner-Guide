@@ -5,8 +5,8 @@ Captured on 2026-09-06 for `docs/ko/seedkeeper/initialize.md`.
 The menu and PIN screen captures are from the Jikkey SeedSigner simulator. The first
 whole-device image (`03-home-tools-device.png`) uses the user's physical-device photo
 with the background replaced by bright orange suede. The three Applet installation
-images (`15`–`17`) are user-provided physical-device photos cropped to the display
-only; Applet installation is not supported by the simulator.
+images (`15`–`17`) are clean simulator-style redraws based on the user's physical-device
+display photos; Applet installation is not supported by the simulator.
 
 ## Capture environment
 
@@ -41,14 +41,15 @@ card; they do not establish the version or authenticity of a purchased card.
 | `12-confirm-pin-screen.png` | Empty Confirm Card PIN keyboard |
 | `13-card-setup-complete-device.png` | Whole device with Card Setup success |
 | `14-card-info-done-screen.png` | Card Info showing Setup: Done |
-| `15-select-applet-screen.png` | Physical-device display crop with `SeedKeeper-0.2-official.cap` selected |
-| `16-select-storage-screen.png` | Physical-device display crop with `8 KB (default)` selected |
-| `17-applet-installed-screen.png` | Physical-device display crop showing `Success` and `Applet Installed` |
+| `15-select-applet-screen.png` | Simulator-style redraw with `SeedKeeper-0.2-official.cap` selected |
+| `16-select-storage-screen.png` | Simulator-style redraw with `8 KB (default)` selected |
+| `17-applet-installed-screen.png` | Simulator-style redraw showing `Success` and `Applet Installed` |
 
 `*-device.png` files are native browser element screenshots of `#device`
 (2176 × 1156). The original simulator `*-screen.png` files are unmodified PNG
 exports from the simulator's `#screen` canvas (1920 × 1920). Files `15`–`17` are
-cropped from the supplied physical-device photos and contain only the display.
+1920 × 1920 redraws based on the supplied physical-device display photos and match
+the simulator's black background, typography, menu geometry, and orange controls.
 The guide displays all images responsively and links each image to its source asset
 at full resolution.
 

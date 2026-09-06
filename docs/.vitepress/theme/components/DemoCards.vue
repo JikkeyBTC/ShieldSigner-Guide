@@ -178,16 +178,30 @@ onBeforeUnmount(() => {
   window.removeEventListener('ss:toc-navigation', handleTocNavigation)
 })
 
+const scrollToDescriptionTop = () => {
+  const article = document.querySelector<HTMLElement>('.ss-article')
+  if (!article) {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+    return
+  }
+
+  const topbarHeight = document.querySelector<HTMLElement>('.ss-topbar')?.getBoundingClientRect().height ?? 0
+  const mobileNavHeight = document.querySelector<HTMLElement>('.ss-doc-nav-bar')?.getBoundingClientRect().height ?? 0
+  const articleTop = article.getBoundingClientRect().top + window.scrollY
+  const targetScrollY = Math.max(0, articleTop - topbarHeight - mobileNavHeight)
+  window.scrollTo({ top: targetScrollY, behavior: 'auto' })
+}
+
 const navigateBesideCards = (path: string) => {
-  const scrollY = window.scrollY
-  router.go(path).then(() => {
+  router.go(path).then(async () => {
+    await nextTick()
     let attempts = 0
-    const restore = () => {
-      window.scrollTo(0, scrollY)
+    const alignDescription = () => {
+      scrollToDescriptionTop()
       attempts += 1
-      if (attempts < 8) requestAnimationFrame(restore)
+      if (attempts < 8) requestAnimationFrame(alignDescription)
     }
-    requestAnimationFrame(restore)
+    requestAnimationFrame(alignDescription)
   })
 }
 

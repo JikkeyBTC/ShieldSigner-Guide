@@ -39,7 +39,7 @@ SeedKeeper 애플릿의 역할, 카드 초기화, ShieldSigner와의 관계를 �
 3. 다음 카테고리에서 카드 초기화와 백업 절차를 진행합니다.
 
 <Callout type="info" title="카드와 OS의 역할을 구분하세요">
-SeedKeeper 카드는 시드 보관과 암호 연산을 담당하고, ShieldSigner OS는 오프라인 화면과 사용자 입력을 담당합니다. 시드·PIN·개인키는 이 페이지에 입력하거나 기록하지 마세요.
+SeedKeeper 카드는 시드 보관과 암호 연산을 담당하고, ShieldSigner OS는 오프라인 화면과 사용자 입력을 담당합니다.<br> 시드·PIN·개인키는 이 페이지에 입력하거나 기록하지 마세요.
 </Callout>
 
 <GuideNav prev="/" next="/seedkeeper/backup-recovery" prevLabel="처음으로" nextLabel="다음: 카드 사용하기" />

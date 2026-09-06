@@ -8,7 +8,7 @@ estimatedTime: 4분
 
 # ShieldSigner OS
 
-ShieldSigner OS는 오프라인 화면과 서명 흐름을 제공하는 실행 환경입니다. 설치와 검증을 분리해서 진행하세요.
+ShieldSigner OS는 오프라인 화면과 서명 흐름을 제공하는 실행 환경입니다.<br> 설치와 검증을 분리해서 진행하세요.
 
 ## 이 카테고리에서 다루는 내용
 
