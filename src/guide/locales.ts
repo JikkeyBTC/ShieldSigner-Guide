@@ -2,12 +2,34 @@ import type { ChapterMeta } from './chapters'
 
 export type GuideLocale = 'ko' | 'en'
 
+export interface LocaleSettings {
+  readonly htmlLang: 'ko' | 'en'
+  readonly switchText: 'KO' | 'EN'
+  readonly switchAriaLabel: string
+  readonly homeAriaLabel: string
+}
+
 export const DEFAULT_LOCALE: GuideLocale = 'ko'
 export const SUPPORTED_LOCALES: readonly GuideLocale[] = ['ko', 'en']
 
 const localePrefixes: Record<GuideLocale, string> = {
   ko: '/ko',
   en: '/en'
+}
+
+const localeSettings: Record<GuideLocale, LocaleSettings> = {
+  ko: {
+    htmlLang: 'ko',
+    switchText: 'EN',
+    switchAriaLabel: 'Switch to English',
+    homeAriaLabel: 'ShieldSigner Guide home'
+  },
+  en: {
+    htmlLang: 'en',
+    switchText: 'KO',
+    switchAriaLabel: '한국어로 전환',
+    homeAriaLabel: 'ShieldSigner Guide English home'
+  }
 }
 
 const labels: Record<GuideLocale, Record<string, string>> = {
@@ -92,6 +114,10 @@ export function getLocaleFromPath(pathname: string): GuideLocale {
   return firstSegment === 'en' ? 'en' : DEFAULT_LOCALE
 }
 
+export function getLocaleSettings(locale: GuideLocale): LocaleSettings {
+  return localeSettings[locale]
+}
+
 export function stripLocalePrefix(pathname: string): string {
   const normalized = pathname.startsWith('/') ? pathname : `/${pathname}`
   const stripped = normalized.replace(/^\/(?:ko|en)(?=\/|$)/, '')
@@ -107,8 +133,12 @@ export function routeFromRelativePath(relativePath: string): string {
 }
 
 export function localizeHref(href: string, locale: GuideLocale): string {
-  const baseHref = stripLocalePrefix(href)
-  return baseHref === '/' ? `${localePrefixes[locale]}/` : `${localePrefixes[locale]}${baseHref}`
+  const normalized = href.startsWith('/') ? href : `/${href}`
+  const match = normalized.match(/^([^?#]*)([?#].*)?$/)
+  const path = stripLocalePrefix(match?.[1] ?? normalized)
+  const suffix = match?.[2] ?? ''
+  const localizedPath = path === '/' ? `${localePrefixes[locale]}/` : `${localePrefixes[locale]}${path}`
+  return `${localizedPath}${suffix}`
 }
 
 export function getLocalizedLabel(id: string, fallback: string, locale: GuideLocale): string {

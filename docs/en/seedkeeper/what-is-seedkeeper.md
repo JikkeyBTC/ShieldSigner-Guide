@@ -1,11 +1,21 @@
 ---
 title: What is SeedKeeper?
-description: The SeedKeeper applet and protected seed backups
+description: Understand SeedKeeper cards and their role in ShieldSigner backups
 ---
 
 # What is SeedKeeper?
 
-SeedKeeper is a security-vault applet running on JavaCard.<br> It stores seeds or other secrets inside the card and requires PIN authentication before access.
+SeedKeeper is a JavaCard applet and card ecosystem for protecting seeds and secrets with a PIN.<br> You can initialize a card, save a ShieldSigner seed, and load it back when required.
 
-SeedKeeper is not a watch-only wallet, exchange, or microSD image.<br> It is a separate backup boundary for secrets created by ShieldSigner.
+## Safe use
+
+Initialize the card, set a unique PIN, and keep an independent paper or metal backup.<br> Never enter a real seed or PIN into a simulator, website, chat, or support channel.
+
+## What this flow covers
+
+This guide covers applet installation, first-time PIN setup, saving a seed, and loading it back for verification.
+
+## Next
+
+[Initialize the card](./initialize) · [Save a seed](./save) · [Load a seed](./load)
 

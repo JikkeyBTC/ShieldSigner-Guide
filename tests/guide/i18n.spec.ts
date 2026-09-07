@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   DEFAULT_LOCALE,
   getLocaleFromPath,
+  getLocaleSettings,
   getLocalizedLabel,
   localizeHref,
   routeFromRelativePath,
@@ -29,5 +30,11 @@ describe('guide locale routing', () => {
       '/en/seedkeeper/save/'
     ])
     expect(getLocalizedLabel('seedkeeper-save', '시드를 카드에 저장하기', 'en')).toBe('Save a seed to the card')
+  })
+
+  it('keeps language metadata and query or hash suffixes with the localized route', () => {
+    expect(getLocaleSettings('en')).toMatchObject({ htmlLang: 'en', switchText: 'KO' })
+    expect(getLocaleSettings('ko')).toMatchObject({ htmlLang: 'ko', switchText: 'EN' })
+    expect(localizeHref('/ko/seedkeeper/save/?from=guide#saved', 'en')).toBe('/en/seedkeeper/save/?from=guide#saved')
   })
 })

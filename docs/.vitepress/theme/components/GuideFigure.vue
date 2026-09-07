@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import { withBase } from 'vitepress'
+import { computed } from 'vue'
+import { useData, withBase } from 'vitepress'
+import { getLocaleFromPath } from '../../../../src/guide/locales'
 defineProps<{ src: string; alt: string; caption: string; screen?: boolean }>()
+const { page } = useData()
+const locale = computed(() => getLocaleFromPath(`/${page.value.relativePath}`))
+const openInNewTab = computed(() => locale.value === 'en' ? 'Open in a new tab' : '새 탭에서 크게 보기')
+const clickToEnlarge = computed(() => locale.value === 'en' ? 'Click the image to view it larger.' : '그림을 누르면 크게 볼 수 있어요.')
 </script>
 
 <template>
   <figure class="ss-guide-figure" :class="{ 'ss-guide-figure--screen': screen }">
-    <a :href="withBase(src)" target="_blank" rel="noopener" :aria-label="`${alt} — 새 탭에서 크게 보기`">
+    <a :href="withBase(src)" target="_blank" rel="noopener" :aria-label="`${alt} — ${openInNewTab}`">
       <img :src="withBase(src)" :alt="alt" loading="lazy" decoding="async" />
     </a>
-    <figcaption>{{ caption }} <span>그림을 누르면 크게 볼 수 있어요.</span></figcaption>
+    <figcaption>{{ caption }} <span>{{ clickToEnlarge }}</span></figcaption>
   </figure>
 </template>
 

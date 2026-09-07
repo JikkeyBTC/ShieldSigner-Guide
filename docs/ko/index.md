@@ -28,7 +28,3 @@ ShieldSigner를 안전하게 시작하는 방법을 안내합니다.<br> 조립�
 - [자주 묻는 질문](./reference/faq)
 - [용어집](./reference/glossary)
 - [출처와 라이선스](./reference/sources)
-
-<Callout type="warning" title="검증 전에는 멈춰주세요">
-OS 검증이 끝나기 전에는 microSD에 기록하지 마세요.<br> 값이 다르면 즉시 멈추고 판매자에게 문의하세요.
-</Callout>

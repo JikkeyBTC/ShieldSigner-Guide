@@ -1,13 +1,23 @@
 ---
 title: Hardware
-description: ShieldSigner hardware parts and assembly preparation
+description: Confirm the ShieldSigner hardware and prepare before assembly
 ---
 
 # Hardware
 
-Confirm the parts, connectors, power direction, and microSD before assembly.
+This page introduces the ShieldSigner hardware and the checks to complete before assembly.
 
-1. Check every part against the kit list.
-2. Keep power disconnected while fitting boards and cables.
-3. Continue to [Kit assembly](./assembly) when the checklist is complete.
+## Assembly flow
+
+1. Confirm the parts and the role of each component.
+2. Check orientation and specifications before connecting power or microSD.
+3. When you are ready, open [Kit assembly](./assembly) and assemble the device.
+
+<Callout type="warning" title="Check before connecting power">
+Confirm the orientation of the board and case, cable connections, and microSD specification first.<br> Do not enter a seed or private key during assembly.
+</Callout>
+
+## Next step
+
+[Start kit assembly](./assembly)
 

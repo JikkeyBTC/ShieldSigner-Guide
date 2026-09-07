@@ -148,12 +148,6 @@ ShieldSigner에서 확인한 지갑과 Coconut Wallet에 추가된 지갑의 정
 
 지갑 ID가 다르면 사용을 멈추고 네트워크, 지갑 형식, 파생 경로를 다시 확인해요.<br> 일치하는 것을 확인한 뒤에만 잔액과 수신 주소를 사용해요.
 
-<Callout type="warning" title="시드와 개인키는 입력하지 않아요">
-
-Coconut Wallet에서 `Import seed`나 개인키 입력을 요구하는 경로를 선택하지 마세요.<br> 보기 전용 연결에는 ShieldSigner가 보여주는 공개 정보만 필요해요.
-
-</Callout>
-
 ## 다음 단계
 
 <GuideNav prev="/wallet/bluewallet" next="/transactions/receive-guide" prevLabel="이전: BlueWallet 워치온리 지갑" nextLabel="다음: 비트코인 받기" />

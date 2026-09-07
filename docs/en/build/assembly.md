@@ -1,21 +1,22 @@
 ---
 title: Kit assembly
-description: Assemble the ShieldSigner DIY kit and perform a first boot check
+description: ShieldSigner kit assembly video
 ---
 
-# Kit assembly
+<script setup>
+import { withBase } from 'vitepress'
+</script>
 
-Use the silkscreen labels and connector orientation as the source of truth until product photos are available.
+# ShieldSigner assembly video
 
-## Safety
-
-- Disconnect power before changing any board or cable.
-- Do not force a connector or insert a microSD upside down.
-- Stop if a part is cracked, bent, or unexpectedly warm.
-
-## Completion check
-
-1. The display, buttons, and camera are seated.
-2. The microSD is readable and contains the verified image.
-3. The first boot reaches the expected ShieldSigner screen.
+<div>
+<video
+  :src="withBase('/guides/assembly/assembly.mp4')"
+  controls
+  playsinline
+  preload="metadata"
+  aria-label="ShieldSigner kit assembly video"
+  style="display: block; width: 100%; max-height: 75vh; margin: 0 auto; background: #000; border-radius: 10px;"
+></video>
+</div>
 

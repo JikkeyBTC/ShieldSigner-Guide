@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useData } from 'vitepress'
+import { getLocaleFromPath } from '../../../../src/guide/locales'
 const props = withDefaults(defineProps<{ type?: 'info' | 'warning' | 'danger' | 'success'; title: string }>(), { type: 'info' })
-const label = computed(() => ({ info: '참고', warning: '주의', danger: '중단', success: '확인' }[props.type]))
+const { page } = useData()
+const locale = computed(() => getLocaleFromPath(`/${page.value.relativePath}`))
+const label = computed(() => {
+  const labels = locale.value === 'en'
+    ? { info: 'Info', warning: 'Warning', danger: 'Stop', success: 'Success' }
+    : { info: '참고', warning: '주의', danger: '중단', success: '확인' }
+  return labels[props.type]
+})
 </script>
 <template>
   <aside class="ss-callout" :class="`ss-callout--${type}`" :aria-label="`${label}: ${title}`">
