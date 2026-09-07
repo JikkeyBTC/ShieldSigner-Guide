@@ -29,12 +29,12 @@ test('OS card list keeps one Installation entry without a duplicate install card
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS 설치' })).toHaveCount(0);
 });
 
-test('ShieldSigner OS section card shows its local brand asset', async ({ page }) => {
+test('ShieldSigner OS section card shows its editorial photo asset', async ({ page }) => {
   await page.goto(ko('/os/'));
   const osCard = page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS' }).first();
   await expect(osCard).toHaveCount(1);
-  await expect(osCard).toHaveAttribute('data-card-asset', 'shieldsigner-logo');
-  await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /brand\/shieldsigner\.svg/);
+  await expect(osCard).toHaveAttribute('data-card-asset', 'photo-code-blue');
+  await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /brand\/card-photos\/code-blue\.jpg/);
 });
 
 test('assembly labels use the shared Korean-friendly guide font stack', async ({ page }) => {
@@ -297,8 +297,8 @@ test('TOC navigation keeps the selected card visual panel populated', async ({ p
   await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
   await expect(selectedCard).toHaveAttribute('aria-current', 'page');
-  await expect(selectedCard).toHaveAttribute('data-card-asset', 'seedkeeper-logo');
-  await expect(selectedCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /seedkeeper_logo_black\.png/);
+  await expect(selectedCard).toHaveAttribute('data-card-asset', 'photo-wallet-hands');
+  await expect(selectedCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /wallet-hands\.jpg/);
 });
 
 test('active branch highlight bar reaches the end of its nested items', async ({ page }) => {
@@ -496,13 +496,44 @@ test('guide card visual panels render artwork or glyphs', async ({ page }) => {
   expect(visualChildCounts.every((count) => count > 0)).toBeTruthy();
 });
 
-test('representative guide cards use the requested local images', async ({ page }) => {
+test('every visible guide card uses a local editorial photo asset', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const assets = await page.locator('.ss-demo-card').evaluateAll((cards) => cards.map((card) => ({
+    asset: card.getAttribute('data-card-asset'),
+    src: card.querySelector<HTMLImageElement>('.ss-demo-card-image')?.getAttribute('src'),
+  })));
+  expect(assets.length).toBeGreaterThan(0);
+  expect(assets.every(({ asset, src }) => asset?.startsWith('photo-') && src?.includes('/brand/card-photos/'))).toBeTruthy();
+});
+
+test('card photos fill the card frame below the title', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
+  const metrics = await card.evaluate((element) => {
+    const cardRect = element.getBoundingClientRect();
+    const visualRect = element.querySelector<HTMLElement>('.ss-demo-visual')?.getBoundingClientRect();
+    if (!visualRect) return null;
+    return {
+      leftInset: visualRect.left - cardRect.left,
+      rightInset: cardRect.right - visualRect.right,
+      bottomInset: cardRect.bottom - visualRect.bottom,
+    };
+  });
+  expect(metrics).not.toBeNull();
+  expect(metrics?.leftInset).toBeLessThanOrEqual(1.5);
+  expect(metrics?.rightInset).toBeLessThanOrEqual(1.5);
+  expect(metrics?.bottomInset).toBeLessThanOrEqual(1.5);
+});
+
+test('representative guide cards use editorial photo images', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const cases = [
-    ['SeedKeeper', 'seedkeeper-logo', /seedkeeper_logo_black\.png/],
-    ['Installation', 'sd-card', /04-sd-card\.png/],
-    ['JavaCard란?', 'javacard-holder', /javacard-card\.png/],
+    ['SeedKeeper', 'photo-seedkeeper-card', /seedkeeper-card\.jpg/],
+    ['Installation', 'photo-installation-sd', /installation-sd\.jpg/],
+    ['JavaCard란?', 'photo-javacard-chip', /javacard-chip\.jpg/],
   ] as const;
   for (const [title, asset, src] of cases) {
     const card = page.locator('.ss-demo-card').filter({ hasText: title }).first();
@@ -538,20 +569,20 @@ test('cards keep summary copy out of both the visual panel and card header', asy
   await expect(card.locator('header .ss-demo-card-copy')).toHaveCount(0);
 });
 
-test('Getting started card shows the ShieldSigner device asset', async ({ page }) => {
+test('Getting started card shows the Raspberry Pi photo asset', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
-  await expect(card).toHaveAttribute('data-card-asset', 'shieldsigner-device');
-  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /15-device-check\.jpg/);
+  await expect(card).toHaveAttribute('data-card-asset', 'photo-device-rpi');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /device-rpi\.jpg/);
 });
 
-test('Hardware card shows the ShieldSigner device asset', async ({ page }) => {
+test('Hardware card shows the assembly photo asset', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Hardware' }).first();
-  await expect(card).toHaveAttribute('data-card-asset', 'shieldsigner-device');
-  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /15-device-check\.jpg/);
+  await expect(card).toHaveAttribute('data-card-asset', 'photo-assembly-screwdriver');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /assembly-screwdriver\.jpg/);
 });
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {
