@@ -12,6 +12,17 @@ export interface LocaleSettings {
 export const DEFAULT_LOCALE: GuideLocale = 'ko'
 export const SUPPORTED_LOCALES: readonly GuideLocale[] = ['ko', 'en']
 
+/**
+ * Temporarily hidden Korean routes. Keep the source pages intact so they can
+ * be restored by removing a route from this list later.
+ */
+export const TEMPORARILY_HIDDEN_KO_ROUTE_PREFIXES = [
+  '/os/verification/',
+  '/wallet/',
+  '/transactions/',
+  '/reference/'
+] as const
+
 const localePrefixes: Record<GuideLocale, string> = {
   ko: '/ko',
   en: '/en'
@@ -139,6 +150,18 @@ export function localizeHref(href: string, locale: GuideLocale): string {
   const suffix = match?.[2] ?? ''
   const localizedPath = path === '/' ? `${localePrefixes[locale]}/` : `${localePrefixes[locale]}${path}`
   return `${localizedPath}${suffix}`
+}
+
+const normalizeGuideRoute = (pathname: string) => {
+  const path = stripLocalePrefix(pathname).split(/[?#]/, 1)[0] || '/'
+  if (path === '/') return '/'
+  return `/${path.replace(/^\/+|\/+$/g, '')}/`
+}
+
+export function isGuideRouteHidden(href: string, locale: GuideLocale): boolean {
+  if (locale !== 'ko') return false
+  const route = normalizeGuideRoute(href)
+  return TEMPORARILY_HIDDEN_KO_ROUTE_PREFIXES.some((prefix) => route === prefix || route.startsWith(prefix))
 }
 
 export function getLocalizedLabel(id: string, fallback: string, locale: GuideLocale): string {

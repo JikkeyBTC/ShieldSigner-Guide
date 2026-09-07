@@ -22,6 +22,7 @@ GitHub 릴리스에서 이미지를 내려받아 microSD에 기록하고 첫 부
 
 </div>
 
+<!-- Temporarily hidden: restore the Verification card when this route is re-enabled.
 <div class="ss-summary-card">
 
 ### Verification
@@ -31,6 +32,7 @@ SHA-256과 PGP 서명을 이용해 다운로드한 파일의 무결성과 출처
 [Verification 안내](./verification)
 
 </div>
+-->
 
 <Callout type="warning" title="검증 전에는 기록하지 마세요">
 해시나 PGP 검증이 끝나기 전에는 이미지를 microSD에 기록하거나 장치에서 실행하지 않습니다.

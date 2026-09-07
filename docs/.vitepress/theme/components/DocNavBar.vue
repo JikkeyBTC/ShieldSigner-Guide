@@ -5,7 +5,7 @@ import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLa
 import { chapters, getChapterByPath } from '../../../../src/guide/chapters'
 import { guideCardOrder } from '../../../../src/guide/card-order'
 import { getChapterAccent } from '../../../../src/guide/colors'
-import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
+import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, isGuideRouteHidden, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
 
 type NavCard = {
   readonly id: string
@@ -29,7 +29,7 @@ const cards = computed<NavCard[]>(() => {
   const chapterById = new Map(chapters.filter((item) => item.id !== 'overview').map((item) => [item.id, item]))
   return guideCardOrder.map(({ kind, id }) => {
     const item = kind === 'section' ? sectionById.get(id) : kind === 'branch' ? branchById.get(id) : chapterById.get(id)
-    if (!item) return undefined
+    if (!item || isGuideRouteHidden(item.href, locale.value)) return undefined
     const label = kind === 'chapter' ? getLocalizedChapterLabel(id, item.label, locale.value) : getLocalizedLabel(id, item.label, locale.value)
     return { id, label, href: localizeHref(item.href, locale.value), sourceHref: item.href, kind }
   }).filter(Boolean) as NavCard[]

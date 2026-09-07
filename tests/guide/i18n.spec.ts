@@ -4,6 +4,7 @@ import {
   getLocaleFromPath,
   getLocaleSettings,
   getLocalizedLabel,
+  isGuideRouteHidden,
   localizeHref,
   routeFromRelativePath,
   stripLocalePrefix,
@@ -36,5 +37,14 @@ describe('guide locale routing', () => {
     expect(getLocaleSettings('en')).toMatchObject({ htmlLang: 'en', switchText: 'KO' })
     expect(getLocaleSettings('ko')).toMatchObject({ htmlLang: 'ko', switchText: 'EN' })
     expect(localizeHref('/ko/seedkeeper/save/?from=guide#saved', 'en')).toBe('/en/seedkeeper/save/?from=guide#saved')
+  })
+
+  it('temporarily hides only the requested Korean sections', () => {
+    expect(isGuideRouteHidden('/os/verification/', 'ko')).toBe(true)
+    expect(isGuideRouteHidden('/wallet/bluewallet/', 'ko')).toBe(true)
+    expect(isGuideRouteHidden('/transactions/receive-guide/', 'ko')).toBe(true)
+    expect(isGuideRouteHidden('/reference/security/', 'ko')).toBe(true)
+    expect(isGuideRouteHidden('/os/install/', 'ko')).toBe(false)
+    expect(isGuideRouteHidden('/wallet/bluewallet/', 'en')).toBe(false)
   })
 })

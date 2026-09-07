@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
 import { chapters } from '../../../../src/guide/chapters'
 import { branchLandings, sectionLandings } from '../../../../src/guide/branches'
-import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, localizeHref } from '../../../../src/guide/locales'
+import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, isGuideRouteHidden, localizeHref } from '../../../../src/guide/locales'
 
 type SearchResult = {
   readonly id: string
@@ -21,19 +21,19 @@ const activeIndex = ref(0)
 const overlayInput = ref<HTMLInputElement>()
 
 const allResults = computed<SearchResult[]>(() => {
-  const sections: SearchResult[] = sectionLandings.map((item) => ({
+  const sections: SearchResult[] = sectionLandings.filter((item) => !isGuideRouteHidden(item.href, locale.value)).map((item) => ({
     id: `section-${item.id}`,
     label: getLocalizedLabel(item.id, item.label, locale.value),
     group: 'Section',
     href: withBase(localizeHref(item.href, locale.value))
   }))
-  const branches: SearchResult[] = branchLandings.map((item) => ({
+  const branches: SearchResult[] = branchLandings.filter((item) => !isGuideRouteHidden(item.href, locale.value)).map((item) => ({
     id: `branch-${item.id}`,
     label: getLocalizedLabel(item.id, item.label, locale.value),
     group: 'Category',
     href: withBase(localizeHref(item.href, locale.value))
   }))
-  const pages: SearchResult[] = chapters.filter((item) => item.id !== 'overview').map((item) => ({
+  const pages: SearchResult[] = chapters.filter((item) => item.id !== 'overview' && !isGuideRouteHidden(item.href, locale.value)).map((item) => ({
     id: `chapter-${item.id}`,
     label: getLocalizedChapterLabel(item.id, item.label, locale.value),
     group: item.group,

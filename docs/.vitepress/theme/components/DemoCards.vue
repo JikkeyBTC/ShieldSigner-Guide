@@ -6,7 +6,7 @@ import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/gu
 import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLandings } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
 import { guideCardOrder } from '../../../../src/guide/card-order'
-import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
+import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, isGuideRouteHidden, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
 
 type GuideCard = {
   readonly id: string
@@ -69,7 +69,7 @@ const cardVisual = (id: string) => ({
   sources: 'source-link',
 } as Record<string, string>)[id] ?? 'terms'
 
-const sectionCards = computed<GuideCard[]>(() => sectionLandings.map((landing, index) => ({
+const sectionCards = computed<GuideCard[]>(() => sectionLandings.filter((landing) => !isGuideRouteHidden(landing.href, locale.value)).map((landing, index) => ({
   ...landing,
   id: `section-${landing.id}`,
   sourceHref: landing.href,
@@ -82,7 +82,7 @@ const sectionCards = computed<GuideCard[]>(() => sectionLandings.map((landing, i
   visual: cardVisual(`section-${landing.id}`)
 })))
 
-const branchLandingCards = computed<GuideCard[]>(() => branchCards.map((landing, index) => ({
+const branchLandingCards = computed<GuideCard[]>(() => branchCards.filter((landing) => !isGuideRouteHidden(landing.href, locale.value)).map((landing, index) => ({
   ...landing,
   id: `branch-${landing.id}`,
   sourceHref: landing.href,
@@ -95,7 +95,7 @@ const branchLandingCards = computed<GuideCard[]>(() => branchCards.map((landing,
   visual: cardVisual(`branch-${landing.id}`)
 })))
 
-const chapterCards = computed<GuideCard[]>(() => chapters.filter((chapter) => chapter.id !== 'overview').map((chapter) => ({
+const chapterCards = computed<GuideCard[]>(() => chapters.filter((chapter) => chapter.id !== 'overview' && !isGuideRouteHidden(chapter.href, locale.value)).map((chapter) => ({
   ...chapter,
   sourceHref: chapter.href,
   href: localizeHref(chapter.href, locale.value),

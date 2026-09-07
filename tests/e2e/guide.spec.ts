@@ -12,10 +12,7 @@ test('landing page exposes the first-run route map', async ({ page }) => {
     'href',
     /\/build\/$/
   );
-  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Verification' })).toHaveAttribute(
-    'href',
-    /\/os\/verification\/$/
-  );
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Verification' })).toHaveCount(0);
   await expect(page.locator('.ss-demo-card').filter({ hasText: '변조 확인 검증' })).toHaveCount(0);
   await expect(page.locator('main')).toContainText('ShieldSigner를 안전하게 시작하는 방법');
   await expect(page.locator('.ss-demo-card').filter({ hasText: '키트 조립 방법' })).toHaveAttribute(
@@ -360,11 +357,11 @@ test('clicking a guide section opens its independent landing page', async ({ pag
   await expect(page.getByLabel('ShieldSigner 키트 조립 동영상')).toBeVisible();
 });
 
-test('Verification is a single landing route', async ({ page }) => {
+test('Verification remains directly accessible while hidden from Korean navigation', async ({ page }) => {
   await page.goto(ko());
-  const verificationCard = page.locator('.ss-demo-card').filter({ hasText: 'Verification' });
-  await expect(verificationCard).toHaveCount(1);
-  await verificationCard.click();
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Verification' })).toHaveCount(0);
+  await expect(page.locator('.ss-nav-branch-title').filter({ hasText: 'Verification' })).toHaveCount(0);
+  await page.goto(ko('/os/verification/'));
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/os\/verification\/?$/);
   await expect(page.locator('main h1')).toContainText('설치 파일 검증');
   await expect(page.locator('main')).toContainText('Get-FileHash');
@@ -454,49 +451,25 @@ test('watch-only, transaction, and reference chapters expose safety content', as
   await expect(page.getByRole('link', { name: 'SeedKeeper Applet 공식 저장소' })).toHaveAttribute('href', /github.com\/Toporin\/Seedkeeper-Applet/);
 });
 
-test('watch-only card list keeps one BlueWallet and one Coconut entry', async ({ page }) => {
+test('temporarily hidden Korean sections stay out of cards, navigation, and search', async ({ page }) => {
   await page.goto(ko());
-  await expect(page.locator('.ss-demo-card').filter({ hasText: 'BlueWallet' })).toHaveCount(1);
-  await expect(page.locator('.ss-demo-card').filter({ hasText: '워치온리 지갑' })).toHaveCount(0);
-  await expect(page.locator('.ss-demo-card').filter({ hasText: '코코넛 월렛' })).toHaveCount(1);
-  await expect(page.locator('.ss-demo-card').filter({ hasText: /^Coconut$/ })).toHaveCount(0);
+  for (const label of ['Watch-only wallets', 'BlueWallet', 'Coconut', 'Transactions', 'Receive', 'Send', 'Signing', 'Reference', 'Safety', 'Terms']) {
+    await expect(page.locator('.ss-demo-card').filter({ hasText: label })).toHaveCount(0);
+    await expect(page.locator('.ss-anime-nav').getByRole('link', { name: label, exact: true })).toHaveCount(0);
+  }
+  await page.getByRole('button', { name: 'Search documentation' }).first().click();
+  const input = page.getByRole('searchbox', { name: 'Search documentation' });
+  await input.fill('BlueWallet');
+  await expect(page.locator('.ss-search-result')).toHaveCount(0);
 });
 
-test('Receive is a single landing route', async ({ page }) => {
-  await page.goto(ko());
-  const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
-  await expect(receiveCard).toHaveCount(1);
-  await expect(receiveCard.locator('.ss-demo-visual--empty')).toBeVisible();
-  await expect(page.locator('.ss-demo-card').filter({ hasText: '수신 주소 확인' })).toHaveCount(0);
-  const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
-  await expect(sendCard).toHaveCount(1);
-  await expect(sendCard).toHaveAttribute('href', /\/transactions\/send-guide\/$/);
-  await expect(sendCard.locator('.ss-demo-visual--empty')).toBeVisible();
-  const signingCard = page.locator('.ss-demo-card').filter({ hasText: 'Signing' });
-  await expect(signingCard).toHaveCount(1);
-  await expect(page.locator('.ss-demo-card').filter({ hasText: 'PSBT 검토·서명' })).toHaveCount(0);
-  await expect(receiveCard).toHaveAttribute(
-    'href',
-    /\/transactions\/receive-guide\/$/
-  );
-  await receiveCard.click();
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/transactions\/receive-guide\/?$/);
-  await expect(page.locator('main h1')).toContainText('Receive');
-  await expect(page.locator('main')).not.toContainText('수신 주소 확인 상세 페이지 열기');
-  await page.goto(ko());
-  await sendCard.click();
-  await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/transactions\/send-guide\/?$/);
-  await expect(page.locator('main h1')).toContainText('Send');
-  await expect(page.locator('main')).toContainText('수신자 주소');
-});
-
-test('Send and Receive cards stay empty until their artwork is designed', async ({ page }) => {
+test('hidden transaction cards are omitted from the Korean rail', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
   const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
   const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
-  await expect(sendCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
-  await expect(receiveCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
+  await expect(sendCard).toHaveCount(0);
+  await expect(receiveCard).toHaveCount(0);
 });
 
 test('guide cards keep their visual mapping without header icons', async ({ page }) => {
@@ -568,13 +541,13 @@ test('second-level navigation groups open their own landing content', async ({ p
   await page.goto(ko('/seedkeeper/javacard'));
   await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/concepts\/?$/);
-  await expect(page.locator('main h1')).toContainText('Concepts');
+  await expect(page.locator('main h1').filter({ hasText: 'Concepts' })).toBeVisible();
   await expect(page.locator('main')).toContainText('이 카테고리에서 다루는 내용');
   await expect(page.getByRole('link', { name: 'JavaCard 안내 열기' })).toHaveAttribute('href', './javacard');
 
   await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
-  await expect(page.locator('main h1')).toContainText('카드 사용하기');
+  await expect(page.locator('main h1').filter({ hasText: '카드 사용하기' })).toBeVisible();
   await expect(page.locator('main').getByRole('link', { name: '시드 저장 방법' })).toHaveAttribute('href', './save');
   await expect(page.locator('main').getByRole('link', { name: '시드 불러오기 방법' })).toHaveAttribute('href', './load');
 });

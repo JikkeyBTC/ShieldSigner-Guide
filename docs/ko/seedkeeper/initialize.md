@@ -29,7 +29,8 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 
 ## 시작하기 전에
 
-- [OS 설치](../os/install)와 [다운로드 파일 검증](../os/verification)을 마친 ShieldSigner를 준비해요.
+- [OS 설치](../os/install)와 다운로드 파일 검증을 마친 ShieldSigner를 준비해요.
+<!-- Temporarily hidden link: [다운로드 파일 검증](../os/verification) -->
 - **SeedKeeper Applet을 설치할 카드**가 필요해요.<br> Applet은 카드 안에서 동작하는 프로그램이에요.<br> 이 안내에서 실물 ShieldSigner에 `SeedKeeper-0.2-official.cap`을 설치한 뒤 PIN을 설정해요.
 - 카드가 여러 장이라면 A·B·C처럼 구분해 두고 **한 장씩** 설정해요.
 - 새 PIN을 안전하게 보관할 방법을 정해요.<br> 카드 겉면에 PIN을 적거나, 카드와 PIN 기록을 함께 보관하지 마세요.

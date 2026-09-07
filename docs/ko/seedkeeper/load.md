@@ -130,7 +130,8 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요.<br> �
 
 ## 다음 단계
 
-[← 시드를 카드에 저장하기](./save) · [워치온리 지갑 연결하기 →](../wallet/)
+[← 시드를 카드에 저장하기](./save) · 워치온리 지갑 연결하기 →
+<!-- Temporarily hidden link: [워치온리 지갑 연결하기 →](../wallet/) -->
 
 절차 기준: [ShieldSigner B12 시드 저장·불러오기 소스](https://github.com/3rdIteration/seedsigner/blob/6faaffcb06a2ba578a96fdef689d97e21793ec23/src/seedsigner/views/seed_views.py)
 

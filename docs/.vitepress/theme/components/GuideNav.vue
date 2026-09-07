@@ -5,7 +5,7 @@ import { animateEnter } from '../../../../src/guide/animation'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
 import { branchLandings, getBranchLandingByPath, getSectionLandingByPath, sectionLandings, type BranchLanding, type SectionLanding } from '../../../../src/guide/branches'
 import { getChapterAccent } from '../../../../src/guide/colors'
-import { getLocalizedLabel, getLocaleFromPath, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
+import { getLocalizedLabel, getLocaleFromPath, isGuideRouteHidden, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
 
 type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string; showChildren?: boolean }
 type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
@@ -33,9 +33,9 @@ const sectionLandingById = (id: string) => sectionLandings.find((landing) => lan
 const branchChapters = (branch: NavBranch) => branch.chapterIds.map(chapterById).filter(Boolean) as ChapterMeta[]
 const label = (id: string, fallback: string) => getLocalizedLabel(id, fallback, locale.value)
 const mobileSearchItems = computed(() => [
-  ...sectionLandings.map((item) => ({ label: label(item.id, item.label), href: localizeHref(item.href, locale.value), type: 'section' })),
-  ...branchLandings.map((item) => ({ label: label(item.id, item.label), href: localizeHref(item.href, locale.value), type: 'category' })),
-  ...chapters.filter((item) => item.id !== 'overview').map((item) => ({ label: label(item.id, item.label), href: localizeHref(item.href, locale.value), type: 'page' }))
+  ...sectionLandings.filter((item) => !isGuideRouteHidden(item.href, locale.value)).map((item) => ({ label: label(item.id, item.label), href: localizeHref(item.href, locale.value), type: 'section' })),
+  ...branchLandings.filter((item) => !isGuideRouteHidden(item.href, locale.value)).map((item) => ({ label: label(item.id, item.label), href: localizeHref(item.href, locale.value), type: 'category' })),
+  ...chapters.filter((item) => item.id !== 'overview' && !isGuideRouteHidden(item.href, locale.value)).map((item) => ({ label: label(item.id, item.label), href: localizeHref(item.href, locale.value), type: 'page' }))
 ])
 const filteredMobileSearchItems = computed(() => {
   const query = mobileSearchQuery.value.trim().toLocaleLowerCase()
@@ -54,6 +54,14 @@ const sectionHref = (section: NavSection) => {
   return landing ? withBase(localizeHref(landing.href, locale.value)) : branchHref(section.branches[0])
 }
 const branchHref = (branch: NavBranch) => landingById(branch.landingId) ? landingHref(landingById(branch.landingId)!) : href(branchChapters(branch)[0])
+const sectionSourceHref = (section: NavSection) => sectionLandingById(section.id)?.href ?? branchChapters(section.branches[0])[0]?.href ?? '/'
+const branchSourceHref = (branch: NavBranch) => landingById(branch.landingId)?.href ?? branchChapters(branch)[0]?.href ?? '/'
+const visibleSections = computed(() => sections
+  .map((section) => ({
+    ...section,
+    branches: section.branches.filter((branch) => !isGuideRouteHidden(branchSourceHref(branch), locale.value))
+  }))
+  .filter((section) => section.branches.length > 0 && !isGuideRouteHidden(sectionSourceHref(section), locale.value)))
 const sectionAccent = (section: NavSection) => {
   const landing = sectionLandingById(section.id)
   return getChapterAccent(landing ?? branchChapters(section.branches[0])[0])
@@ -98,7 +106,7 @@ watch(() => current.value?.id, async () => {
   </Teleport>
   <div v-if="mobileOpen" class="ss-mobile-menu-scrim" aria-hidden="true" @click="mobileOpen = false"></div>
   <aside id="ss-mobile-guide-nav" class="ss-category-nav ss-anime-nav" :class="{ 'is-mobile-open': mobileOpen }" aria-label="Guide table of contents">
-    <div v-for="section in sections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
+    <div v-for="section in visibleSections" :key="section.id" class="ss-nav-section" :class="{ 'is-open': isOpen(section) }" :style="{ '--nav-accent': sectionAccent(section) }">
       <a ref="navLinks" class="ss-nav-section-title" :class="{ 'is-active': section.id === current?.id }" :href="sectionHref(section)" :aria-current="isOpen(section) ? 'location' : undefined" @click="notifyTocNavigation">{{ label(section.id, section.label) }}</a>
       <div v-if="isOpen(section)" class="ss-nav-children">
         <div v-for="branch in section.branches" :key="branch.id" class="ss-nav-branch" :class="{ 'has-children': hasChildren(branch), 'is-active': isBranchOpen(branch) }">

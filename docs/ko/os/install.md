@@ -153,7 +153,7 @@ Raspberry Pi Imager를 실행해요.<br> 앞에서 검증한 이미지를 SD 카
 
 ---
 
-[OS 검증 가이드 보기 →](./verification)
+<!-- Temporarily hidden: [OS 검증 가이드 보기 →](./verification) -->
 
 </div>
 </GuideContent>
