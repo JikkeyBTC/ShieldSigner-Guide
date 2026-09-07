@@ -297,4 +297,14 @@ body.ss-search-open{overflow:hidden}
 /* Keep every visual chapter card on the same 192px rhythm. */
 .ss-demo-card{height:192px}
 .ss-demo-visual--empty{background:transparent}
+.ss-demo-visual--asset{padding:0;background:#17191d}
+.ss-demo-visual--asset.ss-demo-visual--contain{padding:8px;background:#0d0e10}
+.ss-demo-visual--asset-seedkeeper-logo,.ss-demo-visual--asset-shieldsigner-logo{background:#f4f1eb}
+.ss-demo-card-image{display:block;width:100%;height:100%;object-position:center;transform-origin:center;transition:transform .3s ease,filter .3s ease}
+.ss-demo-visual--cover .ss-demo-card-image{object-fit:cover}
+.ss-demo-visual--contain .ss-demo-card-image{object-fit:contain}
+.ss-demo-card:hover .ss-demo-card-image{transform:scale(1.035)}
+.ss-demo-visual--glyph{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--card-accent),#252423 78%),#252423 72%)}
+.ss-demo-visual--glyph .ss-demo-icon{display:block;width:48px;height:48px;overflow:visible;color:var(--card-accent);fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.9;transform-origin:center}
+.ss-demo-visual--glyph .ss-demo-icon rect,.ss-demo-visual--glyph .ss-demo-icon circle,.ss-demo-visual--glyph .ss-demo-icon path{vector-effect:non-scaling-stroke}
 @media (max-width:759px){.ss-brand{flex:0 1 148px}}

@@ -7,6 +7,7 @@ import { branchCards, getBranchLandingByPath, getSectionLandingByPath, sectionLa
 import { getChapterAccent } from '../../../../src/guide/colors'
 import { guideCardOrder } from '../../../../src/guide/card-order'
 import { getLocalizedChapterLabel, getLocalizedLabel, getLocaleFromPath, isGuideRouteHidden, localizeHref, routeFromRelativePath } from '../../../../src/guide/locales'
+import CardGlyph from './CardGlyph.vue'
 
 type GuideCard = {
   readonly id: string
@@ -20,6 +21,12 @@ type GuideCard = {
   readonly displayTitle: string
   readonly chapterId?: string
   readonly visual: string
+}
+
+type CardAsset = {
+  readonly key: string
+  readonly path: string
+  readonly fit: 'cover' | 'contain'
 }
 
 const { page } = useData()
@@ -68,6 +75,30 @@ const cardVisual = (id: string) => ({
   glossary: 'glossary',
   sources: 'source-link',
 } as Record<string, string>)[id] ?? 'terms'
+
+const cardAssets: Record<string, CardAsset> = {
+  'section-getting-started': { key: 'shieldsigner-device', path: '/guides/os/install-reference/15-device-check.jpg', fit: 'cover' },
+  'section-os': { key: 'shieldsigner-logo', path: '/brand/shieldsigner.svg', fit: 'contain' },
+  'section-wallet': { key: 'bitcoin', path: '/brand/bitcoin.svg', fit: 'contain' },
+  'section-transactions': { key: 'bitcoin', path: '/brand/bitcoin.svg', fit: 'contain' },
+  'branch-hardware': { key: 'shieldsigner-device', path: '/guides/os/install-reference/15-device-check.jpg', fit: 'cover' },
+  'branch-installation': { key: 'sd-card', path: '/guides/os/install-reference/04-sd-card.png', fit: 'cover' },
+  assembly: { key: 'shieldsigner-device', path: '/guides/os/install-reference/15-device-check.jpg', fit: 'cover' },
+  'os-install': { key: 'sd-card', path: '/guides/os/install-reference/04-sd-card.png', fit: 'cover' },
+  'section-seedkeeper': { key: 'seedkeeper-logo', path: '/brand/seedkeeper/seedkeeper_logo_black.png', fit: 'contain' },
+  'branch-concepts': { key: 'javacard-holder', path: '/brand/javacard-card.png', fit: 'cover' },
+  'branch-backup-recovery': { key: 'seedkeeper-logo', path: '/brand/seedkeeper/seedkeeper_logo_black.png', fit: 'contain' },
+  javacard: { key: 'javacard-holder', path: '/brand/javacard-card.png', fit: 'cover' },
+  'what-is-seedkeeper': { key: 'seedkeeper-logo', path: '/brand/seedkeeper/seedkeeper_logo_black.png', fit: 'contain' },
+  'seedkeeper-initialize': { key: 'seedkeeper-applet', path: '/guides/seedkeeper/initialize/17-applet-installed-screen.png', fit: 'cover' },
+  'seedkeeper-save': { key: 'seedkeeper-save', path: '/guides/seedkeeper/transfer/06-secret-saved-device.png', fit: 'cover' },
+  'seedkeeper-load': { key: 'seedkeeper-load', path: '/guides/seedkeeper/transfer/14-seed-loaded-device.png', fit: 'cover' },
+}
+
+const cardAssetFor = (card: GuideCard) => {
+  const asset = cardAssets[card.id]
+  return asset ? { ...asset, src: withBase(asset.path) } : undefined
+}
 
 const sectionCards = computed<GuideCard[]>(() => sectionLandings.filter((landing) => !isGuideRouteHidden(landing.href, locale.value)).map((landing, index) => ({
   ...landing,
@@ -249,9 +280,14 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
 
 <template>
   <aside class="ss-demo-rail" aria-label="Guide visual chapters">
-    <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :data-card-visual="card.visual" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
+    <a v-for="card in visibleCards" :key="card.id" class="ss-demo-card ss-reveal vp-raw" :data-card-visual="card.visual" :data-card-asset="cardAssetFor(card)?.key" :style="{ '--card-accent': accentFor(card) }" :href="href(card)" :aria-current="isCurrent(card) ? 'page' : undefined" @click="runCardAnimation($event, card)">
       <header><span class="ss-scramble-title">{{ card.displayTitle }}</span></header>
-      <div class="ss-demo-visual ss-demo-visual--empty" aria-hidden="true"></div>
+      <div v-if="cardAssetFor(card)" class="ss-demo-visual ss-demo-visual--asset" :class="[`ss-demo-visual--${cardAssetFor(card)?.fit}`, `ss-demo-visual--asset-${cardAssetFor(card)?.key}`]" aria-hidden="true">
+        <img class="ss-demo-card-image" :src="cardAssetFor(card)?.src" alt="" decoding="async">
+      </div>
+      <div v-else class="ss-demo-visual ss-demo-visual--glyph" aria-hidden="true">
+        <CardGlyph :name="card.visual" />
+      </div>
     </a>
     <p v-if="visibleCards.length === 0" class="ss-card-search-empty">No matching chapters.</p>
   </aside>

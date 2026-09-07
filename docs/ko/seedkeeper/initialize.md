@@ -55,7 +55,7 @@ ShieldSigner를 켜고 메인 메뉴가 나올 때까지 기다려요.<br> 기�
 
 ## 2. SeedKeeper Applet을 설치해요 {#install-applet}
 
-시뮬레이터에서는 Applet 설치를 지원하지 않아요.<br> 이 단계는 **실물 ShieldSigner**에서 진행해요.
+시뮬레이터에서는 Applet 설치 자체를 지원하지 않아요.<br> 다만 **DIY Tools → Install Applet** 메뉴까지의 이동은 확인할 수 있어요.<br> SeedKeeper Applet 설치는 **실물 ShieldSigner**에서 진행해요.
 
 ### Smartcard Tools 선택
 
@@ -71,9 +71,21 @@ Tools 목록에서 아래로 이동해 **Smartcard Tools**를 열어요.
 
 **Smartcard Tools**에서 **DIY Tools**를 열어요.
 
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/18-diy-tools-screen.png"
+  alt="Smartcard Tools 화면에서 DIY Tools가 선택된 모습."
+  caption="Smartcard Tools에서 DIY Tools를 선택해요."
+/>
+
 ### Install Applet으로 진입해요
 
 **DIY Tools**에서 **Install Applet**을 선택해요.
+
+<GuideFigure screen
+  src="/guides/seedkeeper/initialize/19-install-applet-screen.png"
+  alt="Javacard DIY 화면에서 Install Applet이 선택된 모습."
+  caption="DIY Tools에서 Install Applet을 선택해요."
+/>
 
 ### SeedKeeper Applet 파일을 선택해요
 

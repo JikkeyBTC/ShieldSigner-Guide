@@ -4,9 +4,10 @@ Captured on 2026-09-06 for `docs/ko/seedkeeper/initialize.md`.
 
 The menu and PIN screen captures are from the Jikkey SeedSigner simulator. The first
 whole-device image (`03-home-tools-device.png`) uses the user's physical-device photo
-with the background replaced by bright orange suede. The three Applet installation
-images (`15`–`17`) are clean simulator-style redraws based on the user's physical-device
-display photos; Applet installation is not supported by the simulator.
+with the background replaced by bright orange suede. The Applet installation images
+(`15`–`17`) are clean simulator-style redraws based on the user's physical-device
+display photos. The simulator supports navigation through DIY Tools → Install Applet,
+but it does not perform the actual Applet installation.
 
 ## Capture environment
 
@@ -44,6 +45,8 @@ card; they do not establish the version or authenticity of a purchased card.
 | `15-select-applet-screen.png` | Simulator-style redraw with `SeedKeeper-0.2-official.cap` selected |
 | `16-select-storage-screen.png` | Simulator-style redraw with `8 KB (default)` selected |
 | `17-applet-installed-screen.png` | Simulator-style redraw showing `Success` and `Applet Installed` |
+| `18-diy-tools-screen.png` | Smartcard Tools → DIY Tools highlighted |
+| `19-install-applet-screen.png` | Javacard DIY → Install Applet highlighted |
 
 `*-device.png` files are native browser element screenshots of `#device`
 (2176 × 1156). The original simulator `*-screen.png` files are unmodified PNG

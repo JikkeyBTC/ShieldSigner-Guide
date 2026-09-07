@@ -29,12 +29,12 @@ test('OS card list keeps one Installation entry without a duplicate install card
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS 설치' })).toHaveCount(0);
 });
 
-test('ShieldSigner OS section card starts with an empty visual panel', async ({ page }) => {
+test('ShieldSigner OS section card shows its local brand asset', async ({ page }) => {
   await page.goto(ko('/os/'));
   const osCard = page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS' }).first();
   await expect(osCard).toHaveCount(1);
-  await expect(osCard.locator('.ss-demo-visual--empty')).toBeVisible();
-  await expect(osCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
+  await expect(osCard).toHaveAttribute('data-card-asset', 'shieldsigner-logo');
+  await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /brand\/shieldsigner\.svg/);
 });
 
 test('assembly labels use the shared Korean-friendly guide font stack', async ({ page }) => {
@@ -289,7 +289,7 @@ test('TOC navigation aligns the selected card to the top of the rail', async ({ 
   expect(alignment!.cardTop).toBeLessThan(alignment!.railTop + 36);
 });
 
-test('TOC navigation keeps the selected card visual panel ready for artwork', async ({ page }) => {
+test('TOC navigation keeps the selected card visual panel populated', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko('/seedkeeper/javacard/'));
   const selectedCard = page.locator('.ss-demo-card').filter({ hasText: '카드 사용하기' });
@@ -297,8 +297,8 @@ test('TOC navigation keeps the selected card visual panel ready for artwork', as
   await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
   await expect(selectedCard).toHaveAttribute('aria-current', 'page');
-  await expect(selectedCard.locator('.ss-demo-visual--empty')).toBeVisible();
-  await expect(selectedCard.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
+  await expect(selectedCard).toHaveAttribute('data-card-asset', 'seedkeeper-logo');
+  await expect(selectedCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /seedkeeper_logo_black\.png/);
 });
 
 test('active branch highlight bar reaches the end of its nested items', async ({ page }) => {
@@ -412,6 +412,8 @@ test('SeedKeeper navigation preserves the package QR and offers save and load gu
   await page.goto(ko('/seedkeeper/initialize/'));
   await expect(page.locator('main h1')).toHaveText('카드 초기화와 PIN');
   await expect(page.locator('.ss-doc-nav-bottom .ss-doc-nav-link-next')).toHaveAttribute('href', /seedkeeper\/save/);
+  await expect(page.locator('img[src*="18-diy-tools-screen.png"]')).toHaveCount(1);
+  await expect(page.locator('img[src*="19-install-applet-screen.png"]')).toHaveCount(1);
   const nav = page.locator('.ss-anime-nav');
   await expect(nav.getByRole('link', { name: '카드 초기화와 PIN', exact: true })).toHaveAttribute('href', /ko\/seedkeeper\/initialize/);
   for (const old of ['backup', 'clone', 'restore', 'recovery']) {
@@ -486,12 +488,27 @@ test('guide cards keep their visual mapping without header icons', async ({ page
   }
 });
 
-test('guide card visual panels start empty for incremental artwork', async ({ page }) => {
+test('guide card visual panels render artwork or glyphs', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const visualChildCounts = await page.locator('.ss-demo-card .ss-demo-visual').evaluateAll((panels) => panels.map((panel) => panel.children.length));
   expect(visualChildCounts.length).toBeGreaterThan(0);
-  expect(visualChildCounts.every((count) => count === 0)).toBeTruthy();
+  expect(visualChildCounts.every((count) => count > 0)).toBeTruthy();
+});
+
+test('representative guide cards use the requested local images', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const cases = [
+    ['SeedKeeper', 'seedkeeper-logo', /seedkeeper_logo_black\.png/],
+    ['Installation', 'sd-card', /04-sd-card\.png/],
+    ['JavaCard란?', 'javacard-holder', /javacard-card\.png/],
+  ] as const;
+  for (const [title, asset, src] of cases) {
+    const card = page.locator('.ss-demo-card').filter({ hasText: title }).first();
+    await expect(card).toHaveAttribute('data-card-asset', asset);
+    await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', src);
+  }
 });
 
 test('active guide cards do not add a visible border or halo', async ({ page }) => {
@@ -521,20 +538,20 @@ test('cards keep summary copy out of both the visual panel and card header', asy
   await expect(card.locator('header .ss-demo-card-copy')).toHaveCount(0);
 });
 
-test('Getting started card starts with an empty visual panel', async ({ page }) => {
+test('Getting started card shows the ShieldSigner device asset', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
-  await expect(card.locator('.ss-demo-visual--empty')).toBeVisible();
-  await expect(card.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
+  await expect(card).toHaveAttribute('data-card-asset', 'shieldsigner-device');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /15-device-check\.jpg/);
 });
 
-test('Hardware card starts with an empty visual panel', async ({ page }) => {
+test('Hardware card shows the ShieldSigner device asset', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Hardware' }).first();
-  await expect(card.locator('.ss-demo-visual--empty')).toBeVisible();
-  await expect(card.locator('.ss-demo-visual--empty').locator('*')).toHaveCount(0);
+  await expect(card).toHaveAttribute('data-card-asset', 'shieldsigner-device');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /15-device-check\.jpg/);
 });
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {
