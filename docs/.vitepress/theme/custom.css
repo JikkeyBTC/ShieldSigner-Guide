@@ -256,8 +256,8 @@ html,body{overflow-x:clip}
 @media (max-width:759px){.ss-topbar-search-nav{display:none!important}}
 
 /* Let each editorial photo use the full card frame below its title. */
-.ss-demo-card{display:flex;flex-direction:column}
-.ss-demo-card .ss-demo-visual{flex:1 1 auto;height:auto;min-height:0;margin:0;border-radius:0}
+.ss-demo-card{position:relative;display:flex;flex-direction:column}
+.ss-demo-card .ss-demo-visual{position:absolute;inset:0;height:auto;min-height:0;margin:0;border-radius:0}
 
 /* Keep locale and repository actions on one Anime.js-style baseline. */
 .ss-top-actions{align-items:center;gap:16px;font:500 13px/1 var(--ss-font-ui)}
@@ -301,9 +301,12 @@ body.ss-search-open{overflow:hidden}
 /* Keep every visual chapter card on the same 192px rhythm. */
 .ss-demo-card{height:192px}
 .ss-demo-visual--empty{background:transparent}
-.ss-demo-visual--asset{padding:0;background:#17191d}
-.ss-demo-visual--asset.ss-demo-visual--contain{padding:8px;background:#0d0e10}
-.ss-demo-visual--asset-seedkeeper-logo,.ss-demo-visual--asset-shieldsigner-logo,.ss-demo-visual--asset-local-seedkeeper-logo,.ss-demo-visual--asset-local-seedkeeper-icon{background:#f4f1eb}
+.ss-demo-visual--asset{display:flex;align-items:center;justify-content:center;padding:0;background:transparent}
+.ss-demo-visual--asset.ss-demo-visual--contain{padding:32px 26px}
+.ss-demo-visual--invert .ss-demo-card-image{filter:invert(1)}
+.ss-demo-visual--asset-seedkeeper-logo .ss-demo-card-image{max-width:280px}
+.ss-demo-visual--asset-seedkeeper-icon .ss-demo-card-image{max-width:102px}
+.ss-demo-visual--asset-shieldsigner-assembly.ss-demo-visual--contain{padding:0;background:#f7fafb}
 .ss-demo-card-image{display:block;width:100%;height:100%;object-position:center;transform-origin:center;transition:transform .3s ease,filter .3s ease}
 .ss-demo-visual--cover .ss-demo-card-image{object-fit:cover}
 .ss-demo-visual--contain .ss-demo-card-image{object-fit:contain}
@@ -312,3 +315,10 @@ body.ss-search-open{overflow:hidden}
 .ss-demo-visual--glyph .ss-demo-icon{display:block;width:48px;height:48px;overflow:visible;color:var(--card-accent);fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.9;transform-origin:center}
 .ss-demo-visual--glyph .ss-demo-icon rect,.ss-demo-visual--glyph .ss-demo-icon circle,.ss-demo-visual--glyph .ss-demo-icon path{vector-effect:non-scaling-stroke}
 @media (max-width:759px){.ss-brand{flex:0 1 148px}}
+
+/* The title overlays the card; it never shifts the full-card visual's center. */
+.ss-demo-card header{position:absolute;inset:0 0 auto;z-index:1;padding:14px 15px 9px;pointer-events:none}
+.ss-demo-card[data-card-asset=shieldsigner-assembly] header .ss-scramble-title,.ss-demo-card:has(.ss-demo-visual--cover) header .ss-scramble-title{color:#292623}
+.ss-demo-visual--type{display:flex;align-items:center;justify-content:center;padding:0 20px;background:transparent}
+.ss-demo-card-type{color:var(--card-accent);font:600 64px/1 'Roboto Mono',ui-monospace,monospace;letter-spacing:-.075em;white-space:nowrap}
+.ss-demo-visual--type-compact .ss-demo-card-type{font-size:44px;letter-spacing:-.06em}

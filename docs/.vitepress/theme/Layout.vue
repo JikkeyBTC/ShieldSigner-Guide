@@ -12,7 +12,7 @@ import { getChapterAccent } from '../../../src/guide/colors'
 import { DEFAULT_LOCALE, getAlternateLocale, getLocaleSettings, localizeHref, routeFromRelativePath, getLocaleFromPath } from '../../../src/guide/locales'
 import CardRailNav from './components/CardRailNav.vue'
 
-const logoPath = withBase('/brand/shieldsigner.svg')
+const logoPath = withBase('/brand/shieldsigner-logo-cutout.png')
 const { page } = useData()
 const router = useRouter()
 const locale = computed(() => getLocaleFromPath(`/${page.value.relativePath}`))

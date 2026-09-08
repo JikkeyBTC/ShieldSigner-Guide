@@ -29,12 +29,65 @@ test('OS card list keeps one Installation entry without a duplicate install card
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS 설치' })).toHaveCount(0);
 });
 
-test('ShieldSigner OS section card shows the release assets capture', async ({ page }) => {
+for (const { title, route, file } of [
+  { title: 'Getting started', route: '', file: 'shieldsigner-device-photo.png' },
+  { title: 'Installation', route: '/os/install/', file: 'microsd-blank.png' },
+]) {
+  test(`${title} card renders its designated transparent product cutout`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(ko(route));
+    const card = page.locator('.ss-demo-card').filter({ hasText: title });
+    const artwork = card.locator('.ss-demo-card-image');
+    await expect(artwork).toHaveCount(1);
+    await expect(artwork).toHaveAttribute('src', `/ShieldSigner-Guide/brand/card-artwork/${file}`);
+    await artwork.scrollIntoViewIfNeeded();
+    await expect(card.locator('.ss-demo-card-type')).toHaveCount(0);
+    await expect.poll(() => artwork.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+    const alpha = await artwork.evaluate((image: HTMLImageElement) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const context = canvas.getContext('2d')!;
+      context.drawImage(image, 0, 0);
+      const sample = (x: number, y: number) => context.getImageData(Math.floor(x * canvas.width), Math.floor(y * canvas.height), 1, 1).data[3];
+      return { background: [[0.02, 0.02], [0.98, 0.02], [0.02, 0.98], [0.98, 0.98]].map(([x, y]) => sample(x, y)), center: sample(0.5, 0.5) };
+    });
+    expect(alpha.background).toEqual([0, 0, 0, 0]);
+    expect(alpha.center).toBeGreaterThan(240);
+  });
+}
+
+test('ShieldSigner OS section card uses the ShieldSigner logo', async ({ page }) => {
   await page.goto(ko('/os/'));
   const osCard = page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS' }).first();
   await expect(osCard).toHaveCount(1);
-  await expect(osCard).toHaveAttribute('data-card-asset', 'local-release-assets');
-  await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/os\/release-assets\.png/);
+  await expect(osCard.locator('.ss-demo-card-type')).toHaveCount(0);
+  await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/shieldsigner-logo-cutout.png');
+});
+
+test('both brand logos have transparent outer corners and opaque artwork', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko('/os/'));
+  const logos = page.locator('.ss-brand img, .ss-demo-card[data-card-asset="shieldsigner-logo"] img');
+  await expect(logos).toHaveCount(2);
+  for (const logo of await logos.all()) {
+    await expect.poll(() => logo.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+    const pixels = await logo.evaluate((image: HTMLImageElement) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const ctx = canvas.getContext('2d')!;
+      ctx.drawImage(image, 0, 0);
+      const alpha = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[3];
+      const w = canvas.width, h = canvas.height;
+      return {
+        corners: [[0, 0], [w - 1, 0], [0, h - 1], [w - 1, h - 1], [3, 3], [w - 4, 3], [3, h - 4], [w - 4, h - 4]].map(([x, y]) => alpha(x, y)),
+        artwork: [[50, 50], [74, 110], [400, 200], [900, 50], [900, 280]].map(([x, y]) => alpha(x, y)),
+      };
+    });
+    expect(pixels.corners).toEqual(Array(8).fill(0));
+    expect(pixels.artwork).toEqual(Array(5).fill(255));
+  }
 });
 
 test('assembly labels use the shared Korean-friendly guide font stack', async ({ page }) => {
@@ -54,7 +107,7 @@ test('responsive docs shell exposes brand and mobile navigation', async ({ page 
   await expect(page.locator('.ss-topbar-search-nav')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Search documentation' }).first()).toBeVisible();
   await expect(page.locator('.ss-brand img')).toHaveAttribute('alt', 'ShieldSigner');
-  await expect(page.locator('.ss-brand img')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/shieldsigner.svg');
+  await expect(page.locator('.ss-brand img')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/shieldsigner-logo-cutout.png');
 
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(page.locator('.ss-category-nav')).toBeVisible();
@@ -89,6 +142,7 @@ test('topbar brand reserves its intrinsic logo box during route loading', async 
   const logo = page.locator('.ss-brand img');
   await expect(logo).toHaveAttribute('width', '1214');
   await expect(logo).toHaveAttribute('height', '389');
+  await expect.poll(() => logo.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth === 1214 && image.naturalHeight === 389)).toBe(true);
   await expect(page.locator('.ss-brand')).toHaveCSS('flex-shrink', '0');
 });
 
@@ -297,8 +351,8 @@ test('TOC navigation keeps the selected card visual panel populated', async ({ p
   await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
   await expect(selectedCard).toHaveAttribute('aria-current', 'page');
-  await expect(selectedCard).toHaveAttribute('data-card-asset', 'local-card-menu');
-  await expect(selectedCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/seedkeeper\/initialize\/06-smartcard-menu-screen\.png/);
+  await expect(selectedCard.locator('.ss-demo-card-type')).toHaveText('↔');
+  await expect(selectedCard.locator('.ss-demo-visual > *')).toHaveCount(1);
 });
 
 test('active branch highlight bar reaches the end of its nested items', async ({ page }) => {
@@ -378,6 +432,7 @@ test('reduced motion keeps navigation and article content visible', async ({ pag
 
 test('assembly contains only the playable video and resizes for mobile', async ({ page }) => {
   await page.goto(ko('/build/assembly/'));
+  await expect(page.locator('.ss-demo-card[data-card-asset="shieldsigner-assembly"] img')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/card-artwork/shieldsigner-assembly.gif');
   const video = page.getByLabel('ShieldSigner 키트 조립 동영상');
   await expect(page.locator('main video')).toHaveCount(1);
   await expect(page.locator('main h1')).toHaveText('ShieldSigner 조립 동영상');
@@ -496,18 +551,34 @@ test('guide card visual panels render artwork or glyphs', async ({ page }) => {
   expect(visualChildCounts.every((count) => count > 0)).toBeTruthy();
 });
 
-test('every visible guide card uses a local topical asset', async ({ page }) => {
+test('every visible guide card uses a loaded local image or typography', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const assets = await page.locator('.ss-demo-card').evaluateAll((cards) => cards.map((card) => ({
     asset: card.getAttribute('data-card-asset'),
     src: card.querySelector<HTMLImageElement>('.ss-demo-card-image')?.getAttribute('src'),
+    loaded: (() => { const image = card.querySelector<HTMLImageElement>('.ss-demo-card-image'); return image?.complete && image.naturalWidth > 0; })(),
+    typography: card.querySelector('.ss-demo-card-type')?.textContent?.trim(),
   })));
   expect(assets.length).toBeGreaterThan(0);
-  expect(assets.every(({ asset, src }) => (asset?.startsWith('local-') || asset?.startsWith('photo-')) && src?.includes('/ShieldSigner-Guide/'))).toBeTruthy();
+  expect(assets.every(({ src, loaded, typography }) => src ? loaded && src.startsWith('/ShieldSigner-Guide/') && !typography : Boolean(typography))).toBeTruthy();
 });
 
-test('card photos fill the card frame below the title', async ({ page }) => {
+test('guide cards keep only a title and one visual cue', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(ko(), { waitUntil: 'networkidle' });
+  const cards = page.locator('.ss-demo-card');
+  await expect(cards.first().locator('header .ss-scramble-title')).toBeVisible();
+  await expect(cards.first().locator('header > *')).toHaveCount(1);
+  await expect(cards.first().locator('.ss-demo-card-summary')).toHaveCount(0);
+  await expect(cards.first().locator('.ss-demo-card-meta')).toHaveCount(0);
+  await expect(cards.first().locator('.ss-demo-card-kicker')).toHaveCount(0);
+  const visualChildren = await cards.locator('.ss-demo-visual').evaluateAll((panels) => panels.map((panel) => panel.children.length));
+  expect(visualChildren.length).toBeGreaterThan(0);
+  expect(visualChildren.every((count) => count === 1)).toBeTruthy();
+});
+
+test('card visuals center on the entire card independently of the title', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
@@ -525,23 +596,40 @@ test('card photos fill the card frame below the title', async ({ page }) => {
   expect(metrics?.leftInset).toBeLessThanOrEqual(1.5);
   expect(metrics?.rightInset).toBeLessThanOrEqual(1.5);
   expect(metrics?.bottomInset).toBeLessThanOrEqual(1.5);
+  for (const locale of ['ko', 'en']) {
+    await page.goto(`/ShieldSigner-Guide/${locale}/`, { waitUntil: 'networkidle' });
+    const centers = await page.locator('.ss-demo-card').evaluateAll((cards) => cards.map((card) => {
+      const frame = card.getBoundingClientRect();
+      const artwork = card.querySelector<HTMLElement>('.ss-demo-card-image, .ss-demo-card-type')!.getBoundingClientRect();
+      return {
+        title: card.getAttribute('aria-label'),
+        x: Math.abs(artwork.left + artwork.width / 2 - frame.left - frame.width / 2),
+        y: Math.abs(artwork.top + artwork.height / 2 - frame.top - frame.height / 2),
+      };
+    }));
+    for (const center of centers) {
+      expect(center.x, `${locale}: ${center.title} horizontal center`).toBeLessThanOrEqual(1);
+      expect(center.y, `${locale}: ${center.title} vertical center`).toBeLessThanOrEqual(1);
+    }
+  }
 });
 
-test('representative guide cards use matching device and workflow images', async ({ page }) => {
+test('SeedKeeper and JavaCard use the actual logo and JikKey product photo', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const cases = [
-    ['SeedKeeper', 'local-seedkeeper-logo', /brand\/seedkeeper\/seedkeeper_logo_black\.png/],
-    ['Installation', 'local-install-image', /guides\/os\/install-reference\/10-imager-image-file\.png/],
-    ['JavaCard란?', 'local-select-applet', /guides\/seedkeeper\/initialize\/15-select-applet-screen\.png/],
-    ['카드 초기화와 PIN', 'local-applet-installed', /guides\/seedkeeper\/initialize\/17-applet-installed-screen\.png/],
-    ['시드를 카드에 저장하기', 'local-seed-saved', /guides\/seedkeeper\/transfer\/06-secret-saved-device\.png/],
-    ['카드에서 시드 불러오기', 'local-seed-loaded', /guides\/seedkeeper\/transfer\/14-seed-loaded-device\.png/],
+    ['SeedKeeper', 'seedkeeper-logo', /brand\/seedkeeper\/seedkeeper_logo_black\.png/],
+    ['JavaCard란?', 'jikkey-javacard', /brand\/card-artwork\/jikkey-javacard\.png/],
   ] as const;
   for (const [title, asset, src] of cases) {
     const card = page.locator('.ss-demo-card').filter({ hasText: title }).first();
     await expect(card).toHaveAttribute('data-card-asset', asset);
     await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', src);
+  }
+  for (const [title, mark] of [['카드 초기화와 PIN', 'PIN'], ['시드를 카드에 저장하기', 'SAVE'], ['카드에서 시드 불러오기', 'LOAD']]) {
+    const card = page.locator('.ss-demo-card').filter({ hasText: title });
+    await expect(card.locator('.ss-demo-card-type')).toHaveText(mark);
+    await expect(card.locator('.ss-demo-card-image')).toHaveCount(0);
   }
 });
 
@@ -572,20 +660,20 @@ test('cards keep summary copy out of both the visual panel and card header', asy
   await expect(card.locator('header .ss-demo-card-copy')).toHaveCount(0);
 });
 
-test('Getting started card shows the ShieldSigner device capture', async ({ page }) => {
+test('Getting started card shows the ShieldSigner product cutout', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
-  await expect(card).toHaveAttribute('data-card-asset', 'local-device-check');
-  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/os\/install-reference\/15-device-check\.jpg/);
+  await expect(card).toHaveAttribute('data-card-asset', 'shieldsigner-device');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /brand\/card-artwork\/shieldsigner-device-photo\.png/);
 });
 
-test('Hardware card shows the ShieldSigner device capture', async ({ page }) => {
+test('Hardware card shows the ShieldSigner board', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Hardware' }).first();
-  await expect(card).toHaveAttribute('data-card-asset', 'local-device-check');
-  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/os\/install-reference\/15-device-check\.jpg/);
+  await expect(card).toHaveAttribute('data-card-asset', 'shieldsigner-board');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /brand\/card-artwork\/shieldsigner-board\.png/);
 });
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {
