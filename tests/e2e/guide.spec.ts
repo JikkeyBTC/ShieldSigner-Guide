@@ -29,12 +29,12 @@ test('OS card list keeps one Installation entry without a duplicate install card
   await expect(page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS 설치' })).toHaveCount(0);
 });
 
-test('ShieldSigner OS section card shows its editorial photo asset', async ({ page }) => {
+test('ShieldSigner OS section card shows the release assets capture', async ({ page }) => {
   await page.goto(ko('/os/'));
   const osCard = page.locator('.ss-demo-card').filter({ hasText: 'ShieldSigner OS' }).first();
   await expect(osCard).toHaveCount(1);
-  await expect(osCard).toHaveAttribute('data-card-asset', 'photo-code-blue');
-  await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /brand\/card-photos\/code-blue\.jpg/);
+  await expect(osCard).toHaveAttribute('data-card-asset', 'local-release-assets');
+  await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/os\/release-assets\.png/);
 });
 
 test('assembly labels use the shared Korean-friendly guide font stack', async ({ page }) => {
@@ -297,8 +297,8 @@ test('TOC navigation keeps the selected card visual panel populated', async ({ p
   await page.locator('.ss-nav-branch-title').filter({ hasText: '카드 사용하기' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/backup-recovery\/?$/);
   await expect(selectedCard).toHaveAttribute('aria-current', 'page');
-  await expect(selectedCard).toHaveAttribute('data-card-asset', 'photo-wallet-hands');
-  await expect(selectedCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /wallet-hands\.jpg/);
+  await expect(selectedCard).toHaveAttribute('data-card-asset', 'local-card-menu');
+  await expect(selectedCard.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/seedkeeper\/initialize\/06-smartcard-menu-screen\.png/);
 });
 
 test('active branch highlight bar reaches the end of its nested items', async ({ page }) => {
@@ -496,7 +496,7 @@ test('guide card visual panels render artwork or glyphs', async ({ page }) => {
   expect(visualChildCounts.every((count) => count > 0)).toBeTruthy();
 });
 
-test('every visible guide card uses a local editorial photo asset', async ({ page }) => {
+test('every visible guide card uses a local topical asset', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const assets = await page.locator('.ss-demo-card').evaluateAll((cards) => cards.map((card) => ({
@@ -504,7 +504,7 @@ test('every visible guide card uses a local editorial photo asset', async ({ pag
     src: card.querySelector<HTMLImageElement>('.ss-demo-card-image')?.getAttribute('src'),
   })));
   expect(assets.length).toBeGreaterThan(0);
-  expect(assets.every(({ asset, src }) => asset?.startsWith('photo-') && src?.includes('/brand/card-photos/'))).toBeTruthy();
+  expect(assets.every(({ asset, src }) => (asset?.startsWith('local-') || asset?.startsWith('photo-')) && src?.includes('/ShieldSigner-Guide/'))).toBeTruthy();
 });
 
 test('card photos fill the card frame below the title', async ({ page }) => {
@@ -527,13 +527,16 @@ test('card photos fill the card frame below the title', async ({ page }) => {
   expect(metrics?.bottomInset).toBeLessThanOrEqual(1.5);
 });
 
-test('representative guide cards use editorial photo images', async ({ page }) => {
+test('representative guide cards use matching device and workflow images', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const cases = [
-    ['SeedKeeper', 'photo-seedkeeper-card', /seedkeeper-card\.jpg/],
-    ['Installation', 'photo-installation-sd', /installation-sd\.jpg/],
-    ['JavaCard란?', 'photo-javacard-chip', /javacard-chip\.jpg/],
+    ['SeedKeeper', 'local-seedkeeper-logo', /brand\/seedkeeper\/seedkeeper_logo_black\.png/],
+    ['Installation', 'local-install-image', /guides\/os\/install-reference\/10-imager-image-file\.png/],
+    ['JavaCard란?', 'local-select-applet', /guides\/seedkeeper\/initialize\/15-select-applet-screen\.png/],
+    ['카드 초기화와 PIN', 'local-applet-installed', /guides\/seedkeeper\/initialize\/17-applet-installed-screen\.png/],
+    ['시드를 카드에 저장하기', 'local-seed-saved', /guides\/seedkeeper\/transfer\/06-secret-saved-device\.png/],
+    ['카드에서 시드 불러오기', 'local-seed-loaded', /guides\/seedkeeper\/transfer\/14-seed-loaded-device\.png/],
   ] as const;
   for (const [title, asset, src] of cases) {
     const card = page.locator('.ss-demo-card').filter({ hasText: title }).first();
@@ -569,20 +572,20 @@ test('cards keep summary copy out of both the visual panel and card header', asy
   await expect(card.locator('header .ss-demo-card-copy')).toHaveCount(0);
 });
 
-test('Getting started card shows the Raspberry Pi photo asset', async ({ page }) => {
+test('Getting started card shows the ShieldSigner device capture', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Getting started' }).first();
-  await expect(card).toHaveAttribute('data-card-asset', 'photo-device-rpi');
-  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /device-rpi\.jpg/);
+  await expect(card).toHaveAttribute('data-card-asset', 'local-device-check');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/os\/install-reference\/15-device-check\.jpg/);
 });
 
-test('Hardware card shows the assembly photo asset', async ({ page }) => {
+test('Hardware card shows the ShieldSigner device capture', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const card = page.locator('.ss-demo-card').filter({ hasText: 'Hardware' }).first();
-  await expect(card).toHaveAttribute('data-card-asset', 'photo-assembly-screwdriver');
-  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /assembly-screwdriver\.jpg/);
+  await expect(card).toHaveAttribute('data-card-asset', 'local-device-check');
+  await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', /guides\/os\/install-reference\/15-device-check\.jpg/);
 });
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {

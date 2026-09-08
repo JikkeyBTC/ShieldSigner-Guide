@@ -8,9 +8,12 @@ ShieldSigner Guide는 다음 오픈소스 프로젝트와 문서를 참고합니
 - Bitcoin SVG — <https://commons.wikimedia.org/wiki/File:Bitcoin.svg> (Wikimedia Commons)
 - User icon — <https://github.com/tailwindlabs/heroicons> (MIT)
 
-## Card rail photos
+## Card rail imagery
 
-The visual card rail uses locally stored copies of the following photos. Each photo
+The visual card rail prioritizes the guide's own screenshots and product assets under
+`docs/public/guides/` and `docs/public/brand/`. Those files are used directly so that
+the card artwork matches the documented ShieldSigner workflow. Cards without a
+matching local capture use locally stored copies of the following photos. Each photo
 is available under the [Unsplash License](https://unsplash.com/license); the original
 photo page and photographer are listed for reference.
 
