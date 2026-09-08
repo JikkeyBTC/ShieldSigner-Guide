@@ -17,7 +17,6 @@ export const SUPPORTED_LOCALES: readonly GuideLocale[] = ['ko', 'en']
  * be restored by removing a route from this list later.
  */
 export const TEMPORARILY_HIDDEN_KO_ROUTE_PREFIXES = [
-  '/os/verification/',
   '/wallet/',
   '/transactions/',
   '/reference/'
@@ -55,7 +54,8 @@ const labels: Record<GuideLocale, Record<string, string>> = {
     install: 'Installation',
     verify: 'Verification',
     verification: 'Verification',
-    concepts: 'Concepts',
+    concepts: '개념 이해',
+    'seedkeeper-concepts': '개념 이해',
     backup: '카드 사용하기',
     'backup-recovery': '카드 사용하기',
     'seedkeeper-backup-landing': '카드 사용하기',
@@ -92,6 +92,7 @@ const labels: Record<GuideLocale, Record<string, string>> = {
     verify: 'Verification',
     verification: 'Verification',
     concepts: 'Concepts',
+    'seedkeeper-concepts': 'Concepts',
     backup: 'Using your card',
     'backup-recovery': 'Using your card',
     'seedkeeper-backup-landing': 'Using your card',

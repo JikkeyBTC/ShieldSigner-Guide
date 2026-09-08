@@ -298,6 +298,18 @@ body.ss-search-open{overflow:hidden}
 .ss-brand{flex:0 0 176px}
 .ss-brand img{aspect-ratio:1214 / 389}
 
+/* SeedKeeper article assets reuse the original photos and transparent wordmark. */
+.ss-os-guide .ss-guide-figure.ss-seedkeeper-logo{max-width:360px;margin-inline:auto}
+.ss-os-guide .ss-guide-figure.ss-seedkeeper-logo>a{border:0;background:transparent}
+.ss-seedkeeper-logo img{filter:invert(1)}
+.ss-os-guide .ss-guide-figure.ss-seedkeeper-card-photo{max-width:420px;margin-inline:auto}
+.ss-os-guide nav.ss-seedkeeper-tree ul{list-style:none;padding-left:0}
+.ss-os-guide .ss-seedkeeper-tree>ul{margin:24px 0}
+.ss-os-guide .ss-seedkeeper-tree ul ul{margin:12px 0 24px 8px;padding-left:20px;border-left:1px solid var(--ss-line)}
+.ss-seedkeeper-tree>ul>li>a{font-weight:600}
+.ss-seedkeeper-tree a{display:inline-block;padding-block:4px}
+.ss-seedkeeper-overview .ss-summary-card{display:block;width:100%;margin-right:0}
+
 /* Keep every visual chapter card on the same 192px rhythm. */
 .ss-demo-card{height:192px}
 .ss-demo-visual--empty{background:transparent}

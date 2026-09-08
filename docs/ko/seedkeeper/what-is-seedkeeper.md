@@ -6,7 +6,20 @@ verifiedVersion: SeedKeeper buyer guide
 estimatedTime: 5분
 ---
 
+<script setup>
+import GuideFigure from '../../.vitepress/theme/components/GuideFigure.vue'
+import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
+</script>
+
+<GuideContent>
+
 # SeedKeeper란?
+
+<GuideFigure class="ss-seedkeeper-logo"
+  src="/brand/seedkeeper/seedkeeper_logo_black.png"
+  alt="SeedKeeper by Satochip 로고"
+  caption="JavaCard에 설치해 사용하는 SeedKeeper 애플릿을 소개해요."
+/>
 
 SeedKeeper는 JavaCard에서 동작하는 보안 금고 애플릿입니다.<br> 시드나 기타 시크릿을 카드 내부에 저장하고, PIN 인증으로 시드구문에 접근하도록 설계된 프로젝트입니다.<br>
 ShieldSigner 에서는 SeedKeeper를 기본적으로 탑재하여, 카드 초기화 및 사용을 할 수 있게 도와줍니다.<br>
@@ -16,4 +29,6 @@ ShieldSigner 에서는 SeedKeeper를 기본적으로 탑재하여, 카드 초기
 
 ## 다음 단계
 
-[← JavaCard란?](./javacard) · [다음: 카드 초기화와 PIN →](./initialize)
+[← JavaCard란?](./javacard) · [다음: 카드 사용하기 →](./backup-recovery)
+
+</GuideContent>

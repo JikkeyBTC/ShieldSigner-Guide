@@ -14,6 +14,7 @@ ShieldSigner를 안전하게 시작하는 방법을 안내합니다.<br> 조립�
 
 - [키트 조립 방법](./build/assembly)
 - [ShieldSigner OS 설치](./os/install)
+- [설치 파일 검증(메시지 서명·SHA-256)](./os/verification)
 - [JavaCard란?](./seedkeeper/javacard)
 - [SeedKeeper란?](./seedkeeper/what-is-seedkeeper)
 - [카드 초기화와 PIN](./seedkeeper/initialize)
@@ -21,7 +22,6 @@ ShieldSigner를 안전하게 시작하는 방법을 안내합니다.<br> 조립�
 - [카드에서 시드 불러오기](./seedkeeper/load)
 
 <!-- Temporarily hidden routes: restore these links when the sections are re-enabled.
-- [설치 파일 검증(메시지 서명·SHA-256)](./os/verification)
 - [BlueWallet 워치온리 지갑](./wallet/bluewallet)
 - [Coconut Wallet 워치온리 지갑](./wallet/coconut)
 - [Receive](./transactions/receive-guide)

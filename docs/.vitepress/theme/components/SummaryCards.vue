@@ -11,7 +11,7 @@ const cards = computed(() => {
   const path = page.value.relativePath
   if (path.includes('verify')) return [
     { label: 'READ', text: english ? 'Check the official release and file fingerprint first.' : '공식 릴리즈와 파일 지문을 먼저 확인하세요.' },
-    { label: 'CHECK', text: english ? 'The SHA-256 and signature must both match.' : 'SHA-256과 PGP 서명이 모두 일치해야 합니다.' },
+    { label: 'CHECK', text: english ? 'Verify the Bitcoin message signature and compare the SHA-256.' : '비트코인 메시지 서명을 확인하고 SHA-256을 대조하세요.' },
     { label: 'NEXT', text: english ? 'Write to microSD after verification is complete.' : '검증이 끝나면 microSD에 기록합니다.' }
   ]
   if (path.includes('seedkeeper')) return [

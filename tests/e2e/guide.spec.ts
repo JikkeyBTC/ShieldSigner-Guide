@@ -12,7 +12,7 @@ test('landing page exposes the first-run route map', async ({ page }) => {
     'href',
     /\/build\/$/
   );
-  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Verification' })).toHaveCount(0);
+  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Verification' })).toHaveAttribute('href', /\/os\/verification\/$/);
   await expect(page.locator('.ss-demo-card').filter({ hasText: '변조 확인 검증' })).toHaveCount(0);
   await expect(page.locator('main')).toContainText('ShieldSigner를 안전하게 시작하는 방법');
   await expect(page.locator('.ss-demo-card').filter({ hasText: '키트 조립 방법' })).toHaveAttribute(
@@ -158,7 +158,7 @@ test('mobile guide drawer stays open across section, branch, and page navigation
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/?$/);
   await expect(drawer).toBeVisible();
 
-  await drawer.getByRole('link', { name: 'Concepts', exact: true }).click();
+  await drawer.getByRole('link', { name: '개념 이해', exact: true }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/concepts\/?$/);
   await expect(drawer).toBeVisible();
 
@@ -411,15 +411,52 @@ test('clicking a guide section opens its independent landing page', async ({ pag
   await expect(page.getByLabel('ShieldSigner 키트 조립 동영상')).toBeVisible();
 });
 
-test('Verification remains directly accessible while hidden from Korean navigation', async ({ page }) => {
+test('Verification is reachable from Korean cards, navigation, search, and adjacent pages', async ({ page }) => {
   await page.goto(ko());
-  await expect(page.locator('.ss-demo-card').filter({ hasText: 'Verification' })).toHaveCount(0);
-  await expect(page.locator('.ss-nav-branch-title').filter({ hasText: 'Verification' })).toHaveCount(0);
-  await page.goto(ko('/os/verification/'));
+  const card = page.locator('.ss-demo-card').filter({ hasText: 'Verification' });
+  await expect(card).toHaveCount(1);
+  await card.click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/os\/verification\/?$/);
   await expect(page.locator('main h1')).toContainText('설치 파일 검증');
-  await expect(page.locator('main')).toContainText('Get-FileHash');
-  await expect(page.locator('main')).not.toContainText('변조 확인 검증 상세 페이지 열기');
+  await expect(card).toHaveAttribute('aria-current', 'page');
+  await expect(page.locator('.ss-nav-branch-title').filter({ hasText: 'Verification' })).toHaveAttribute('aria-current', 'location');
+  await expect(page.locator('.ss-doc-nav-bottom .ss-doc-nav-link-prev')).toHaveAttribute('href', /\/os\/install\/$/);
+  await expect(page.locator('.ss-doc-nav-bottom .ss-doc-nav-link-next')).toHaveAttribute('href', /\/seedkeeper\/$/);
+
+  await page.locator('.ss-doc-nav-bottom .ss-doc-nav-link-prev').click();
+  await expect(page.locator('.ss-doc-nav-bottom .ss-doc-nav-link-next')).toHaveAttribute('href', /\/os\/verification\/$/);
+  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Verification' }).click();
+  await expect(page.locator('main h1')).toContainText('설치 파일 검증');
+
+  await page.getByRole('button', { name: 'Search documentation' }).first().click();
+  await page.getByRole('searchbox', { name: 'Search documentation' }).fill('Verification');
+  await expect(page.locator('.ss-search-result')).toHaveCount(1);
+  await page.locator('.ss-search-result').click();
+  await expect(page).toHaveURL(/\/ko\/os\/verification\/?$/);
+});
+
+test('mobile Verification is reachable from installation and returns to the write step', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(ko('/os/install/'));
+  await page.locator('main a[href$="/verification#download"]').click();
+  await expect(page).toHaveURL(/\/ko\/os\/verification#download$/);
+  await page.locator('#docs-nav-menu').click();
+  await expect(page.locator('.ss-category-nav.is-mobile-open').getByRole('link', { name: 'Verification', exact: true })).toBeVisible();
+  await page.locator('#docs-nav-menu').click();
+  await expect(page.locator('main a[href$="install#write-card"]')).toHaveCount(1);
+  for (const summary of await page.locator('main summary').all()) {
+    await summary.click();
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+  const figures = page.locator('main .ss-guide-figure img');
+  for (const figure of await figures.all()) {
+    await figure.scrollIntoViewIfNeeded();
+    await expect.poll(() => figure.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  }
+  await page.locator('main a[href$="install#write-card"]').click();
+  await expect(page).toHaveURL(/\/ko\/os\/install#write-card$/);
+  await expect(page.locator('main h2#write-card')).toBeInViewport();
 });
 
 test('reduced motion keeps navigation and article content visible', async ({ page }) => {
@@ -626,10 +663,11 @@ test('SeedKeeper and JavaCard use the actual logo and JikKey product photo', asy
     await expect(card).toHaveAttribute('data-card-asset', asset);
     await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', src);
   }
-  for (const [title, mark] of [['카드 초기화와 PIN', 'PIN'], ['시드를 카드에 저장하기', 'SAVE'], ['카드에서 시드 불러오기', 'LOAD']]) {
+  for (const [title, file] of [['카드 초기화와 PIN', '10-new-pin-device.png'], ['시드를 카드에 저장하기', '06-secret-saved-device.png'], ['카드에서 시드 불러오기', '14-seed-loaded-device.png']]) {
     const card = page.locator('.ss-demo-card').filter({ hasText: title });
-    await expect(card.locator('.ss-demo-card-type')).toHaveText(mark);
-    await expect(card.locator('.ss-demo-card-image')).toHaveCount(0);
+    await expect(card.locator('.ss-demo-card-type')).toHaveCount(0);
+    await expect(card.locator('.ss-demo-card-image')).toHaveAttribute('src', new RegExp(`/guides/seedkeeper/.+/${file.replace('.', '\\.')}$`));
+    await expect.poll(() => card.locator('img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
   }
 });
 
@@ -678,9 +716,9 @@ test('Hardware card shows the ShieldSigner board', async ({ page }) => {
 
 test('second-level navigation groups open their own landing content', async ({ page }) => {
   await page.goto(ko('/seedkeeper/javacard'));
-  await page.locator('.ss-nav-branch-title').filter({ hasText: 'Concepts' }).click();
+  await page.locator('.ss-nav-branch-title').filter({ hasText: '개념 이해' }).click();
   await expect(page).toHaveURL(/\/ShieldSigner-Guide\/ko\/seedkeeper\/concepts\/?$/);
-  await expect(page.locator('main h1').filter({ hasText: 'Concepts' })).toBeVisible();
+  await expect(page.locator('main h1').filter({ hasText: '개념 이해' })).toBeVisible();
   await expect(page.locator('main')).toContainText('이 카테고리에서 다루는 내용');
   await expect(page.getByRole('link', { name: 'JavaCard 안내 열기' })).toHaveAttribute('href', './javacard');
 

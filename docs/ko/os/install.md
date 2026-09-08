@@ -1,6 +1,6 @@
 ---
 title: ShieldSigner OS 설치
-description: Raspberry Pi Imager로 ShieldSigner OS를 microSD 카드에 설치하는 방법
+description: Raspberry Pi Zero v1.3용 ShieldSigner OS를 Raspberry Pi Imager로 microSD 카드에 설치하는 방법
 ---
 
 <script setup>
@@ -20,7 +20,7 @@ const installationImage = (name) => withBase(`/guides/os/install-reference/${nam
 
 ## 시작하기
 
-ShieldSigner OS 이미지를 준비하고, Raspberry Pi Imager로 microSD 카드에 기록한 뒤 부팅을 확인해요.
+이 안내는 **Raspberry Pi Zero v1.3 전용**이에요.<br> ShieldSigner OS의 `pi0-smartcard` 이미지를 준비하고, Raspberry Pi Imager로 microSD 카드에 기록한 뒤 부팅을 확인해요.
 
 ### 준비물
 
@@ -58,12 +58,18 @@ PC에서 ShieldSigner OS 이미지를 내려받아요.
   <a :href="installationImage('05-os-download.png')" target="_blank" rel="noopener"><img :src="installationImage('05-os-download.png')" alt="ShieldSigner B12 릴리스 Assets에서 pi0-smartcard.img.zip이 강조된 화면" loading="lazy" /></a>
 </figure>
 
-2. 통신모듈이 없는 Raspberry Pi Zero 1.3에 맞는 `pi0-smartcard.img.zip`을 다운로드해요.
+2. 통신모듈이 없는 Raspberry Pi Zero v1.3에 맞는 `pi0-smartcard.img.zip`을 다운로드해요.
 3. ZIP의 압축을 풀고 **`.img` 파일**을 준비해요.
+
+<Callout type="warning" title="SD 카드에 기록하기 전에 검증해 주세요">
+
+파일을 준비했다면 [설치 파일 검증](./verification#download)에서 제작자의 메시지 서명을 확인하고, 내 `.img` 파일의 SHA-256을 비교해요.<br> 두 가지를 모두 확인한 뒤 이 페이지로 돌아와 진행해 주세요.
+
+</Callout>
 
 ---
 
-## 3. Raspberry Pi Imager 설치
+## 3. Raspberry Pi Imager 설치 {#install-imager}
 
 Raspberry Pi Imager를 설치해요.
 
@@ -99,7 +105,7 @@ Raspberry Pi Imager를 실행해요.<br> 앞에서 검증한 이미지를 SD 카
   <a :href="installationImage('09-imager-os.png')" target="_blank" rel="noopener"><img :src="installationImage('09-imager-os.png')" alt="OS 단계의 사용자 정의 사용 선택 화면" loading="lazy" /></a>
 </figure>
 
-다운로드하고 검증한 ShieldSigner **`.img` 파일**을 선택해요.<br>Zero 1.3 기준 파일명은 `seedsigner_os.SeSi-0.8.7_ShSi-B12_.pi0-smartcard.img`예요.
+다운로드하고 검증한 ShieldSigner **`.img` 파일**을 선택해요.<br>Raspberry Pi Zero v1.3용 파일명은 `seedsigner_os.SeSi-0.8.7_ShSi-B12_.pi0-smartcard.img`예요.
 
 <figure class="ss-install-image">
   <a :href="installationImage('10-imager-image-file.png')" target="_blank" rel="noopener"><img :src="installationImage('10-imager-image-file.png')" alt="압축을 푼 pi0-smartcard.img 파일을 선택한 화면" loading="lazy" /></a>
@@ -153,7 +159,7 @@ Raspberry Pi Imager를 실행해요.<br> 앞에서 검증한 이미지를 SD 카
 
 ---
 
-<!-- Temporarily hidden: [OS 검증 가이드 보기 →](./verification) -->
+[OS 검증 가이드 보기 →](./verification)
 
 </div>
 </GuideContent>

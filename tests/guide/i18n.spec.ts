@@ -40,7 +40,8 @@ describe('guide locale routing', () => {
   })
 
   it('temporarily hides only the requested Korean sections', () => {
-    expect(isGuideRouteHidden('/os/verification/', 'ko')).toBe(true)
+    expect(isGuideRouteHidden('/os/verification/', 'ko')).toBe(false)
+    expect(isGuideRouteHidden('/ko/os/verification?from=install#download', 'ko')).toBe(false)
     expect(isGuideRouteHidden('/wallet/bluewallet/', 'ko')).toBe(true)
     expect(isGuideRouteHidden('/transactions/receive-guide/', 'ko')).toBe(true)
     expect(isGuideRouteHidden('/reference/security/', 'ko')).toBe(true)

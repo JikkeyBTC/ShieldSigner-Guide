@@ -11,6 +11,8 @@ export default defineConfig({
   ],
   base: '/ShieldSigner-Guide/',
   cleanUrls: true,
+  // Internal design history is kept in git, not published as buyer documentation.
+  srcExclude: ['superpowers/**'],
   outDir: '../.vitepress/dist',
   themeConfig: {
     outline: 'deep',
@@ -21,14 +23,15 @@ export default defineConfig({
         { text: '키트 조립 방법', link: '/ko/build/assembly' },
         { text: 'ShieldSigner OS', link: '/ko/os/' },
         { text: 'ShieldSigner OS 설치', link: '/ko/os/install' },
+        { text: 'Verification', link: '/ko/os/verification' },
         { text: 'SeedKeeper', link: '/ko/seedkeeper/' },
-        { text: 'Concepts', link: '/ko/seedkeeper/concepts' },
+        { text: '개념 이해', link: '/ko/seedkeeper/concepts' },
         { text: 'JavaCard란?', link: '/ko/seedkeeper/javacard' },
         { text: 'SeedKeeper란?', link: '/ko/seedkeeper/what-is-seedkeeper' },
         { text: '카드 초기화와 PIN', link: '/ko/seedkeeper/initialize' },
         { text: '시드를 카드에 저장하기', link: '/ko/seedkeeper/save' },
         { text: '카드에서 시드 불러오기', link: '/ko/seedkeeper/load' },
-        // Temporarily hidden routes: OS verification, wallet, transactions, and reference.
+        // Temporarily hidden routes: wallet, transactions, and reference.
       ],
       '/en/': [
         { text: 'Getting started', link: '/en/' },

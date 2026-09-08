@@ -1,6 +1,6 @@
 ---
 title: Install ShieldSigner OS
-description: Install ShieldSigner OS on a microSD card with Raspberry Pi Imager
+description: Install ShieldSigner OS for Raspberry Pi Zero v1.3 on a microSD card with Raspberry Pi Imager
 ---
 
 <script setup>
@@ -20,7 +20,7 @@ Start ShieldSigner in a simple, safe sequence.
 
 ## Getting started
 
-Prepare the ShieldSigner OS image, write it to a microSD card with Raspberry Pi Imager, and check the first boot.
+This guide is **exclusively for Raspberry Pi Zero v1.3**.<br> Prepare the ShieldSigner OS `pi0-smartcard` image, write it to a microSD card with Raspberry Pi Imager, and check the first boot.
 
 ### What you need
 
@@ -58,12 +58,18 @@ Download the ShieldSigner OS image on your computer.
   <a :href="installationImage('05-os-download.png')" target="_blank" rel="noopener"><img :src="installationImage('05-os-download.png')" alt="ShieldSigner B12 release Assets with pi0-smartcard.img.zip highlighted" loading="lazy" /></a>
 </figure>
 
-2. Download `pi0-smartcard.img.zip` for the **Raspberry Pi Zero 1.3 without a communication module**.
+2. Download `pi0-smartcard.img.zip` for the **Raspberry Pi Zero v1.3 without a communication module**.
 3. Extract the ZIP and prepare the **`.img` file**.
+
+<Callout type="warning" title="Verify before writing the SD card">
+
+Follow [Verify the installation files](./verification#download) to check the developer's message signature and compare the SHA-256 of your `.img` file.<br> Return here only after both checks pass.
+
+</Callout>
 
 ---
 
-## 3. Install Raspberry Pi Imager
+## 3. Install Raspberry Pi Imager {#install-imager}
 
 Install Raspberry Pi Imager.
 
@@ -99,7 +105,7 @@ In the **OS** step, scroll down and choose **Use Custom**.
   <a :href="installationImage('09-imager-os.png')" target="_blank" rel="noopener"><img :src="installationImage('09-imager-os.png')" alt="Use Custom selected in the OS step" loading="lazy" /></a>
 </figure>
 
-Choose the downloaded and verified ShieldSigner **`.img` file**.<br> For Zero 1.3, the filename is `seedsigner_os.SeSi-0.8.7_ShSi-B12_.pi0-smartcard.img`.
+Choose the downloaded and verified ShieldSigner **`.img` file**.<br> The Raspberry Pi Zero v1.3 filename is `seedsigner_os.SeSi-0.8.7_ShSi-B12_.pi0-smartcard.img`.
 
 <figure class="ss-install-image">
   <a :href="installationImage('10-imager-image-file.png')" target="_blank" rel="noopener"><img :src="installationImage('10-imager-image-file.png')" alt="The extracted pi0-smartcard.img file selected" loading="lazy" /></a>
