@@ -1,0 +1,37 @@
+{
+  "network": "Bitsaga Signet",
+  "firmware": "SeSi-0.8.7+ShSi-B12",
+  "txid": "e0942d2fbe013d9d6329b334bc0c49a853b9de5de992f2cd68402bfe64c2457f",
+  "height": 104780,
+  "destination": "tb1qnhsxm0uqxuc8fgt4jzejx4prwjm96rad6evy4e",
+  "amount_sats": 20000,
+  "fee_sats": 282,
+  "change_sats": 979718,
+  "input_sats": 1000000,
+  "proof": {
+    "network": "Bitsaga Signet",
+    "note": "Private test network behind the SeedSigner simulator at https://bitsaga.be/seedsigner-simulator/ . Not publicly joinable. The coins are not real bitcoin and are worth nothing. Background: https://bitsaga.be/signet",
+    "signet_challenge": "0014cb5c938876427c86a068fba6d6ddd09ed4fa183f",
+    "network_magic": "bf10834d",
+    "genesis_hash": "00000008819873e925422c1ff0f99f7cc9bbb232af63a077a480a3633bee1ef6",
+    "genesis_hash_note": "Shared with the public signet and with every other custom signet: Bitcoin Core hard-codes one genesis block for all of them. It tells you this is a signet, not which signet. The challenge, and the network magic derived from it, are what make this chain a separate network.",
+    "verify_in_your_browser": "https://bitsaga.be/signet#verify",
+    "txid": "e0942d2fbe013d9d6329b334bc0c49a853b9de5de992f2cd68402bfe64c2457f",
+    "tx": "020000000001013d297345370befa4688946509b577b68ef1aeb46ed6a7fd215e1b22c37016a930000000000fdffffff02204e0000000000001600149de06dbf80373074a17590b323542374b65d0fad06f30e00000000001600146ec45fa45ca8d62f9f593aa78a41d300683c3029024730440220491fdb1f6d487d2e1d935c05393279c8f515d59890a3c18feac1a13af0ca035502203321f91803c6388f4b25953c05b6db0b900f19bc78c540773dbcb7b6b1539b3401210273f90d29a7f20e1404b8fb057f097e323ddd55b7adf026e6ffe772d6f0565a5100000000",
+    "merkle_branch": [
+      "1e4be73bc1b84c56fbb93ef3aca592b48a8e861303fbd3329f70dd8243d96df0"
+    ],
+    "pos": 1,
+    "height": 104780,
+    "block_id": "000001cb88ab4ef3c2be94a9dfe7acbcb89af90864d525a99458fd0075184f8b",
+    "header": "00000020ce0e4c1722d9f4d28ba77b5af196b40850714e5f45fd97716e88c06acb020000da07050a33ee440b7f5ac9aa6dd9c44d9305ba323ee229b07bdd799f79809afadc4fa06ad461031e1c697d00",
+    "proves": "That this transaction, byte for byte, is in the block whose header is here, and that the header carries a signature valid against the signet challenge above. Both can be rechecked from these bytes without trusting this answer.",
+    "does_not_prove": "Nothing about value: the coins on this chain are not bitcoin, cannot be sold or sent anywhere else, and are worth nothing. It also does not prove this block is on a chain anyone else can see. We run the only node and we hold the signing key, so checking that would need a second, independent node, and this network deliberately has none.",
+    "checked_at": 1788891103,
+    "coinbase_txid": "1e4be73bc1b84c56fbb93ef3aca592b48a8e861303fbd3329f70dd8243d96df0",
+    "coinbase_raw": "020000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff04034c9901feffffff021af3052a01000000160014a5471b01c9c01f25d1ece0af63718a41f90ce15a0000000000000000986a24aa21a9ed0f5c09a3241ccf3f16553271f4fddfbe3301f47485d9eefc1e39accef93daf024c70ecc7daa20002473044022061eca1b0b291d0bcb2cbb1e39e87c53a7075fceff45a7c45ea8b1dd176800aee02206acb4b737348e21435578240ad0d958db6a85df7bf131199b161e66e4d880a9e012103a0f27495260e69dd2300a0d36c13ba3c25f725d219c5afed3fcb30c977c670dd012000000000000000000000000000000000000000000000000000000000000000004b990100",
+    "coinbase_merkle_branch": [
+      "e0942d2fbe013d9d6329b334bc0c49a853b9de5de992f2cd68402bfe64c2457f"
+    ]
+  }
+}

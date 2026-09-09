@@ -1,7 +1,9 @@
-// One representative image OR typographic mark per card; titles live in route metadata.
+// One representative visual per card; titles live in route metadata.
 export type CardArtwork =
   | { readonly kind: 'image'; readonly key: string; readonly path: string; readonly fit: 'cover' | 'contain'; readonly invert?: boolean }
   | { readonly kind: 'type'; readonly key: string; readonly text: string }
+  | { readonly kind: 'bitcoin'; readonly key: string; readonly direction: 'send' | 'receive' }
+  | { readonly kind: 'transaction'; readonly key: string }
 
 const image = (key: string, path: string, fit: 'cover' | 'contain' = 'contain', invert = false): CardArtwork =>
   ({ kind: 'image', key, path, fit, invert })
@@ -27,11 +29,11 @@ const artwork: Readonly<Record<string, CardArtwork>> = {
   bluewallet: type('bluewallet', 'BlueWallet'),
   'branch-coconut': type('coconut', 'Coconut'),
   coconut: type('coconut', 'Coconut'),
-  'section-transactions': type('bitcoin', '₿'),
-  'branch-receive': type('receive', '↓'),
-  'branch-send': type('send', '↑'),
-  'branch-signing': type('psbt', 'PSBT'),
-  'sign-psbt': type('psbt', 'PSBT'),
+  'section-transactions': { kind: 'transaction', key: 'transaction-check' },
+  'branch-receive': { kind: 'bitcoin', key: 'receive', direction: 'receive' },
+  'branch-send': { kind: 'bitcoin', key: 'send', direction: 'send' },
+  'branch-signing': { kind: 'transaction', key: 'transaction-check' },
+  'sign-psbt': { kind: 'transaction', key: 'transaction-check' },
   'section-reference': type('reference', '[ref]'),
   'branch-safety': type('safety', '!'),
   security: type('security', 'offline'),

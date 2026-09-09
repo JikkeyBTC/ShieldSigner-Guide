@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useData, useRouter, withBase } from 'vitepress'
 import { animate, scrambleText } from 'animejs'
 import { chapters, getChapterByPath, type ChapterMeta } from '../../../../src/guide/chapters'
@@ -131,6 +131,17 @@ const activeCard = computed(() => {
 })
 const isCurrent = (card: GuideCard) => activeCard.value?.id === card.id
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+const reducedMotion = ref(false)
+const transactionBlock = '25,25 75,25 75,75 25,75 25,25'
+// Matching vertex counts let one outline become a check without a second visual.
+const transactionCheck = '25,50 25,50 43,68 75,32 75,32'
+const cardAnimations = new Map<HTMLElement, ReturnType<typeof animate>>()
+let motionPreference: MediaQueryList | undefined
+const syncMotionPreference = () => {
+  for (const animation of cardAnimations.values()) animation.revert()
+  cardAnimations.clear()
+  reducedMotion.value = motionPreference?.matches ?? false
+}
 let skipNextRailSync = false
 let alignNextRailCard = false
 
@@ -173,9 +184,15 @@ const handleTocNavigation = (event: Event) => {
 }
 
 onMounted(() => {
+  motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
+  syncMotionPreference()
+  motionPreference.addEventListener('change', syncMotionPreference)
   window.addEventListener('ss:toc-navigation', handleTocNavigation)
 })
 onBeforeUnmount(() => {
+  motionPreference?.removeEventListener('change', syncMotionPreference)
+  for (const animation of cardAnimations.values()) animation.revert()
+  cardAnimations.clear()
   window.removeEventListener('ss:toc-navigation', handleTocNavigation)
 })
 
@@ -228,6 +245,33 @@ watch(() => current.value?.id, async (id) => {
 
 const playCardAnimation = (cardElement: HTMLElement, card: GuideCard) => {
   if (prefersReducedMotion()) return
+  const artwork = getCardArtwork(card.id)
+  if (artwork.kind === 'bitcoin' || artwork.kind === 'transaction') {
+    cardAnimations.get(cardElement)?.revert()
+    const options = {
+      duration: 560,
+      ease: 'inOutCubic',
+      onComplete: () => { cardAnimations.delete(cardElement) },
+    }
+    if (artwork.kind === 'bitcoin') {
+      const coin = cardElement.querySelector<HTMLElement>('.ss-demo-bitcoin')
+      if (!coin) return
+      // Travel fits the rendered card and ends at its full-frame center.
+      const distance = Math.max(0, (cardElement.clientWidth - coin.getBoundingClientRect().width) / 2 - 24)
+      cardAnimations.set(cardElement, animate(coin, {
+        ...options,
+        translateX: [artwork.direction === 'send' ? -distance : distance, 0],
+      }))
+    } else {
+      const block = cardElement.querySelector('polyline')
+      if (!block) return
+      cardAnimations.set(cardElement, animate(block, {
+        ...options,
+        points: [transactionBlock, transactionCheck],
+      }))
+    }
+    return
+  }
   const title = cardElement.querySelector('.ss-scramble-title')
   if (title) animate(title, { innerHTML: scrambleText({ chars: '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' }), duration: 480, ease: 'linear' })
 }
@@ -256,6 +300,14 @@ const runCardAnimation = (event: MouseEvent, card: GuideCard) => {
       </header>
       <div v-if="card.artwork.kind === 'image'" class="ss-demo-visual ss-demo-visual--asset" :class="[`ss-demo-visual--${card.artwork.fit}`, `ss-demo-visual--asset-${card.artwork.key}`, { 'ss-demo-visual--invert': card.artwork.invert }]" aria-hidden="true">
         <img class="ss-demo-card-image" :src="withBase(card.artwork.path)" alt="" decoding="async">
+      </div>
+      <div v-else-if="card.artwork.kind === 'bitcoin'" class="ss-demo-visual ss-demo-visual--type" aria-hidden="true">
+        <span class="ss-demo-card-type ss-demo-bitcoin">₿</span>
+      </div>
+      <div v-else-if="card.artwork.kind === 'transaction'" class="ss-demo-visual ss-demo-visual--type" aria-hidden="true">
+        <svg class="ss-demo-card-type ss-demo-transaction" viewBox="0 0 100 100" focusable="false">
+          <polyline :points="reducedMotion ? transactionCheck : transactionBlock" />
+        </svg>
       </div>
       <div v-else class="ss-demo-visual ss-demo-visual--type" :class="{ 'ss-demo-visual--type-compact': card.artwork.text.length > 6 }" aria-hidden="true">
         <span class="ss-demo-card-type">{{ card.artwork.text }}</span>

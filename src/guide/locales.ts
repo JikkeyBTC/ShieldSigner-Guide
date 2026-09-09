@@ -18,7 +18,6 @@ export const SUPPORTED_LOCALES: readonly GuideLocale[] = ['ko', 'en']
  */
 export const TEMPORARILY_HIDDEN_KO_ROUTE_PREFIXES = [
   '/wallet/',
-  '/transactions/',
   '/reference/'
 ] as const
 
@@ -48,7 +47,7 @@ const labels: Record<GuideLocale, Record<string, string>> = {
     os: 'ShieldSigner OS',
     seedkeeper: 'SeedKeeper',
     wallet: 'Watch-only wallets',
-    transactions: 'Transactions',
+    transactions: '트랜잭션',
     reference: 'Reference',
     hardware: 'Hardware',
     install: 'Installation',
@@ -61,9 +60,11 @@ const labels: Record<GuideLocale, Record<string, string>> = {
     'seedkeeper-backup-landing': '카드 사용하기',
     bluewallet: 'BlueWallet',
     coconut: 'Coconut',
-    receive: 'Receive',
-    send: 'Send',
-    signing: 'Signing',
+    receive: 'BTC 받기',
+    'receive-guide': 'BTC 받기',
+    send: 'BTC 보내기',
+    'send-guide': 'BTC 보내기',
+    signing: 'PSBT 검토·서명',
     safety: 'Safety',
     terms: 'Terms',
     overview: '개요',
@@ -74,7 +75,7 @@ const labels: Record<GuideLocale, Record<string, string>> = {
     'seedkeeper-initialize': '카드 초기화와 PIN',
     'seedkeeper-save': '시드를 카드에 저장하기',
     'seedkeeper-load': '카드에서 시드 불러오기',
-    'sign-psbt': 'PSBT 검토와 서명',
+    'sign-psbt': 'PSBT 검토·서명',
     security: '보안 체크리스트',
     faq: '자주 묻는 질문',
     glossary: '용어집',

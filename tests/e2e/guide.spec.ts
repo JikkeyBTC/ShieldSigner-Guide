@@ -547,7 +547,7 @@ test('watch-only, transaction, and reference chapters expose safety content', as
 
 test('temporarily hidden Korean sections stay out of cards, navigation, and search', async ({ page }) => {
   await page.goto(ko());
-  for (const label of ['Watch-only wallets', 'BlueWallet', 'Coconut', 'Transactions', 'Receive', 'Send', 'Signing', 'Reference', 'Safety', 'Terms']) {
+  for (const label of ['Watch-only wallets', 'BlueWallet', 'Coconut', 'Reference', 'Safety', 'Terms']) {
     await expect(page.locator('.ss-demo-card').filter({ hasText: label })).toHaveCount(0);
     await expect(page.locator('.ss-anime-nav').getByRole('link', { name: label, exact: true })).toHaveCount(0);
   }
@@ -557,13 +557,15 @@ test('temporarily hidden Korean sections stay out of cards, navigation, and sear
   await expect(page.locator('.ss-search-result')).toHaveCount(0);
 });
 
-test('hidden transaction cards are omitted from the Korean rail', async ({ page }) => {
+test('restored transaction cards have one destination each in the Korean rail', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko());
-  const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'Send' });
-  const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'Receive' });
-  await expect(sendCard).toHaveCount(0);
-  await expect(receiveCard).toHaveCount(0);
+  const sendCard = page.locator('.ss-demo-card').filter({ hasText: 'BTC 보내기' });
+  const receiveCard = page.locator('.ss-demo-card').filter({ hasText: 'BTC 받기' });
+  await expect(sendCard).toHaveCount(1);
+  await expect(receiveCard).toHaveCount(1);
+  await expect(sendCard).toHaveAttribute('href', '/ShieldSigner-Guide/ko/transactions/send-guide/');
+  await expect(receiveCard).toHaveAttribute('href', '/ShieldSigner-Guide/ko/transactions/receive-guide/');
 });
 
 test('guide cards keep their visual mapping without header icons', async ({ page }) => {
@@ -588,7 +590,7 @@ test('guide card visual panels render artwork or glyphs', async ({ page }) => {
   expect(visualChildCounts.every((count) => count > 0)).toBeTruthy();
 });
 
-test('every visible guide card uses a loaded local image or typography', async ({ page }) => {
+test('every visible guide card uses a loaded local image, typography, or visible vector', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko(), { waitUntil: 'networkidle' });
   const assets = await page.locator('.ss-demo-card').evaluateAll((cards) => cards.map((card) => ({
@@ -596,9 +598,10 @@ test('every visible guide card uses a loaded local image or typography', async (
     src: card.querySelector<HTMLImageElement>('.ss-demo-card-image')?.getAttribute('src'),
     loaded: (() => { const image = card.querySelector<HTMLImageElement>('.ss-demo-card-image'); return image?.complete && image.naturalWidth > 0; })(),
     typography: card.querySelector('.ss-demo-card-type')?.textContent?.trim(),
+    vector: (() => { const shape = card.querySelector<SVGGraphicsElement>('.ss-demo-visual svg polyline'); const box = shape?.getBBox(); return Boolean(box && box.width > 0 && box.height > 0); })(),
   })));
   expect(assets.length).toBeGreaterThan(0);
-  expect(assets.every(({ src, loaded, typography }) => src ? loaded && src.startsWith('/ShieldSigner-Guide/') && !typography : Boolean(typography))).toBeTruthy();
+  expect(assets.every(({ src, loaded, typography, vector }) => src ? loaded && src.startsWith('/ShieldSigner-Guide/') && !typography && !vector : Boolean(typography || vector))).toBeTruthy();
 });
 
 test('guide cards keep only a title and one visual cue', async ({ page }) => {
