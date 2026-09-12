@@ -17,14 +17,11 @@ import { withBase } from 'vitepress'
   playsinline
   preload="metadata"
   aria-label="ShieldSigner 키트 조립 동영상"
-  aria-describedby="assembly-video-info"
   style="display: block; width: 100%; max-height: 75vh; margin: 0 auto; background: #000; border-radius: 10px;"
 >
   <track kind="chapters" :src="withBase('/guides/assembly/assembly-ko-chapters.vtt')" srclang="ko" label="조립 단계" default />
 </video>
 </div>
-
-<p id="assembly-video-info" class="ss-assembly-note">한국어 Sohee 음성·자막 포함 · 약 3분 7초 · 반복 나사 조이기는 2배속입니다. <a :href="withBase('/guides/assembly/assembly-ko-sohee.srt')" download>자막 내려받기</a></p>
 
 <p class="ss-assembly-note">※ SD 카드는 빈 상태로 배송됩니다. 꼭 <a href="../os/install">Installation</a>을 참고하여 SD카드에 설치를 진행해주세요.</p>
 

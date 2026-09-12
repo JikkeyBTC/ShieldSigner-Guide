@@ -476,7 +476,6 @@ test('assembly contains only the playable video and resizes for mobile', async (
   await expect(page.locator('main h2, main .ss-media-placeholder')).toHaveCount(0);
   await expect(video).toHaveAttribute('src', '/ShieldSigner-Guide/guides/assembly/assembly-ko-sohee.mp4');
   await expect(video).toHaveAttribute('poster', '/ShieldSigner-Guide/guides/assembly/assembly-ko-poster.jpg');
-  await expect(page.locator('#assembly-video-info')).toContainText('반복 나사 조이기는 2배속');
   const subtitles = await page.request.get('/ShieldSigner-Guide/guides/assembly/assembly-ko-sohee.srt');
   expect(subtitles.ok()).toBeTruthy();
   expect(await subtitles.text()).toContain('마지막으로 금속 조이스틱을 시계방향으로 돌려 고정합니다.');
