@@ -481,10 +481,21 @@ test('assembly contains only the playable video and resizes for mobile', async (
   expect(await subtitles.text()).toContain('마지막으로 금속 조이스틱을 시계방향으로 돌려 고정합니다.');
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.readyState)).toBeGreaterThanOrEqual(2);
   expect(await video.evaluate((element: HTMLVideoElement) => [element.videoWidth, element.videoHeight])).toEqual([1920, 1080]);
-  expect(await video.evaluate((element: HTMLVideoElement) => element.duration)).toBeCloseTo(186.566667, 1);
+  expect(await video.evaluate((element: HTMLVideoElement) => element.duration)).toBeCloseTo(192, 1);
   await video.evaluate((element: HTMLVideoElement) => element.play());
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
   await video.evaluate((element: HTMLVideoElement) => element.pause());
+  await video.evaluate((element: HTMLVideoElement) => new Promise<void>((resolve) => {
+    element.addEventListener('seeked', () => resolve(), { once: true });
+    element.currentTime = 188;
+  }));
+  await video.evaluate((element: HTMLVideoElement) => element.play());
+  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(188.2);
+  expect(await video.evaluate((element: HTMLVideoElement) => element.error)).toBeNull();
+  await video.evaluate((element: HTMLVideoElement) => element.pause());
+  const chapters = await page.request.get('/ShieldSigner-Guide/guides/assembly/assembly-ko-chapters.vtt');
+  expect(chapters.ok()).toBeTruthy();
+  expect(await chapters.text()).toContain('00:03:06.567 --> 00:03:12.000\nSD 카드 장착 후 부팅');
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(video).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
