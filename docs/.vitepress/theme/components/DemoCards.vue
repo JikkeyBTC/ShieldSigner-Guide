@@ -37,6 +37,7 @@ const cardType = (chapter: ChapterMeta) => {
 
 const cardVisual = (id: string) => ({
   'section-getting-started': 'shield-check',
+  'what-is-shieldsigner': 'shield-logo',
   'section-os': 'shield-logo',
   'section-seedkeeper': 'seed-vault',
   'section-wallet': 'eye-wallet',

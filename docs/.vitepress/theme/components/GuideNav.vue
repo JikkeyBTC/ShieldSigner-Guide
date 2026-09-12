@@ -10,7 +10,7 @@ import { getLocalizedLabel, getLocaleFromPath, isGuideRouteHidden, localizeHref,
 type NavBranch = { id: string; label: string; chapterIds: readonly string[]; landingId?: string; showChildren?: boolean }
 type NavSection = { id: string; label: string; branches: readonly NavBranch[] }
 const sections: readonly NavSection[] = [
-  { id: 'getting-started', label: 'Getting started', branches: [{ id: 'hardware', label: 'Hardware', chapterIds: ['assembly'], landingId: 'hardware', showChildren: true }] },
+  { id: 'getting-started', label: 'Getting started', branches: [{ id: 'what-is-shieldsigner', label: 'What is ShieldSigner?', chapterIds: ['what-is-shieldsigner'] }, { id: 'hardware', label: 'Hardware', chapterIds: ['assembly'], landingId: 'hardware', showChildren: true }] },
   { id: 'os', label: 'ShieldSigner OS', branches: [{ id: 'install', label: 'Installation', chapterIds: ['os-install'] }, { id: 'verify', label: 'Verification', chapterIds: [], landingId: 'os-verification' }] },
   { id: 'seedkeeper', label: 'SeedKeeper', branches: [{ id: 'concepts', label: 'Concepts', chapterIds: ['javacard', 'what-is-seedkeeper'], landingId: 'seedkeeper-concepts' }, { id: 'backup', label: '카드 사용하기', chapterIds: ['seedkeeper-initialize', 'seedkeeper-save', 'seedkeeper-load'], landingId: 'seedkeeper-backup-landing' }] },
   { id: 'wallet', label: 'Watch-only wallets', branches: [{ id: 'bluewallet', label: 'BlueWallet', chapterIds: ['bluewallet'] }, { id: 'coconut', label: 'Coconut', chapterIds: ['coconut'] }] },

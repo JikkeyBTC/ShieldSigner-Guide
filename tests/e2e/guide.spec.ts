@@ -65,11 +65,11 @@ test('ShieldSigner OS section card uses the ShieldSigner logo', async ({ page })
   await expect(osCard.locator('.ss-demo-card-image')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/shieldsigner-logo-cutout.png');
 });
 
-test('both brand logos have transparent outer corners and opaque artwork', async ({ page }) => {
+test('shared brand logos have transparent outer corners and opaque artwork', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(ko('/os/'));
   const logos = page.locator('.ss-brand img, .ss-demo-card[data-card-asset="shieldsigner-logo"] img');
-  await expect(logos).toHaveCount(2);
+  await expect(logos).toHaveCount(3);
   for (const logo of await logos.all()) {
     await expect.poll(() => logo.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
     const pixels = await logo.evaluate((image: HTMLImageElement) => {
@@ -474,8 +474,15 @@ test('assembly contains only the playable video and resizes for mobile', async (
   await expect(page.locator('main video')).toHaveCount(1);
   await expect(page.locator('main h1')).toHaveText('ShieldSigner 조립 동영상');
   await expect(page.locator('main h2, main .ss-media-placeholder')).toHaveCount(0);
-  await expect(video).toHaveAttribute('src', '/ShieldSigner-Guide/guides/assembly/assembly.mp4');
+  await expect(video).toHaveAttribute('src', '/ShieldSigner-Guide/guides/assembly/assembly-ko-sohee.mp4');
+  await expect(video).toHaveAttribute('poster', '/ShieldSigner-Guide/guides/assembly/assembly-ko-poster.jpg');
+  await expect(page.locator('#assembly-video-info')).toContainText('반복 나사 조이기는 2배속');
+  const subtitles = await page.request.get('/ShieldSigner-Guide/guides/assembly/assembly-ko-sohee.srt');
+  expect(subtitles.ok()).toBeTruthy();
+  expect(await subtitles.text()).toContain('마지막으로 금속 조이스틱을 시계방향으로 돌려 고정합니다.');
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.readyState)).toBeGreaterThanOrEqual(2);
+  expect(await video.evaluate((element: HTMLVideoElement) => [element.videoWidth, element.videoHeight])).toEqual([1920, 1080]);
+  expect(await video.evaluate((element: HTMLVideoElement) => element.duration)).toBeCloseTo(186.566667, 1);
   await video.evaluate((element: HTMLVideoElement) => element.play());
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
   await video.evaluate((element: HTMLVideoElement) => element.pause());

@@ -7,7 +7,7 @@ export interface GuideCardOrderItem {
 
 /** The single source of truth for the visual card sequence and document navigation. */
 export const guideCardOrder = [
-  { kind: 'section', id: 'getting-started' }, { kind: 'branch', id: 'hardware' }, { kind: 'chapter', id: 'assembly' },
+  { kind: 'section', id: 'getting-started' }, { kind: 'chapter', id: 'what-is-shieldsigner' }, { kind: 'branch', id: 'hardware' }, { kind: 'chapter', id: 'assembly' },
   { kind: 'section', id: 'os' }, { kind: 'branch', id: 'installation' }, { kind: 'branch', id: 'verification' },
   { kind: 'section', id: 'seedkeeper' }, { kind: 'branch', id: 'concepts' }, { kind: 'chapter', id: 'javacard' }, { kind: 'chapter', id: 'what-is-seedkeeper' }, { kind: 'branch', id: 'backup-recovery' },
   { kind: 'chapter', id: 'seedkeeper-initialize' }, { kind: 'chapter', id: 'seedkeeper-save' }, { kind: 'chapter', id: 'seedkeeper-load' },

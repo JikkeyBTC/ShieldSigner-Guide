@@ -44,6 +44,7 @@ const localeSettings: Record<GuideLocale, LocaleSettings> = {
 const labels: Record<GuideLocale, Record<string, string>> = {
   ko: {
     'getting-started': 'Getting started',
+    'what-is-shieldsigner': 'ShieldSigner란 무엇인가요?',
     os: 'ShieldSigner OS',
     seedkeeper: 'SeedKeeper',
     wallet: 'Watch-only wallets',
@@ -83,6 +84,7 @@ const labels: Record<GuideLocale, Record<string, string>> = {
   },
   en: {
     'getting-started': 'Getting started',
+    'what-is-shieldsigner': 'What is ShieldSigner?',
     os: 'ShieldSigner OS',
     seedkeeper: 'SeedKeeper',
     wallet: 'Watch-only wallets',

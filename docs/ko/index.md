@@ -12,6 +12,7 @@ ShieldSigner를 안전하게 시작하는 방법을 안내합니다.<br> 조립�
 
 ## 처음이라면
 
+- [ShieldSigner란 무엇인가요?](./getting-started/what-is-shieldsigner)
 - [키트 조립 방법](./build/assembly)
 - [ShieldSigner OS 설치](./os/install)
 - [설치 파일 검증(메시지 서명·SHA-256)](./os/verification)

@@ -19,6 +19,7 @@ export default defineConfig({
     sidebar: {
       '/ko/': [
         { text: 'Getting started', link: '/ko/' },
+        { text: 'ShieldSigner란 무엇인가요?', link: '/ko/getting-started/what-is-shieldsigner' },
         { text: 'Hardware', link: '/ko/build/' },
         { text: '키트 조립 방법', link: '/ko/build/assembly' },
         { text: 'ShieldSigner OS', link: '/ko/os/' },
@@ -35,6 +36,7 @@ export default defineConfig({
       ],
       '/en/': [
         { text: 'Getting started', link: '/en/' },
+        { text: 'What is ShieldSigner?', link: '/en/getting-started/what-is-shieldsigner' },
         { text: 'Hardware', link: '/en/build/' },
         { text: 'Kit assembly', link: '/en/build/assembly' },
         { text: 'ShieldSigner OS', link: '/en/os/' },

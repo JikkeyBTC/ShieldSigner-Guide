@@ -12,6 +12,7 @@ Follow the safe path from hardware assembly to offline signing.<br> This guide n
 
 ## Start here
 
+- [What is ShieldSigner?](./getting-started/what-is-shieldsigner)
 - [Assemble the kit](./build/assembly)
 - [Install ShieldSigner OS](./os/install)
 - [Verify the installation files](./os/verification)

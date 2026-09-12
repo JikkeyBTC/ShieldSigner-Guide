@@ -11,6 +11,7 @@ const type = (key: string, text: string): CardArtwork => ({ kind: 'type', key, t
 
 const artwork: Readonly<Record<string, CardArtwork>> = {
   'section-getting-started': image('shieldsigner-device', '/brand/card-artwork/shieldsigner-device-photo.png'),
+  'what-is-shieldsigner': image('shieldsigner-logo', '/brand/shieldsigner-logo-cutout.png'),
   'branch-hardware': image('shieldsigner-board', '/brand/card-artwork/shieldsigner-board.png'),
   assembly: image('shieldsigner-assembly', '/brand/card-artwork/shieldsigner-assembly.gif'),
   'section-os': image('shieldsigner-logo', '/brand/shieldsigner-logo-cutout.png'),
