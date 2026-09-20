@@ -16,7 +16,7 @@ ShieldSigner에 불러온 시드를 SeedKeeper 카드에 저장해요.<br> 카�
 
 **시드 선택 → Backup seed → To SeedKeeper → 카드 PIN → 저장할 이름 → 완료**
 
-이 안내는 **ShieldSigner B12의 일반 BIP39 시드**를 기준으로 해요.<br> 아래 이미지는 시뮬레이터에서 연습용 시드로 직접 캡처했어요.<br> 캡처에 나온 지문 `b2269592`는 설명용 예시예요.
+이 안내는 **실물 ShieldSigner B12의 일반 BIP39 시드**를 기준으로 해요.<br> 그림은 메뉴를 설명하는 **화면 구성 예시이며 실물 촬영 사진이 아니에요.** 표시된 지문과 이름을 따라 입력하지 말고, 내 기기의 값을 확인해 주세요.
 
 ## 시작하기 전에
 
@@ -24,9 +24,9 @@ ShieldSigner에 불러온 시드를 SeedKeeper 카드에 저장해요.<br> 카�
 - ShieldSigner에 저장하려는 시드를 불러와 주세요.<br> 아직 없다면 아래 1단계에서 시작해요.
 - 처음 저장할 때는 기존 종이·금속 백업을 보관해 두세요.<br> 카드에서 다시 불러오는 것까지 확인한 뒤에 백업 구성을 정해요.
 
-<Callout type="warning" title="연습용 시드는 실제 자금에 사용하지 마세요">
+<Callout type="warning" title="시드와 PIN은 기기에서만 입력해요">
 
-시뮬레이터에서는 공개된 연습용 값만 사용해 주세요.<br> 실제 시드와 PIN은 실물 ShieldSigner에서 입력하고, 사진·채팅·웹페이지에 남기지 마세요.
+시드와 PIN은 실물 ShieldSigner에서 입력하고, 사진·채팅·웹페이지에 남기지 마세요.<br> 카드 저장을 마쳐도 기존 백업은 유지하고, 다시 불러온 시드와 주소가 맞는지 확인해 주세요.
 
 </Callout>
 
@@ -40,7 +40,7 @@ ShieldSigner에 불러온 시드를 SeedKeeper 카드에 저장해요.<br> 카�
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/01-seed-ready-screen.png"
-  alt="Finalize Seed 화면에서 연습용 시드의 지문 b2269592와 Done 버튼이 표시되어 있다."
+  alt="Finalize Seed의 지문과 Done 버튼을 보여주는 화면 구성 예시."
   caption="지문은 시드를 구분하는 짧은 식별값이에요. 내 시드의 값을 확인한 뒤 Done을 눌러요."
 />
 
@@ -50,7 +50,7 @@ ShieldSigner에 불러온 시드를 SeedKeeper 카드에 저장해요.<br> 카�
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/02-backup-seed-device.png"
-  alt="주황색 배경 없이 캡처한 ShieldSigner 기기. 시드 b2269592의 메뉴에서 Backup seed가 선택되어 있다."
+  alt="Backup seed가 선택된 시드 메뉴와 조작부를 보여주는 설명용 기기 그림."
   caption="기기 왼쪽 방향키로 Backup seed를 고르고 가운데 확인 버튼을 눌러요."
 />
 
@@ -64,11 +64,11 @@ ShieldSigner에 불러온 시드를 SeedKeeper 카드에 저장해요.<br> 카�
   caption="View seed words 아래의 To SeedKeeper를 선택해요."
 />
 
-시뮬레이터에서는 기기 아래의 **카드 A·B·C 중 초기화를 마친 카드**를 눌러 연결해요.<br> 카드마다 내용이 다르니 저장할 대상을 먼저 확인해 주세요.
+초기화를 마친 카드를 **실제 리더에 한 장만** 넣어요.<br> 카드가 여러 장이라면 표시해 둔 이름이나 Card Info의 UID로 저장할 대상을 확인해 주세요. 인식되지 않으면 삽입 방향과 리더 연결 상태부터 확인해요.
 
 ## 4. 카드 PIN을 입력해요 {#card-pin}
 
-**Card PIN**에서 카드 초기화 때 정한 PIN을 입력하고, 오른쪽 아래 초록색 **확인 버튼**을 눌러요.<br> PC 시뮬레이터에서는 방향키와 Enter로 입력하고, 숫자 키 `3`으로 확인할 수 있어요.
+**Card PIN**에서 카드 초기화 때 정한 PIN을 입력해요.<br> 기기의 방향키로 문자를 고르고 가운데 버튼으로 입력한 뒤, 화면 오른쪽 아래 초록색 체크 표시에 대응하는 **기기 버튼**을 눌러 확인해요.
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/04-card-pin-screen.png"
@@ -84,7 +84,7 @@ ShieldSigner에 불러온 시드를 SeedKeeper 카드에 저장해요.<br> 카�
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/05-seed-label-screen.png"
-  alt="Seed Label 입력창에 기본 이름인 b2269592가 입력되어 있다."
+  alt="Seed Label 입력창에 시드 지문을 이름으로 사용하는 화면 구성 예시."
   caption="이 예시에서는 기본 이름을 유지해요. 오른쪽 아래 초록색 확인 버튼을 누르면 저장을 시작해요."
 />
 
@@ -96,8 +96,8 @@ ShieldSigner에 불러온 시드를 SeedKeeper 카드에 저장해요.<br> 카�
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/06-secret-saved-device.png"
-  alt="ShieldSigner 기기에 Secret Saved와 Secret Successfully Saved to Seedkeeper 성공 안내가 표시되어 있다."
-  caption="저장 완료 화면이에요. 시뮬레이터의 카드 A도 ‘시드 저장됨’으로 바뀌어요."
+  alt="Secret Saved와 Secret Successfully Saved to Seedkeeper를 보여주는 설명용 기기 그림."
+  caption="Secret Saved를 확인하면 저장이 끝났어요. 다음으로 카드에서 다시 불러와 백업을 확인해요."
 />
 
 다음 [카드에서 시드 불러오기](./load)로 같은 시드를 다시 읽을 수 있는지 확인해요.<br> 저장 전의 지문과 불러온 지문을 비교해 주세요.

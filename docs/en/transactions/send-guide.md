@@ -1,80 +1,78 @@
 ---
-title: Send
-description: Create a transaction draft in the online wallet and transfer it to ShieldSigner
+title: Send BTC
+description: Review the recipient, amount, and fee in an online watch-only wallet and pass a PSBT QR to physical ShieldSigner hardware
 ---
 
 <script setup>
-import GuideFigure from '../../.vitepress/theme/components/GuideFigure.vue'
 import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 </script>
 
 <GuideContent>
 
-# Send
+# Send BTC
 
-**Create the transaction in the online wallet, then review and sign it on ShieldSigner**.<br> This page takes you through creating and transferring the transaction draft, called a PSBT. The [next page](./sign-psbt) covers device review, signing, broadcast, and confirmation.
+**Create the transaction in the online watch-only wallet, then review and sign it on ShieldSigner.**<br> This page covers preparing the PSBT. The [next page](./sign-psbt) continues through device review, signing, broadcast, and confirmation.
 
 ## Before you start
 
-- Follow [Receive](./receive-guide) to verify your wallet's address and incoming funds.
-- On physical hardware, load the wallet's seed and any required passphrase.
-- Independently confirm the recipient's **entire address**, the **amount**, and the **network**.
-- For practice, use **only the built-in Simulator wallet and Bitsaga Signet test coins**.
+- Follow [Receive BTC](./receive-guide) to connect the wallet and verify your address.
+- Check that the online wallet is synchronized and has spendable funds.
+- Load that wallet's seed and any required passphrase on ShieldSigner.
+- Confirm the recipient's **full address, amount, and network** through a separate trusted channel.
+- Confirm that the app can **export an unsigned PSBT as QR and read the device's signed QR**.
 
 ## 1. Open Send {#open-send}
 
-Open **Send** in the online wallet.<br> A watch-only wallet can create a transaction, but it has no private keys and cannot sign it on its own. ShieldSigner handles signing.
+Open **Send** in the online wallet.<br> If several wallets are registered, select the one connected using ShieldSigner's public-key information.
 
-In the practice wallet, check the deposited balance, then select **Send**.<br> If you use the public test seed, you may see earlier test transactions from other people. The total balance may include more than your own faucet request.
+A watch-only wallet can construct a transaction but has no private key to sign it independently.<br> Do not proceed through a flow asking you to enter seed words or private keys into the online app to send funds.
 
-## 2. Enter the recipient and amount {#recipient}
+## 2. Enter the address and amount {#recipient}
 
-Enter the receiving address in **To** and the amount to send in **Amount**.<br> The practice wallet uses **sats**. `1 BTC = 100,000,000 sats`; this example sends **20,000 sats = 0.0002 BTC**.
+Enter the address confirmed by the recipient and compare the **entire string**.<br> Check again after pasting or scanning that the address has not changed.
 
-For practice, select **Use one of my addresses** to use an address from the same test wallet as the recipient.<br> This is a **self-transfer**: you are sending coins back to your own wallet, so the overall balance should decrease mainly by the fee after confirmation. This option does not supply the recipient's address for a real payment.
+Enter the amount in the unit shown by the app.<br> **1 BTC = 100,000,000 sats**. For example, **20,000 sats equals 0.0002 BTC**; this illustrates units and is not a recommended payment amount.
 
-<Callout type="warning" title="Check the network and amount units">
-The practice address belongs to Bitsaga Signet. Even if it starts with <code>tb1…</code>, an ordinary Testnet faucet or a transfer on another chain will not create the same deposit in this practice wallet.<br> For real BTC, use the Bitcoin mainnet address you confirmed with the recipient, and take care not to confuse BTC with sats.
+<Callout type="warning" title="Check the network and amount unit">
+Use the Bitcoin mainnet address confirmed with the recipient. Address format alone is not a complete check of the payment network.<br> <strong>Max / Send all</strong> may spend all available funds after fees. Select it only when that is your intention.
 </Callout>
 
-<GuideFigure
-  src="/guides/transactions/09-send-form-panel.png"
-  alt="Simulator wallet send form with 20000 sats and a test self-transfer address."
-  caption="The recorded example sends 20,000 sats to another address in the same test wallet."
-/>
+## 3. Check the fee and change {#fee}
 
-## 3. Understand fees and change {#fee}
+A transaction spends previously unspent outputs, called **UTXOs**, as inputs.<br> The amount left after paying the recipient and fee normally returns to a **change address** belonging to your wallet.
 
-The transaction uses **UTXOs**, or unspent transaction outputs available to your wallet, as inputs.<br> After subtracting the payment and fee from the input total, the remainder usually returns to a **change address** in your wallet.
+**Total inputs = total recipient amounts + your change + network fee**
 
-**Input total = amount sent to the recipient + your change + network fee**
+For example, with a 100,000 sat input and a 20,000 sat payment, change is **80,000 sats minus the fee**.<br> Check the actual inputs and fee for your transaction. A transaction does not necessarily use your entire wallet balance as inputs.
 
-For example, if the transaction spends an input worth 100,000 sats and sends 20,000 sats, the change is **80,000 sats minus the fee**.<br> These numbers are illustrative. The selected inputs and fee depend on the wallet, transaction size, and network conditions.
+| Item | What to check |
+| --- | --- |
+| Fee rate (sat/vB) | The fee per unit of transaction size. Consider the wallet's current estimates and your desired waiting time. |
+| Total fee (sats or BTC) | The actual amount paid. Do not confuse it with the fee rate. |
+| Change | Confirm that remaining funds return to your wallet. The device also verifies the change address. |
+| Selected inputs | If using coin control, confirm that you selected the intended UTXOs. |
 
-**sat/vB** expresses a fee rate per unit of transaction size; a fee shown in **sats** is the total amount you will pay.<br> Do not use the practice wallet's fixed fee rate as a recommendation for Bitcoin mainnet. For a real transaction, check the current fee rate and total fee in the online wallet.
+Do not apply a fixed fee rate to every transaction.<br> If the fee is unexpectedly high or funds are insufficient, recheck the amount and input selection before proceeding. A fee estimate does not guarantee a confirmation time.
 
-This practice wallet estimates fees at **2 sat/vB**, but does not separately display the total fee in its online send form.<br> During this practice, check the total on the device's **Transaction Math** screen in the next step. The recorded example pays **282 sats**.
+## 4. Display the unsigned PSBT {#create-psbt}
 
-## 4. Create the PSBT {#create-psbt}
+Check the **recipient, amount, and total fee** in the online wallet's transaction preview.<br> Choose its **unsigned transaction export / PSBT QR display** function. Creating and exporting may be separate steps.
 
-Select **Create transaction** in the practice wallet.<br> The wallet moves to **Show it to your signer** and displays the **transaction QR code** for the device to read. Nothing has been signed or broadcast at this point.
+A **PSBT (Partially Signed Bitcoin Transaction)** carries transaction information and information needed for signing.<br> Creating it does not complete a payment, and at this stage ShieldSigner has not signed it.
 
-PSBT stands for **Partially Signed Bitcoin Transaction**.<br> The format can carry an unsigned transaction for review or return a transaction with some or all of the required signatures. Never put your seed or private keys in a PSBT or send them to the online wallet.
+Confirm that the exported QR contains a **transaction PSBT**.<br> Address QR codes, public-key QR codes, and SeedQRs have different purposes. If an app only exports files, check for a compatible QR workflow instead of uploading the file to an arbitrary web converter.
 
-<GuideFigure
-  src="/guides/transactions/10-psbt-qr-panel.png"
-  alt="The built-in wallet showing a PSBT as two cycling QR frames."
-  caption="At Show it to your signer, open Scan on ShieldSigner."
-/>
+## 5. Scan the transaction with the device camera {#scan}
 
-## 5. Scan the transaction QR code with ShieldSigner {#scan}
+1. Open **Scan** on ShieldSigner's home screen.
+2. Adjust the distance and angle so the online wallet's PSBT QR is visible to the camera.
+3. For animated QR codes, keep the screen in place until all required frames have been read.
+4. Reading is complete when the seed-selection or transaction-overview screen appears.
 
-Return to ShieldSigner's home screen and choose **Scan**.<br> In the simulator, the built-in wallet passes the transaction QR code to the virtual camera. On physical hardware, use the camera to scan the PSBT QR code displayed by the online wallet.
+If scanning is difficult, reduce glare and adjust QR size, screen brightness, and distance.<br> If it still fails, check the QR format and device compatibility. Never transfer a SeedQR or private key to the online wallet to solve a transfer problem.
 
-For an animated QR code, keep the same screen open until the device has read every frame.<br> If scanning fails, never send a seed QR code or private key to the online wallet as a workaround.
+**Do not approve yet.** Continue to the next page and compare the values shown on the device.
 
-After reading the transaction, the device opens **seed selection or the transaction overview**.<br> Before approving anything, work through the checks on the next page.
-
-[Previous: Receive](./receive-guide) · [Next: Signing →](./sign-psbt)
+[Previous: Receive BTC](./receive-guide) · [Next: Review and sign a PSBT →](./sign-psbt)
 
 </GuideContent>

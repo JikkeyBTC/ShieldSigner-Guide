@@ -14,7 +14,7 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 
 처음 쓰는 카드는 PIN부터 정해 주세요.<br> 준비한 카드에 ShieldSigner의 시드를 저장하고, 필요할 때 기기로 다시 불러올 수 있어요.
 
-아래 그림은 각 단계의 **시뮬레이터 예시 화면**이에요. 자세한 조작은 해당 안내에서 순서대로 따라갈 수 있어요.
+실제 카드와 기기의 버튼으로 **PIN 설정 → 시드 저장 → 다시 불러오기**를 진행해요.<br> 아래 그림은 메뉴를 설명하는 **화면 구성 예시이며 실물 촬영 사진이 아니에요.** 자세한 조작은 각 안내에서 순서대로 따라갈 수 있어요.
 
 <div class="ss-summary-card">
 
@@ -22,7 +22,7 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 
 <GuideFigure
   src="/guides/seedkeeper/initialize/10-new-pin-device.png"
-  alt="New Card PIN 입력 화면을 표시하는 ShieldSigner 시뮬레이터"
+  alt="New Card PIN 입력 화면을 보여주는 설명용 기기 그림"
   caption="새 카드에 사용할 PIN을 정해요. 그림은 입력 전 화면이에요."
 />
 
@@ -38,7 +38,7 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/06-secret-saved-device.png"
-  alt="Secret Saved 완료 화면을 표시하는 ShieldSigner 시뮬레이터"
+  alt="Secret Saved 완료 화면을 보여주는 설명용 기기 그림"
   caption="ShieldSigner → 카드. Secret Saved가 표시되면 저장이 완료된 거예요."
 />
 
@@ -54,8 +54,8 @@ ShieldSigner에 불러온 시드를 고르고, 카드 PIN과 저장할 이름을
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/14-seed-loaded-device.png"
-  alt="카드에서 불러온 테스트 시드의 지문 b2269592와 시드 메뉴를 표시하는 ShieldSigner 시뮬레이터"
-  caption="카드 → ShieldSigner. 불러온 시드의 지문을 확인해요. 그림의 지문은 공개 테스트 데이터예요."
+  alt="카드에서 불러온 시드의 지문과 메뉴를 보여주는 설명용 기기 그림"
+  caption="카드 → ShieldSigner. 그림의 값이 아니라 내 카드에서 불러온 시드의 지문을 저장 전 기록과 비교해요."
 />
 
 카드에 저장한 시드를 읽고, 저장하기 전과 같은 지문인지 확인해요.

@@ -38,10 +38,10 @@ Insert the microSD card **all the way** into the USB card reader included in the
 - The photos below show the card partly inserted only to make the direction clear.
 
 <div class="ss-install-gallery">
-  <a :href="installationImage('01-sd-card.png')" target="_blank" rel="noopener"><img :src="installationImage('01-sd-card.png')" alt="Example microSD insertion direction 1" loading="lazy" /></a>
-  <a :href="installationImage('02-sd-card.png')" target="_blank" rel="noopener"><img :src="installationImage('02-sd-card.png')" alt="Example microSD insertion direction 2" loading="lazy" /></a>
-  <a :href="installationImage('03-sd-card.png')" target="_blank" rel="noopener"><img :src="installationImage('03-sd-card.png')" alt="Example microSD insertion direction 3" loading="lazy" /></a>
-  <a :href="installationImage('04-sd-card.png')" target="_blank" rel="noopener"><img :src="installationImage('04-sd-card.png')" alt="Example microSD insertion direction 4" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('01-sd-card.png')" alt="Example microSD insertion direction 1" />
+  <ImageZoom :src="installationImage('02-sd-card.png')" alt="Example microSD insertion direction 2" />
+  <ImageZoom :src="installationImage('03-sd-card.png')" alt="Example microSD insertion direction 3" />
+  <ImageZoom :src="installationImage('04-sd-card.png')" alt="Example microSD insertion direction 4" />
 </div>
 
 Connect the card reader to a USB port on your computer.
@@ -55,7 +55,7 @@ Download the ShieldSigner OS image on your computer.
 1. Open the [official ShieldSigner GitHub release](https://github.com/3rdIteration/seedsigner/releases/tag/SeSi-0.8.7%2BShSi-B12).<br> This guide uses **SeSi-0.8.7+ShSi-B12**.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('05-os-download.png')" target="_blank" rel="noopener"><img :src="installationImage('05-os-download.png')" alt="ShieldSigner B12 release Assets with pi0-smartcard.img.zip highlighted" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('05-os-download.png')" alt="ShieldSigner B12 release Assets with pi0-smartcard.img.zip highlighted" />
 </figure>
 
 2. Download `pi0-smartcard.img.zip` for the **Raspberry Pi Zero v1.3 without a communication module**.
@@ -76,7 +76,7 @@ Install Raspberry Pi Imager.
 1. Open the [official Raspberry Pi Imager download page](https://www.raspberrypi.com/software/).
 
 <figure class="ss-install-image">
-  <a :href="installationImage('06-imager-download.png')" target="_blank" rel="noopener"><img :src="installationImage('06-imager-download.png')" alt="Raspberry Pi Imager download page" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('06-imager-download.png')" alt="Raspberry Pi Imager download page" />
 </figure>
 
 Download the installer for your operating system.<br> Windows, macOS, and Ubuntu are available.
@@ -84,7 +84,7 @@ Download the installer for your operating system.<br> Windows, macOS, and Ubuntu
 2. Open the downloaded file and complete the installation.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('07-imager-install.png')" target="_blank" rel="noopener"><img :src="installationImage('07-imager-install.png')" alt="Raspberry Pi Imager installation screen" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('07-imager-install.png')" alt="Raspberry Pi Imager installation screen" />
 </figure>
 
 ---
@@ -96,43 +96,43 @@ Open Raspberry Pi Imager.<br> You are going to write the verified image to the S
 In the **Device** step, scroll down, choose **Raspberry Pi Zero**, and select **Next**.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('08-imager-device.png')" target="_blank" rel="noopener"><img :src="installationImage('08-imager-device.png')" alt="Raspberry Pi Zero selected in the Device step" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('08-imager-device.png')" alt="Raspberry Pi Zero selected in the Device step" />
 </figure>
 
 In the **OS** step, scroll down and choose **Use Custom**.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('09-imager-os.png')" target="_blank" rel="noopener"><img :src="installationImage('09-imager-os.png')" alt="Use Custom selected in the OS step" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('09-imager-os.png')" alt="Use Custom selected in the OS step" />
 </figure>
 
 Choose the downloaded and verified ShieldSigner **`.img` file**.<br> The Raspberry Pi Zero v1.3 filename is `seedsigner_os.SeSi-0.8.7_ShSi-B12_.pi0-smartcard.img`.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('10-imager-image-file.png')" target="_blank" rel="noopener"><img :src="installationImage('10-imager-image-file.png')" alt="The extracted pi0-smartcard.img file selected" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('10-imager-image-file.png')" alt="The extracted pi0-smartcard.img file selected" />
 </figure>
 
 In **Storage**, choose the microSD card.<br> Check its name and capacity carefully, and do not select the computer's SSD or another USB storage device.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('11-imager-storage.png')" target="_blank" rel="noopener"><img :src="installationImage('11-imager-storage.png')" alt="Storage step for choosing the SD card to write" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('11-imager-storage.png')" alt="Storage step for choosing the SD card to write" />
 </figure>
 
 Select **Next** to review the image and destination card.<br> On the **Write image** screen, choose **WRITE**.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('12-imager-write-review.png')" target="_blank" rel="noopener"><img :src="installationImage('12-imager-write-review.png')" alt="Write image screen confirming Raspberry Pi Zero, pi0-smartcard.img, and MXT-USB Storage Device before WRITE" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('12-imager-write-review.png')" alt="Write image screen confirming Raspberry Pi Zero, pi0-smartcard.img, and MXT-USB Storage Device before WRITE" />
 </figure>
 
 You will see a warning that **all data on the selected storage will be erased**.<br> After backing up needed files and confirming the correct card, choose **I UNDERSTAND, ERASE AND WRITE**.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('13-imager-erase-warning.png')" target="_blank" rel="noopener"><img :src="installationImage('13-imager-erase-warning.png')" alt="Data deletion warning with the I UNDERSTAND, ERASE AND WRITE confirmation button" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('13-imager-erase-warning.png')" alt="Data deletion warning with the I UNDERSTAND, ERASE AND WRITE confirmation button" />
 </figure>
 
 Wait for writing and verification to finish.<br> When **Write complete!** appears, installation is complete.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('14-imager-complete.png')" target="_blank" rel="noopener"><img :src="installationImage('14-imager-complete.png')" alt="Write complete screen showing Raspberry Pi Zero and pi0-smartcard.img" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('14-imager-complete.png')" alt="Write complete screen showing Raspberry Pi Zero and pi0-smartcard.img" />
 </figure>
 
 Confirm that the card was ejected safely, disconnect the USB card reader, and remove the microSD card.
@@ -144,11 +144,11 @@ Confirm that the card was ejected safely, disconnect the USB card reader, and re
 With ShieldSigner powered off, insert the microSD card and connect power to check the boot.
 
 <figure class="ss-install-image">
-  <a :href="installationImage('15-device-check.jpg')" target="_blank" rel="noopener"><img :src="installationImage('15-device-check.jpg')" alt="microSD card inserted in the lower slot of the ShieldSigner device" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('15-device-check.jpg')" alt="microSD card inserted in the lower slot of the ShieldSigner device" />
 </figure>
 
 <figure class="ss-install-image">
-  <a :href="installationImage('16-device-boot.gif')" target="_blank" rel="noopener"><img :src="installationImage('16-device-boot.gif')" alt="ShieldSigner powering on during the boot process" loading="lazy" /></a>
+  <ImageZoom :src="installationImage('16-device-boot.gif')" alt="ShieldSigner powering on during the boot process" />
 </figure>
 
 Confirm that the main menu appears and that the buttons respond.
@@ -166,10 +166,10 @@ Confirm that the main menu appears and that the buttons respond.
 
 <style scoped>
 .ss-install-guide .ss-install-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;gap:10px;margin:24px 0}
-.ss-install-guide .ss-install-gallery a{min-width:0}
+.ss-install-guide .ss-install-gallery .ss-image-trigger{min-width:0}
 .ss-install-guide .ss-install-gallery img{display:block;width:100%;height:auto;border-radius:6px}
 .ss-install-guide .ss-install-image{margin:24px 0}
-.ss-install-guide .ss-install-image a{display:block;width:fit-content;max-width:100%}
+.ss-install-guide .ss-install-image .ss-image-trigger{display:block;width:fit-content;max-width:100%}
 .ss-install-guide .ss-install-image img{display:block;max-width:100%;height:auto;border-radius:8px}
 .ss-install-guide :deep(code){overflow-wrap:anywhere;word-break:break-word}
 @media(max-width:599px){.ss-install-guide .ss-install-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}

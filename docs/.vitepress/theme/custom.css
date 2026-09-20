@@ -300,7 +300,7 @@ body.ss-search-open{overflow:hidden}
 
 /* SeedKeeper article assets reuse the original photos and transparent wordmark. */
 .ss-os-guide .ss-guide-figure.ss-seedkeeper-logo{max-width:360px;margin-inline:auto}
-.ss-os-guide .ss-guide-figure.ss-seedkeeper-logo>a{border:0;background:transparent}
+.ss-os-guide .ss-guide-figure.ss-seedkeeper-logo>.ss-image-trigger{border:0;background:transparent}
 .ss-seedkeeper-logo img{filter:invert(1)}
 .ss-os-guide .ss-guide-figure.ss-seedkeeper-card-photo{max-width:420px;margin-inline:auto}
 .ss-os-guide nav.ss-seedkeeper-tree ul{list-style:none;padding-left:0}

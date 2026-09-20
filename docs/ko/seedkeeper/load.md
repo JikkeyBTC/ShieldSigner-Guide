@@ -16,7 +16,7 @@ SeedKeeper 카드에 저장한 시드를 ShieldSigner로 읽어와요.<br> 불�
 
 **Seeds → From SeedKeeper → 카드 PIN → 저장한 시드 선택 → 지문 확인 → Done**
 
-이 안내는 **ShieldSigner B12의 일반 BIP39 시드**를 기준으로 해요.<br> 화면 예시는 카드에 저장한 시드를 다시 불러오는 일반적인 흐름을 보여줘요.
+이 안내는 **ShieldSigner B12의 일반 BIP39 시드**를 기준으로 해요.<br> 그림은 메뉴를 설명하는 **화면 구성 예시이며 실물 촬영 사진이 아니에요.** 그림의 값이 아니라 내 기기의 지문과 주소를 확인해요.
 
 ## 시작하기 전에
 
@@ -66,7 +66,7 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요.<br> �
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/12-select-secret-screen.png"
-  alt="Select Secret 목록에 앞서 저장한 이름 b2269592가 표시되어 있다."
+  alt="Select Secret 목록에 저장한 라벨이 표시된 화면 구성 예시."
   caption="이 예시에서는 기본 이름을 그대로 써서 시드 지문이 목록에 보여요."
 />
 
@@ -74,11 +74,11 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요.<br> �
 
 ## 5. 지문을 확인하고 Done을 눌러요 {#fingerprint}
 
-**Finalize Seed**에서 저장하기 전과 같은 지문인지 비교해요.<br> 이 예시에서는 저장 전과 불러온 뒤 모두 **b2269592**예요.<br> 내 카드에서는 내 시드의 지문과 비교하면 돼요.
+**Finalize Seed**에서 저장하기 전 기록한 지문과 불러온 시드의 지문을 비교해요.<br> 그림에 표시된 값과 같아야 하는 것은 아니에요. 내 시드의 저장 전·후 값이 일치해야 해요.
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/13-loaded-fingerprint-screen.png"
-  alt="카드에서 불러온 시드의 Finalize Seed 화면. 저장 전과 같은 지문 b2269592와 Done 버튼이 표시되어 있다."
+  alt="Finalize Seed에서 불러온 시드의 지문을 확인하는 화면 구성 예시."
   caption="저장 전의 값과 불러온 뒤의 값을 비교한 후 Done을 눌러요."
 />
 
@@ -88,7 +88,7 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요.<br> �
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/14-seed-loaded-device.png"
-  alt="카드에서 시드를 불러온 뒤 ShieldSigner의 시드 메뉴가 열린 모습. 상단에 b2269592 지문이 표시되어 있다."
+  alt="불러온 시드의 지문과 메뉴를 보여주는 설명용 기기 그림."
   caption="불러온 시드를 기기에서 사용할 준비가 끝났어요. 카드에 저장된 시드는 지워지지 않아요."
 />
 
@@ -108,7 +108,7 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요.<br> �
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/08-discard-confirm-screen.png"
-  alt="Discard Seed? 확인 화면. Wipe seed b2269592 from the device? 안내와 Keep seed, Discard 버튼이 있다."
+  alt="Discard Seed? 확인 화면 구성 예시. 기기에서 시드를 비우는 안내와 Keep seed, Discard 버튼이 있다."
   caption="from the device는 기기 메모리에서 비운다는 뜻이에요. 카드의 저장 항목을 삭제하지 않아요."
 />
 
@@ -130,8 +130,7 @@ ShieldSigner를 켜고 시드가 저장된 카드를 리더에 넣어요.<br> �
 
 ## 다음 단계
 
-[← 시드를 카드에 저장하기](./save) · 워치온리 지갑 연결하기 →
-<!-- Temporarily hidden link: [워치온리 지갑 연결하기 →](../wallet/) -->
+[← 시드를 카드에 저장하기](./save) · [다음: 지갑 연결과 BTC 받기 →](../transactions/receive-guide)
 
 절차 기준: [ShieldSigner B12 시드 저장·불러오기 소스](https://github.com/3rdIteration/seedsigner/blob/6faaffcb06a2ba578a96fdef689d97e21793ec23/src/seedsigner/views/seed_views.py)
 

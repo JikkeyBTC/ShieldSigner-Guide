@@ -9,7 +9,7 @@ SeedKeeper is a JavaCard applet and card ecosystem for protecting seeds and secr
 
 ## Safe use
 
-Initialize the card, set a unique PIN, and keep an independent paper or metal backup.<br> Never enter a real seed or PIN into a simulator, website, chat, or support channel.
+Initialize the card, set a unique PIN, and keep an independent paper or metal backup.<br> Enter seeds and PINs only on the physical device, never on websites or in chats or support channels.
 
 ## What this flow covers
 

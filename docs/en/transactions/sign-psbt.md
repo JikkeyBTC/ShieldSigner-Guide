@@ -1,10 +1,9 @@
 ---
 title: Review and sign a PSBT
-description: Check recipients, amounts, fees, and change on ShieldSigner, then verify broadcast and confirmation
+description: Review recipients, amounts, fees, and change on physical ShieldSigner hardware, return the signed QR, and check broadcast and confirmations online
 ---
 
 <script setup>
-import GuideFigure from '../../.vitepress/theme/components/GuideFigure.vue'
 import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 </script>
 
@@ -12,130 +11,82 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 
 # Review and sign a PSBT
 
-Once the device has read the PSBT created in [Send](./send-guide), **check the details on its screen yourself before signing**.<br> Signing, broadcasting, and confirmation are separate steps. This page takes you through checking the final confirmation.
+After the device reads the PSBT prepared in [Send BTC](./send-guide), **review the information on the device before signing**.<br> This page covers QR exchange for a single-signature wallet. Signing, broadcast, and confirmation are separate stages to check.
 
 ## 1. Check the seed and transaction overview {#overview}
 
-If the device asks you to select a seed, choose the seed for the wallet used to create this transaction.<br> If that wallet uses a passphrase, the same passphrase must be applied.
+If prompted, select the seed connected to the online wallet.<br> Apply the same passphrase if that wallet uses one.
 
-Review the **number of inputs, recipients, and change outputs** in the transaction overview.<br> If there is an unfamiliar recipient or change is unexpectedly missing, stop and check the wallet that created the transaction before continuing.
+Review the **input count, recipient count, and change-output count**, then open the detailed review.<br> If there is an unknown recipient or unexpectedly missing change, stop and check the wallet that created the transaction.
 
-<GuideFigure screen
-  src="/guides/transactions/12-overview-screen.png"
-  alt="Review Transaction showing 20,000 tSats, one input, recipient, fee and change."
-  caption="Select Review details. tSats indicates an amount on the test network."
-/>
+If the device says the seed cannot sign, do not select other seeds at random.<br> Compare the online wallet's public key, fingerprint, and derivation path with the seed and passphrase loaded on the device.
 
-## 2. Compare destinations, amounts, and fees {#review}
+## 2. Compare destinations, amounts, fee, and change {#review}
 
-Move through the device's review screens and check every item below.
+Read each detailed screen on the device.<br> **Checking only the computer or phone preview does not replace reviewing the device screen.**
 
-| Item | What to check |
+| Item | Compare against |
 | --- | --- |
-| Input total | The total value of the coins this transaction spends. It may differ from your entire wallet balance. |
-| Receiving address | Compare the **entire address** with the one you independently confirmed with the recipient. Check every recipient if there is more than one. |
-| Amount to send | Compare the requested amount and its units. The practice example sends **20,000 sats**. |
-| Network fee | With physical hardware, compare against the total checked in the online wallet. The practice wallet does not display a separate total, so check it on the device's Transaction Math screen. Stop if it is unexpectedly high. |
-| Change | Check the amount, address, and derivation details for funds returning to your wallet, as well as the device's address-verification result. |
+| Total inputs | The UTXOs selected for this transaction, which may differ from the entire wallet balance. |
+| Recipient addresses | The **full addresses** independently confirmed with the recipients. Check every recipient. |
+| Payment amounts | The requested amounts and units. |
+| Network fee | The **total fee** shown in the online wallet preview, not its sat/vB fee rate. |
+| Change | The amount, address, derivation information, and the device's address-verification result. |
 
-Also check that **input total − amount sent − change = fee**.<br> In the practice self-transfer, both the payment and change can return to the same wallet. You still need to review every item on screen.
+Check that **total inputs − total recipient amounts − change = fee**.<br> A change address can differ from the address you used to receive funds. A different string is not automatically a problem, but confirm that the device verifies it as belonging to your wallet.
 
-<Callout type="danger" title="Do not dismiss unexpected warnings">
-Do not sign if <strong>Full Spend / No change</strong> appears when you expected change, if the device cannot verify the change address, or if there is an unfamiliar output.<br> A transaction with no change can be valid, such as an intentional full-balance payment, but it must match your intent. This walkthrough practices with a transaction that includes change.
+<Callout type="danger" title="Do not sign unexpected outputs or warnings">
+Stop if you expected change but see <strong>Full Spend / No change</strong>, if change verification fails, or if there is an unknown output.<br> An intentional full spend can legitimately have no change. Check your intention instead of changing settings just to remove a warning.
 </Callout>
 
-<GuideFigure screen
-  src="/guides/transactions/13-math-screen.png"
-  alt="Transaction Math: input 1,000,000, recipient 20,000, fee 282 and change 979,718 sats."
-  caption="Recorded example: 1,000,000 − 20,000 − 979,718 = 282 sats."
-/>
+If something is wrong, reject the transaction and create a corrected PSBT in the online wallet.<br> Review the replacement transaction from the beginning.
 
-<GuideFigure screen
-  src="/guides/transactions/14-recipient-screen.png"
-  alt="Will Send showing the full recipient address and 20,000 tSats."
-  caption="Compare the entire destination and amount against the independently checked request."
-/>
+## 3. Approve and sign {#sign}
 
-<GuideFigure screen
-  src="/guides/transactions/15-change-screen.png"
-  alt="Your Change showing 979,718 tSats and Address verified."
-  caption="The device verified change address #17 in this example. Your address index may differ."
-/>
+Sign on the final approval screen only after every value is correct.<br> When ShieldSigner displays the **signed PSBT QR**, prepare to read it with the online wallet. Keep an animated QR visible until reading finishes.
 
-## 3. Make the final check and sign {#sign}
+The device does not broadcast the transaction at this point.<br> However, someone holding the signed transaction can broadcast it, so complete all checks before approval and do not share the signed QR publicly.
 
-When every value matches, press the signing button on the final approval screen.<br> ShieldSigner creates the signature and displays a **signed PSBT QR code**. Keep it displayed until the receiving wallet confirms it has finished reading it.
+## 4. Return the signed QR and broadcast {#broadcast}
 
-<Callout type="warning" title="The practice wallet broadcasts automatically after reading the signed QR code">
-The built-in Simulator wallet reads the returned signature, completes the transaction, and automatically broadcasts it to Bitsaga Signet.<br> Finish every check before signing on the device. Do not expect another broadcast confirmation dialog in the simulator.
-</Callout>
+1. In the online wallet that created the transaction, open its **import signature / read signed PSBT** function for that transaction.
+2. Use the computer or phone camera to scan the QR displayed on ShieldSigner.
+3. Confirm that the signature was imported and the transaction is ready to broadcast.
+4. Compare the recipients, amounts, and total fee one last time, then choose **Broadcast / Send**.
 
-<GuideFigure screen
-  src="/guides/transactions/16-finalize-screen.png"
-  alt="Sign Transaction screen with Approve transaction."
-  caption="Select Approve transaction only after all values match."
-/>
+You are transferring a **signed transaction**, not a SeedQR, private key, or card PIN.<br> Some apps may broadcast immediately after importing signatures, so check your app's behavior in advance.
 
-<GuideFigure screen
-  src="/guides/transactions/17-signed-qr-screen.png"
-  alt="Signed PSBT QR displayed by the device after approval."
-  caption="The signed test transaction being returned. Keep it displayed until the wallet finishes reading."
-/>
+If import fails, check that you are using the same transaction's import screen and a compatible QR format.<br> If signatures are missing, investigate the cause instead of entering seed words online to complete it.
 
-## 4. On physical hardware: return and broadcast the signed transaction {#broadcast}
+## 5. Check broadcast and confirmations {#confirmation}
 
-For a physical device, use the online wallet's **Import signed transaction / Scan signed transaction** function to scan the device's QR code.<br> You are not handing over a seed QR code, private key, or card PIN. If you use a wallet that supports file exchange, follow the PSBT file procedure supported by both that wallet and your device. This practice walkthrough uses QR codes only.
+Check the broadcast result and the **TXID** in the online wallet's history.<br> A TXID is a 64-character hexadecimal transaction identifier. **Having a TXID alone does not prove broadcast or confirmation.** Some apps display it before broadcast.
 
-Check that the online wallet has all required signatures, make a final comparison of the **destination, amount, and fee**, then select **Broadcast**.<br> Check your app's behavior beforehand: some apps automatically broadcast after importing signatures. Do not casually share a signed transaction; a third party may also be able to broadcast it.
+| Stage | What to check |
+| --- | --- |
+| Broadcast result | Check whether the wallet reports success or an error. |
+| Unconfirmed transaction | Look up the transaction in a synchronized wallet or a transaction tool on the same network. |
+| Block inclusion | Check the block information and confirmation count. |
+| Payment completion | Check that the recipient's or service's required confirmation count has been reached. |
 
-<GuideFigure
-  src="/guides/transactions/18-broadcast-panel.png"
-  alt="The practice wallet showing a broadcast TXID while waiting for a block."
-  caption="The transaction has been sent, but confirmation is still pending."
-/>
+When using an external lookup service, enter **only the TXID**, never seeds or private keys.<br> Compare the transaction's addresses, amounts, and fee with your payment. External services can learn what you query.
 
-## 5. Check the TXID and confirmations {#confirmation}
+### If confirmation is delayed or broadcast fails
 
-After broadcast, the wallet displays a **TXID**, a 64-character hexadecimal transaction identifier.<br> Copy it into a transaction lookup for the same network to check the transaction.
+- Check the network, TXID, and wallet synchronization.
+- For an unconfirmed transaction, check the fee and network congestion. Estimated times are not guarantees.
+- Even after an error, check the original transaction first. Creating repeated new payments can result in duplicate payment.
+- If using a fee-adjustment function, review the changed transaction. If it requires another signature, review the new PSBT on the device again.
+- Closing the screen or turning off the device does not cancel a transaction already broadcast.
 
-In the practice wallet, **Finish it here** is the broadcast-processing stage, and **In a block** means the transaction has been included in a block.<br> A successful broadcast message or a TXID alone does not establish confirmation. Check that the transaction has actually been included in a block.
+## 6. Finish using the device {#finish}
 
-On the [Bitsaga transaction verification page](https://bitsaga.be/signet), enter the TXID under **A transaction, and the block it landed in**, then select **Check it**.<br> The result concerns inclusion on Bitsaga's custom test chain. It does not confirm a Bitcoin mainnet payment.
+Once the online wallet has successfully imported the signed transaction, the device does not need to stay on.<br> Clear the loaded seed using **Discard seed** or shut the device down normally. Continue checking confirmations in the online wallet.
 
-<GuideFigure
-  src="/guides/transactions/19-confirmed-panel.png"
-  alt="The built-in wallet showing In a block and Sent, mined and confirmed on Bitsaga Signet."
-  caption="The recorded transaction was confirmed in Bitsaga Signet block 104780."
-/>
+Removing the card alone does not clear a seed already loaded into device memory.<br> **Discard seed does not delete the seed stored on SeedKeeper.** It is different from resetting the card or deleting a stored entry.
 
-### The test transaction we verified
+[← Previous: Send BTC](./send-guide) · [Transactions overview](./)
 
-- Sent: **20,000 sats**
-- Total fee: **282 sats**
-- Change: **979,718 sats**
-- Block: **104780** on Bitsaga Signet
-
-```text
-e0942d2fbe013d9d6329b334bc0c49a853b9de5de992f2cd68402bfe64c2457f
-```
-
-[View evidence for this TXID](https://signet.bitsaga.be/api/tx-proof?txid=e0942d2fbe013d9d6329b334bc0c49a853b9de5de992f2cd68402bfe64c2457f)
-
-After the self-transfer, the total balance changed from **8,994,798 to 8,994,516 sats**, falling only by the fee.<br> This public test wallet already held coins from earlier practice. Your balance, addresses and TXID do not need to match the example.
-
-### If confirmation is delayed
-
-- First check that you are looking at the same **network and TXID**.
-- If the transaction is still unconfirmed, wait for a block. Closing the screen does not cancel a transaction that has already been broadcast.
-- If an error appears, check the existing TXID's status first. Do not repeatedly create and send new transactions without checking what happened.
-- If change differs from your expectation, recheck the fee and transaction outputs.
-
-## 6. Finish the session
-
-After checking the incoming and outgoing transactions, use **Discard seed** to clear the loaded seed from the physical device's memory, or shut the device down normally.<br> This is different from deleting the original seed stored on SeedKeeper.
-
-Close the simulator tab when you finish practicing. The wallet connection details may be lost, but transactions already broadcast to the test chain are not canceled.
-
-[← Previous: Send](./send-guide)
+Procedure reference: [ShieldSigner B12 transaction review and signing code](https://github.com/3rdIteration/seedsigner/blob/6faaffcb06a2ba578a96fdef689d97e21793ec23/src/seedsigner/views/psbt_views.py). Menu labels and screen order may vary with the installed firmware.
 
 </GuideContent>

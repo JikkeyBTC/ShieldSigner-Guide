@@ -6,7 +6,7 @@ for (const width of [1440, 390]) {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/ShieldSigner-Guide/ko/seedkeeper/');
     const brand = page.locator('main .ss-seedkeeper-logo');
-    await expect(brand.locator('a')).toHaveCSS('border-top-width', '0px');
+    await expect(brand.getByRole('button')).toHaveCSS('border-top-width', '0px');
     const centered = await brand.evaluate((figure) => {
       const frame = figure.closest('.ss-os-guide')!.getBoundingClientRect();
       const image = figure.getBoundingClientRect();

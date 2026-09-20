@@ -1,6 +1,6 @@
 ---
 title: 카드 초기화와 PIN
-description: 실물 ShieldSigner에 SeedKeeper Applet을 설치하고 새 SeedKeeper 카드에 PIN을 설정하는 방법
+description: 실물 ShieldSigner로 카드에 SeedKeeper Applet을 설치하고 새 SeedKeeper 카드에 PIN을 설정하는 방법
 verifiedOn: 2026-09-06
 verifiedVersion: SeSi-0.8.7+ShSi-B12 기준
 estimatedTime: 5~10분
@@ -19,7 +19,7 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 
 **카드 연결 → SeedKeeper Applet 설치 → Card Info → 새 PIN 입력 → PIN 확인 → 설정 완료**
 
-이 안내는 **ShieldSigner B12**를 기준으로 해요.<br> 메뉴 이름은 기기 화면의 영어 표기를 그대로 보여드려요.
+이 안내는 **ShieldSigner B12**를 기준으로 해요.<br> 메뉴 이름은 기기 화면의 영어 표기를 그대로 보여드려요.<br> 그림은 조작과 화면 구성을 설명하는 예시이며, 실물 촬영 사진이 아니에요.
 
 <Callout type="warning" title="여기서 초기화는 새 카드의 첫 설정을 뜻해요">
 
@@ -30,7 +30,7 @@ import GuideContent from '../../.vitepress/theme/components/GuideContent.vue'
 ## 시작하기 전에
 
 - [OS 설치](../os/install)와 [다운로드 파일 검증](../os/verification)을 마친 ShieldSigner를 준비해요.
-- **SeedKeeper Applet을 설치할 카드**가 필요해요.<br> Applet은 카드 안에서 동작하는 프로그램이에요.<br> 이 안내에서 실물 ShieldSigner에 `SeedKeeper-0.2-official.cap`을 설치한 뒤 PIN을 설정해요.
+- **SeedKeeper Applet을 설치할 카드**가 필요해요.<br> Applet은 카드 안에서 동작하는 프로그램이에요.<br> 빈 호환 JavaCard라면 실물 ShieldSigner를 이용해 **카드에** `SeedKeeper-0.2-official.cap`을 설치한 뒤 PIN을 설정해요. 이미 SeedKeeper Applet이 설치된 카드는 재설치하지 않고 [Card Info](#card-info-menu)에서 설정 상태부터 확인해요.
 - 카드가 여러 장이라면 A·B·C처럼 구분해 두고 **한 장씩** 설정해요.
 - 새 PIN을 안전하게 보관할 방법을 정해요.<br> 카드 겉면에 PIN을 적거나, 카드와 PIN 기록을 함께 보관하지 마세요.
 
@@ -48,13 +48,13 @@ ShieldSigner를 켜고 메인 메뉴가 나올 때까지 기다려요.<br> 기�
 
 <GuideFigure
   src="/guides/seedkeeper/initialize/03-home-tools-device.png"
-  alt="주황색 스웨이드 배경 위 ShieldSigner 기기와 오른쪽으로 나온 스마트카드. 금색 접점이 보인다."
+  alt="카드 연결 위치와 Tools 메뉴를 보여주는 설명용 기기 그림."
   caption="금색 표면이 아래로 향하도록 카드를 삽입해 주세요."
 />
 
 ## 2. SeedKeeper Applet을 설치해요 {#install-applet}
 
-시뮬레이터에서는 Applet 설치 자체를 지원하지 않아요.<br> 다만 **DIY Tools → Install Applet** 메뉴까지의 이동은 확인할 수 있어요.<br> SeedKeeper Applet 설치는 **실물 ShieldSigner**에서 진행해요.
+이 단계는 **SeedKeeper Applet이 없는 호환 JavaCard**를 준비할 때 진행해요.<br> 카드를 실물 ShieldSigner의 리더에 연결한 상태로 설치하고, 완료될 때까지 카드를 빼거나 전원을 끄지 않아요. 이미 설치된 카드는 [Card Info 확인](#card-info-menu)으로 넘어가요.
 
 ### Smartcard Tools 선택
 
@@ -98,7 +98,7 @@ Tools 목록에서 아래로 이동해 **Smartcard Tools**를 열어요.
 
 ### 기본 스토리지 8 KB를 선택해요
 
-**Select Storage**에서 **8 KB (default)**를 선택해요.
+**Select Storage**에서 <strong>8 KB (default)</strong>를 선택해요.
 
 <GuideFigure screen
   src="/guides/seedkeeper/initialize/16-select-storage-screen.png"

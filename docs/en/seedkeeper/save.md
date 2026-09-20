@@ -16,7 +16,7 @@ Save a seed loaded in ShieldSigner to a SeedKeeper card.<br> Connect the card, e
 
 **Select seed → Backup seed → To SeedKeeper → Card PIN → Seed Label → Complete**
 
-This guide follows a **standard BIP39 seed on ShieldSigner B12**.<br> The screenshots were captured in the simulator with a practice seed.<br> The fingerprint `b2269592` shown in the screenshots is an example for this guide.
+This guide follows a **standard BIP39 seed on physical ShieldSigner B12 hardware**.<br> The pictures are **interface illustrations, not photographs of physical hardware**. Do not copy the illustrated fingerprints or labels; check the values on your own device.
 
 ## Before you start
 
@@ -24,9 +24,9 @@ This guide follows a **standard BIP39 seed on ShieldSigner B12**.<br> The screen
 - Load the seed you want to save into ShieldSigner.<br> If it is not loaded yet, start with step 1 below.
 - Keep your existing paper or metal backup when saving for the first time.<br> Decide on your backup arrangement only after loading the seed back and confirming it.
 
-<Callout type="warning" title="Do not use a practice seed for real funds">
+<Callout type="warning" title="Enter seeds and PINs only on the device">
 
-Use public practice values only in the simulator.<br> Enter real seeds and PINs on a physical ShieldSigner, and do not leave them in photos, chats, or web pages.
+Enter seeds and PINs on your physical ShieldSigner, and do not leave them in photos, chats, or web pages.<br> Keep your existing backup after saving, then load the seed back and verify its fingerprint and addresses.
 
 </Callout>
 
@@ -40,7 +40,7 @@ At **Finalize Seed**, check the fingerprint and choose **Done**.<br> If the wall
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/01-seed-ready-screen.png"
-  alt="Finalize Seed screen showing the practice fingerprint b2269592 and a Done button."
+  alt="Interface illustration of the fingerprint and Done button on Finalize Seed."
   caption="A fingerprint is a short identifier for a seed. Check your seed's value before choosing Done."
 />
 
@@ -50,7 +50,7 @@ Move down in the selected seed's menu and open **Backup seed**.<br> Confirm that
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/02-backup-seed-device.png"
-  alt="ShieldSigner device capture without the orange background, with Backup seed selected in the menu for seed b2269592."
+  alt="Device illustration showing Backup seed selected and the physical-control layout."
   caption="Choose Backup seed with the left directional button, then press the center button."
 />
 
@@ -64,11 +64,11 @@ Insert the SeedKeeper card into the reader and choose **To SeedKeeper**.<br> Thi
   caption="Choose To SeedKeeper below View seed words."
 />
 
-In the simulator, click the initialized card A, B, or C below the device to connect it.<br> Each card can contain different data, so confirm the destination before saving.
+Insert **one initialized card into the physical reader**.<br> If you have multiple cards, check its label or UID in Card Info to identify the destination. If it is not detected, check the insertion direction and reader connection.
 
 ## 4. Enter the card PIN {#card-pin}
 
-At **Card PIN**, enter the PIN chosen during card initialization and press the green **confirm button** at the lower right.<br> In the PC simulator, use the directional buttons and Enter to type, then press the `3` key to confirm.
+At **Card PIN**, enter the PIN chosen during initialization.<br> Select characters with the device's directional controls and enter them with the center button. Finish using the **physical button** corresponding to the green check mark at the lower right.
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/04-card-pin-screen.png"
@@ -84,7 +84,7 @@ Depending on settings, PIN entry may be skipped.<br> If **Card Uninitialised** a
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/05-seed-label-screen.png"
-  alt="Seed Label field containing the default name b2269592."
+  alt="Interface illustration of a fingerprint used as the default Seed Label."
   caption="This example keeps the default name. Press the green confirm button to begin saving."
 />
 
@@ -96,8 +96,8 @@ When **Secret Saved** and **Secret Successfully Saved to Seedkeeper** appear, th
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/06-secret-saved-device.png"
-  alt="ShieldSigner device showing Secret Saved and Secret Successfully Saved to Seedkeeper."
-  caption="The save is complete. In the simulator, card A also changes to show that a seed is saved."
+  alt="Device illustration showing Secret Saved and Secret Successfully Saved to Seedkeeper."
+  caption="Secret Saved confirms completion. Next, load the seed back from the card to check the backup."
 />
 
 Next, use [Load a seed from the card](./load) to confirm that the same seed can be read back.<br> Compare the fingerprint recorded before saving with the loaded fingerprint.

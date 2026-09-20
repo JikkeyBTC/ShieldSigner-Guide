@@ -1,6 +1,6 @@
 ---
 title: Initialize the card and set a PIN
-description: Install the SeedKeeper applet on a physical ShieldSigner and set a PIN on a new card
+description: Install the SeedKeeper applet onto a card using physical ShieldSigner hardware and set a PIN
 verifiedOn: 2026-09-06
 verifiedVersion: Based on SeSi-0.8.7+ShSi-B12
 estimatedTime: 5–10 minutes
@@ -19,7 +19,7 @@ Choose **your own PIN** to prepare a new SeedKeeper card.<br> The PIN is the pas
 
 **Connect card → Install SeedKeeper applet → Card Info → Enter new PIN → Confirm PIN → Setup complete**
 
-This guide follows **ShieldSigner B12**.<br> Menu names are shown exactly as they appear in the device's English interface.
+This guide follows **ShieldSigner B12**.<br> Menu names use the device's English interface.<br> The pictures illustrate controls and screen layouts; they are not photographs of physical hardware.
 
 <Callout type="warning" title="Initialization here means first setup of a new card">
 
@@ -30,7 +30,7 @@ This guide creates a PIN on a new card.<br> Do not choose **Factory Reset Card**
 ## Before you start
 
 - Prepare ShieldSigner after completing [OS installation](../os/install) and [download verification](../os/verification).
-- You need a card **on which to install the SeedKeeper applet**.<br> An applet is a program that runs inside the card.<br> This guide installs `SeedKeeper-0.2-official.cap` on a physical ShieldSigner before setting the PIN.
+- You need a card **on which to install the SeedKeeper applet**.<br> An applet is a program that runs inside the card.<br> For a blank compatible JavaCard, use physical ShieldSigner hardware to install `SeedKeeper-0.2-official.cap` **onto the card** before setting its PIN. If the applet is already installed, do not reinstall it; check the setup status in [Card Info](#card-info-menu).
 - If you have several cards, label them A, B, and C and set up **one card at a time**.
 - Decide how you will keep the new PIN safe.<br> Do not write it on the card or store the card together with its PIN record.
 
@@ -48,13 +48,13 @@ After connecting the card, choose **Tools** from the main menu.<br> Move the ora
 
 <GuideFigure
   src="/guides/seedkeeper/initialize/03-home-tools-device.png"
-  alt="ShieldSigner device on an orange suede background with a smart card protruding on the right and its gold contacts visible."
+  alt="Device illustration showing the card connection and Tools menu."
   caption="Insert the card with the gold surface facing down."
 />
 
 ## 2. Install the SeedKeeper applet {#install-applet}
 
-The simulator does not support applet installation.<br> Complete this step on a **physical ShieldSigner**.
+This step applies to a **compatible JavaCard without the SeedKeeper applet**.<br> Keep the card connected to the physical ShieldSigner's reader and do not remove it or turn off power during installation. For a card that already has the applet, continue to [Card Info](#card-info-menu).
 
 ### Choose Smartcard Tools
 

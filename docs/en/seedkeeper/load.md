@@ -16,7 +16,7 @@ Read a seed stored on a SeedKeeper card back into ShieldSigner.<br> You can use 
 
 **Seeds → From SeedKeeper → Card PIN → Select saved seed → Check fingerprint → Done**
 
-This guide follows a **standard BIP39 seed on ShieldSigner B12**.<br> The screenshots show the normal flow for loading a seed saved on the card.
+This guide follows a **standard BIP39 seed on ShieldSigner B12**.<br> The pictures are **interface illustrations, not photographs of physical hardware**. Check your own device's fingerprint and addresses, not the illustrated values.
 
 ## Before you start
 
@@ -66,7 +66,7 @@ The card entries appear under **Select Secret**.<br> Choose the **Seed Label** y
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/12-select-secret-screen.png"
-  alt="Select Secret list showing the previously saved name b2269592."
+  alt="Interface illustration of a saved label in the Select Secret list."
   caption="This example keeps the default name, so the seed fingerprint appears in the list."
 />
 
@@ -74,11 +74,11 @@ The list name is only a label chosen by the user.<br> Even when it looks correct
 
 ## 5. Check the fingerprint and choose Done {#fingerprint}
 
-At **Finalize Seed**, compare the fingerprint with the value recorded before saving.<br> This example shows **b2269592** both before saving and after loading.<br> On your card, compare your own seed's fingerprint.
+At **Finalize Seed**, compare the loaded fingerprint with the value you recorded before saving.<br> It does not need to match the illustration. Your own seed's before-and-after values should match.
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/13-loaded-fingerprint-screen.png"
-  alt="Finalize Seed screen for a loaded seed, showing the same fingerprint b2269592 and a Done button."
+  alt="Interface illustration of checking a loaded seed's fingerprint on Finalize Seed."
   caption="Compare the value before saving with the value after loading, then choose Done."
 />
 
@@ -88,7 +88,7 @@ When the fingerprint matches, choose **Done**.<br> A seed menu with the fingerpr
 
 <GuideFigure
   src="/guides/seedkeeper/transfer/14-seed-loaded-device.png"
-  alt="ShieldSigner seed menu after loading a seed from the card, with fingerprint b2269592 at the top."
+  alt="Device illustration showing the loaded seed's fingerprint and menu."
   caption="The loaded seed is ready to use on the device. The copy stored on the card is not deleted."
 />
 
@@ -108,7 +108,7 @@ On the **Discard Seed?** screen, check the fingerprint again.<br> If your backup
 
 <GuideFigure screen
   src="/guides/seedkeeper/transfer/08-discard-confirm-screen.png"
-  alt="Discard Seed? confirmation screen with Wipe seed b2269592 from the device?, Keep seed, and Discard buttons."
+  alt="Interface illustration of Discard Seed?, with a device-memory warning and Keep seed and Discard buttons."
   caption="From the device means that only device memory is cleared; card storage is not deleted."
 />
 
@@ -130,7 +130,7 @@ The loaded seed remains in device memory.<br> After use, clear it with **Discard
 
 ## Next step
 
-[← Save a seed to the card](./save) · [Next: Connect a watch-only wallet →](../wallet/)
+[← Save a seed to the card](./save) · [Next: Connect your wallet and receive BTC →](../transactions/receive-guide)
 
 Procedure reference: [ShieldSigner B12 seed storage and loading source](https://github.com/3rdIteration/seedsigner/blob/6faaffcb06a2ba578a96fdef689d97e21793ec23/src/seedsigner/views/seed_views.py)
 
