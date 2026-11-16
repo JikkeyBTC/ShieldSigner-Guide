@@ -387,8 +387,10 @@ const bootChecks = ref([false, false, false])
   .ss-install-guide .ins-spec{grid-template-columns:repeat(2,minmax(0,1fr))}
   .ss-install-guide .ins-spec>div:nth-child(3){border-left:0}
   .ss-install-guide .ins-spec>div:nth-child(n+3){border-top:1px solid var(--ss-line)}
-  .ss-install-guide .ins-route{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:-16px;padding-right:16px}
-  .ss-install-guide .ins-route a{flex:0 0 132px;scroll-snap-align:start}
+  .ss-install-guide .ins-route{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .ss-install-guide .ins-route a{grid-column:span 2;min-width:0;padding:11px 10px 12px;word-break:keep-all}
+  .ss-install-guide .ins-route a:nth-child(n+4){grid-column:span 3}
+  .ss-install-guide .ins-route a:hover{transform:none}
   .ss-install-guide .ins-kit-list{grid-template-columns:1fr}
   .ss-install-guide .ins-step::before{display:none}
   .ss-install-guide .ins-step-head{gap:14px}
