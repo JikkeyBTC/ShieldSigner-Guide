@@ -4,24 +4,12 @@ description: ShieldSigner 키트 조립 동영상
 ---
 
 <script setup>
-import { withBase } from 'vitepress'
+import AssemblyVideo from '../../.vitepress/theme/components/AssemblyVideo.vue'
 </script>
 
 # ShieldSigner 조립 동영상
 
-<div>
-<video
-  :src="withBase('/guides/assembly/assembly-ko-sohee.mp4')"
-  :poster="withBase('/guides/assembly/assembly-ko-poster.jpg')"
-  controls
-  playsinline
-  preload="metadata"
-  aria-label="ShieldSigner 키트 조립 동영상"
-  style="display: block; width: 100%; max-height: 75vh; margin: 0 auto; background: #000; border-radius: 10px;"
->
-  <track kind="chapters" :src="withBase('/guides/assembly/assembly-ko-chapters.vtt')" srclang="ko" label="조립 단계" default />
-</video>
-</div>
+<AssemblyVideo locale="ko" />
 
 <p class="ss-assembly-note">※ SD 카드는 빈 상태로 배송됩니다. 꼭 <a href="../os/install">Installation</a>을 참고하여 SD카드에 설치를 진행해주세요.</p>
 

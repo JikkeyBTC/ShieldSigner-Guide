@@ -13,7 +13,7 @@ import { DEFAULT_LOCALE, getAlternateLocale, getLocaleSettings, localizeHref, ro
 import CardRailNav from './components/CardRailNav.vue'
 
 const logoPath = withBase('/brand/shieldsigner-logo-cutout.png')
-const { page } = useData()
+const { page, frontmatter } = useData()
 const router = useRouter()
 const locale = computed(() => getLocaleFromPath(`/${page.value.relativePath}`))
 const currentChapter = computed(() => {
@@ -27,7 +27,7 @@ const localeSettings = computed(() => getLocaleSettings(locale.value))
 
 const syncDocumentLanguage = () => {
   if (typeof document === 'undefined') return
-  const lang = localeSettings.value.htmlLang
+  const lang = frontmatter.value.lang ?? localeSettings.value.htmlLang
   document.documentElement.lang = lang
   if (typeof window !== 'undefined') window.setTimeout(() => { document.documentElement.lang = lang }, 0)
 }
@@ -37,11 +37,15 @@ onMounted(() => {
   if (typeof window !== 'undefined') window.setTimeout(syncDocumentLanguage, 30)
   if (page.value.relativePath === 'index.md') router.go(withBase(localizeHref('/', DEFAULT_LOCALE)))
 })
-watch(locale, syncDocumentLanguage)
+watch(() => page.value.relativePath, syncDocumentLanguage)
 </script>
 
 <template>
-  <div class="ss-app">
+  <main v-if="frontmatter.standaloneAssembly" class="ss-standalone-assembly" lang="ja">
+    <a :href="withBase('/ko/')" aria-label="ShieldSigner ガイド（韓国語）"><img :src="logoPath" alt="ShieldSigner" width="120" /></a>
+    <Content />
+  </main>
+  <div v-else class="ss-app">
     <header class="ss-topbar">
       <div class="ss-topbar-inner">
         <a class="ss-brand" :href="withBase(localizeHref('/', locale))" :aria-label="localeSettings.homeAriaLabel">
@@ -83,3 +87,7 @@ watch(locale, syncDocumentLanguage)
     </div>
   </div>
 </template>
+
+<style scoped>
+.ss-standalone-assembly { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
+</style>

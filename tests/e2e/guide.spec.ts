@@ -294,7 +294,7 @@ test('assembly video is preceded by a linked documentation breadcrumb', async ({
   await expect(breadcrumb.locator('a').nth(1)).toHaveAttribute('href', '/ShieldSigner-Guide/ko/build/');
   await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText('키트 조립 방법');
   const positions = await breadcrumb.evaluate((element) => {
-    const title = element.parentElement?.querySelector('video');
+    const title = element.parentElement?.querySelector('iframe');
     return title ? { breadcrumbBottom: element.getBoundingClientRect().bottom, titleTop: title.getBoundingClientRect().top } : null;
   });
   expect(positions).not.toBeNull();
@@ -467,39 +467,21 @@ test('reduced motion keeps navigation and article content visible', async ({ pag
   await expect(page.getByRole('link', { name: '시드를 카드에 저장하기' }).first()).toBeVisible();
 });
 
-test('assembly contains only the playable video and resizes for mobile', async ({ page }) => {
-  await page.goto(ko('/build/assembly/'));
-  await expect(page.locator('.ss-demo-card[data-card-asset="shieldsigner-assembly"] img')).toHaveAttribute('src', '/ShieldSigner-Guide/brand/card-artwork/shieldsigner-assembly.gif');
-  const video = page.getByLabel('ShieldSigner 키트 조립 동영상');
-  await expect(page.locator('main video')).toHaveCount(1);
-  await expect(page.locator('main h1')).toHaveText('ShieldSigner 조립 동영상');
-  await expect(page.locator('main h2, main .ss-media-placeholder')).toHaveCount(0);
-  await expect(video).toHaveAttribute('src', '/ShieldSigner-Guide/guides/assembly/assembly-ko-sohee.mp4');
-  await expect(video).toHaveAttribute('poster', '/ShieldSigner-Guide/guides/assembly/assembly-ko-poster.jpg');
-  const subtitles = await page.request.get('/ShieldSigner-Guide/guides/assembly/assembly-ko-sohee.srt');
-  expect(subtitles.ok()).toBeTruthy();
-  expect(await subtitles.text()).toContain('마지막으로 금속 조이스틱을 시계방향으로 돌려 고정합니다.');
-  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.readyState)).toBeGreaterThanOrEqual(2);
-  expect(await video.evaluate((element: HTMLVideoElement) => [element.videoWidth, element.videoHeight])).toEqual([1920, 1080]);
-  expect(await video.evaluate((element: HTMLVideoElement) => element.duration)).toBeCloseTo(192, 1);
-  await video.evaluate((element: HTMLVideoElement) => element.play());
-  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
-  await video.evaluate((element: HTMLVideoElement) => element.pause());
-  await video.evaluate((element: HTMLVideoElement) => new Promise<void>((resolve) => {
-    element.addEventListener('seeked', () => resolve(), { once: true });
-    element.currentTime = 188;
-  }));
-  await video.evaluate((element: HTMLVideoElement) => element.play());
-  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(188.2);
-  expect(await video.evaluate((element: HTMLVideoElement) => element.error)).toBeNull();
-  await video.evaluate((element: HTMLVideoElement) => element.pause());
-  const chapters = await page.request.get('/ShieldSigner-Guide/guides/assembly/assembly-ko-chapters.vtt');
-  expect(chapters.ok()).toBeTruthy();
-  expect(await chapters.text()).toContain('00:03:06.567 --> 00:03:12.000\nSD 카드 장착 후 부팅');
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(video).toBeVisible();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
-});
+for (const [locale, id] of Object.entries({ ko: 'gF8ukSYD88Q', en: 'LR7ZaaPsMI8', ja: 'Y9bH6WbHCsU' })) {
+  test(`assembly shows the ${locale} video and fits on mobile`, async ({ page }) => {
+    await page.route('https://www.youtube-nocookie.com/**', route => route.fulfill({ body: '' }));
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`/ShieldSigner-Guide/${locale}/build/assembly`);
+    const player = page.locator('main iframe');
+    await expect(player).toBeVisible();
+    await expect(player).toHaveAttribute('src', `https://www.youtube-nocookie.com/embed/${id}`);
+    await expect(page.locator('main a', { hasText: 'YouTube' })).toHaveAttribute('href', `https://www.youtube.com/watch?v=${id}`);
+    for (const other of ['ko', 'ja', 'en'].filter(lang => lang !== locale)) {
+      await expect(page.locator(`main a[hreflang="${other}"]`)).toHaveAttribute('href', `/ShieldSigner-Guide/${other}/build/assembly`);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+  });
+}
 
 test('buyer OS guides expose release-specific verification and installation steps', async ({ page }) => {
   await page.goto(ko('/os/install/'));
